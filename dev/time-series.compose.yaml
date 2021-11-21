@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+
+  crate:
+    image: crate:4.5.1
+    command: crate -Cauth.host_based.enabled=false
+      -Ccluster.name=democluster -Chttp.cors.enabled=true -Chttp.cors.allow-origin="*"
+    ports:
+      - "4200:4200"
+      - "4300:4300"
+    networks:
+      - qltest
+
+  redis:
+    image: redis:6.2.3
+    ports:
+      - "6379:6379"
+    networks:
+      - qltest
+
+  timescale:
+    image: timescale/timescaledb-postgis:1.7.5-pg12
+    ports:
+      - "5432:5432"
+    networks:
+      - qltest
+    environment:
+      - POSTGRES_PASSWORD=*
+
+  quantumleap-db-setup:
+    image: orchestracities/quantumleap-pg-init
+    depends_on:
+      - timescale
+    networks:
+      - qltest
+    environment:
+      - QL_DB_PASS=*
+      - QL_DB_INIT_DIR=/ql-db-init
+      - PG_HOST=timescale
+      - PG_PASS=*
+
+  quantumleap:
+    image: orchestracities/quantumleap
+    depends_on:
+      - crate
+      - timescale
+      - redis
+    networks:
+      - qltest
+    ports:
+      - "8668:8668"
+    environment:
+      - QL_DEFAULT_DB=timescale
+      - POSTGRES_HOST=timescale
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB_NAME=quantumleap
+      - POSTGRES_DB_USER=quantumleap
+      - POSTGRES_DB_PASS=*
+      - POSTGRES_USE_SSL=False
+      - CRATE_HOST=crate
+      - USE_GEOCODING=False
+      - CACHE_QUERIES=True
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - LOGLEVEL=ERROR
+
+networks:
+    qltest:
+        driver: bridge
