@@ -1,0 +1,32 @@
+{
+    "id": "urn:ngsi-ld:Machine:004",
+    "type": "Machine4",
+    "AcelR": {
+        "type": "Property",
+        "value": 1.1
+    },
+    "fz": {
+        "type": "Number",
+        "value": 2.2
+    },
+    "Diam": {
+        "type": "Number",
+        "value": 3.3
+    },
+    "ae": {
+        "type": "Integer",
+        "value": 4
+    },
+    "HB": {
+        "type": "Property",
+        "value": "5"
+    },
+    "geom": {
+        "type": "Property",
+        "value": ""
+    },
+    "Ra": {
+        "type": "Number",
+        "value": -123
+    }
+}

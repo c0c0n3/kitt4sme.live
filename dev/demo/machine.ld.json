@@ -1,0 +1,38 @@
+{
+    "id": "urn:ngsi-ld:Machine:001",
+    "type": "Machine",
+    "@context": "https://uri.etsi.org/ngsi-ld/default-context",
+    "AcelR": {
+        "type": "Property",
+        "value": "1.1",
+        "unitCode": "MSK"
+    },
+    "fz": {
+        "type": "Property",
+        "value": "2.2"
+    },
+    "Diam": {
+        "type": "Property",
+        "value": 3.3,
+        "unitCode": "MMT"
+    },
+    "ae": {
+        "type": "Property",
+        "value": 4,
+        "unitCode": "MMT"
+    },
+    "HB": {
+        "type": "Property",
+        "value": "5"
+    },
+    "geom": {
+        "type": "Property",
+        "value": "",
+        "unitCode": "MMT"
+    },
+    "Ra": {
+        "type": "Property",
+        "value": "#VALUE#",
+        "unitCode": "C45"
+    }
+}
