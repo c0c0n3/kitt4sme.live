@@ -38,7 +38,7 @@ We'll use [Nix][nix] to avoid polluting the Ubuntu box with extras.
 Install with
 
 ```bash
-$ sh <(curl -L https://nixos.org/nix/install)
+$ sh <(wget -qO- https://nixos.org/nix/install)
 ```
 
 The script should output a message like
@@ -101,7 +101,7 @@ $ newgrp microk8s
 and then wait until MicroK8s is up and running
 
 ```bash
-$ microk8s status
+$ microk8s status --wait-ready
 ```
 
 Finally bolt on DNS and local storage
@@ -118,6 +118,19 @@ $ microk8s status
 
 NOTE. Don't install Istio as a MicroK8s add-on, since MicroK8s will
 install Istio 1.5, which is ancient!
+
+Now we've got to [broaden MicroK8s node port range][mk8s.port-range].
+This is to make sure it'll be able to expose any K8s node port we're
+going to use.
+
+```bash
+$ nano /var/snap/microk8s/current/args/kube-apiserver
+# add this line
+# --service-node-port-range=1-65535
+
+$ microk8s stop
+$ microk8s start
+```
 
 Since we're going to use vanilla cluster management tools instead of
 MicroK8s wrappers, we've got to link up MicroK8s client config where
@@ -147,10 +160,11 @@ of the bootstrap procedure.
 what that means, go read the [Cloud instance][arch.cloud] section of
 the architecture document :-)
 
-Deploy Istio to the cluster
+Deploy Istio to the cluster using our demo profile
 
 ```bash
-$ istioctl install --set profile=demo -y --verify
+$ wget -q -O profile.yaml https://raw.githubusercontent.com/c0c0n3/kitt4sme.live/main/deployment/mesh-infra/routing/istio-demo-profile.yaml
+$ istioctl install -y --verify -f profile.yaml
 ```
 
 Platform infra services (e.g. FIWARE) as well as app services (e.g.
@@ -228,5 +242,6 @@ Godspeed!
 [demo]: https://github.com/c0c0n3/kitt4sme/tree/master/poc
 [istio]: https://istio.io/
 [mk8s]: https://microk8s.io/
+[mk8s.port-range]: https://github.com/ubuntu/microk8s/issues/284
 [nix]: https://nixos.org/
 [kitt4sme.live]: https://github.com/c0c0n3/kitt4sme.live
