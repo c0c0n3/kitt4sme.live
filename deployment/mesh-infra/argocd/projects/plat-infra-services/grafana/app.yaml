@@ -1,0 +1,6 @@
+- op: replace
+  path: /metadata/name
+  value: grafana-shop-floor-kpis
+- op: replace
+  path: /spec/source/path
+  value: deployment/plat-infra-services/grafana

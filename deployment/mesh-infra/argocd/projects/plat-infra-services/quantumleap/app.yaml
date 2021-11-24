@@ -1,0 +1,6 @@
+- op: replace
+  path: /metadata/name
+  value: quantumleap
+- op: replace
+  path: /spec/source/path
+  value: deployment/plat-infra-services/quantumleap

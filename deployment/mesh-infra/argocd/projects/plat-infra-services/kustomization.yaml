@@ -3,3 +3,8 @@ kind: Kustomization
 
 resources:
 - project.yaml
+- cratedb
+- grafana
+- mongodb
+- orion
+- quantumleap

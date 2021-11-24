@@ -1,0 +1,6 @@
+- op: replace
+  path: /metadata/name
+  value: mongodb
+- op: replace
+  path: /spec/source/path
+  value: deployment/plat-infra-services/mongodb
