@@ -147,7 +147,7 @@ cluster with plain `kubectl`. As a smoke test, try
 ```bash
 $ ~/tools.sh
 $ kubectl version
-$ kubectl -n kube-system get pods
+$ kubectl get all --all-namespaces
 ```
 
 Don't exit the Nix shell as we'll need some of the tools for the rest
@@ -202,6 +202,13 @@ $ kustomize build \
     kubectl apply -f -
 ```
 
+NOTE. Argo CD project errors. If you see a message like the one below
+in the output, rerun the command again — see [#42][boot.argo-app-issue]
+about it.
+
+> unable to recognize "STDIN": no matches for kind "AppProject" in version "argoproj.io/v1alpha1"
+
+
 After deploying itself to the cluster, Argo CD will populate it with
 all the K8s resources we declared in our repo and so slowly the KITT4SME
 platform instance will come into its own. This will take some time.
@@ -239,6 +246,7 @@ Godspeed!
 
 [arch.cloud]: https://github.com/c0c0n3/kitt4sme/blob/master/arch/mesh/cloud.md
 [argocd]: https://argoproj.github.io/cd/
+[boot.argo-app-issue]: https://github.com/c0c0n3/kitt4sme.live/issues/42
 [demo]: https://github.com/c0c0n3/kitt4sme/tree/master/poc
 [istio]: https://istio.io/
 [mk8s]: https://microk8s.io/
