@@ -8,3 +8,4 @@ resources:
 - jaeger
 - kiali
 - prometheus
+- routing
