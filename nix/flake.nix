@@ -1,16 +1,26 @@
 {
   description = "KITT4SME cluster install & dev tools.";
 
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs = {
+    nixpkgs.url = "github:NixOs/nixpkgs/nixos-21.11";
+    nixie = {
+      url = "github:c0c0n3/nixie";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem
-      (system:
-        let pkgs = nixpkgs.legacyPackages.${system}; in
-        {
-          devShell = with pkgs; mkShell {
-            buildInputs = [ git kubectl istioctl argocd kustomize ];
-          };
-        }
-      );
+  outputs = { self, nixpkgs, nixie }:
+    let
+      buildWith = nixie.lib.flakes.mkOutputSetForCoreSystems nixpkgs;
+      mkSysOutput = { system, sysPkgs }:
+      let
+        opa = sysPkgs.callPackage ./opa.nix {};
+      in {
+        defaultPackage.${system} = with sysPkgs; buildEnv {
+          name = "kitt4sme-cluster-shell";
+          paths = [ git kubectl istioctl argocd kustomize opa ];
+        };
+      };
+    in
+      buildWith mkSysOutput;
 }
