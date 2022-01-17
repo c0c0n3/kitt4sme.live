@@ -68,7 +68,7 @@ cluster — e.g. `istioctl 1.11.4`. Let's create a convenience script
 to start a Nix shell with our flake:
 
 ```bash
-$ echo 'nix develop github:c0c0n3/kitt4sme.live?dir=nix' > ~/tools.sh
+$ echo 'nix shell github:c0c0n3/kitt4sme.live?dir=nix' > ~/tools.sh
 $ chmod +x ~/tools.sh
 ```
 
