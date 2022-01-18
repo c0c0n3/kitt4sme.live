@@ -49,3 +49,11 @@ spec:
         host: quantumleap.default.svc.cluster.local
         port:
           number: 8668
+  - match:
+    - uri:
+        prefix: /auth
+    route:
+    - destination:
+        host: keycloak.default.svc.cluster.local
+        port:
+          number: 8080
