@@ -35,10 +35,6 @@ spec:
       - name: keycloak
         image: quay.io/keycloak/keycloak:16.1.0
         env:
-        - name: KEYCLOAK_USER
-          value: "admin"
-        - name: KEYCLOAK_PASSWORD
-          value: "admin"
         - name: PROXY_ADDRESS_FORWARDING
           value: "true"
         ports:
@@ -50,3 +46,10 @@ spec:
           httpGet:
             path: /auth/realms/master
             port: 8080
+        volumeMounts:
+        - name: h2-volume
+          mountPath: /opt/jboss/keycloak/standalone/data
+      volumes:
+      - name: h2-volume
+        persistentVolumeClaim:
+          claimName: keycloak-pvc
