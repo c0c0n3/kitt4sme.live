@@ -116,8 +116,14 @@ Wait until all the above extras show in the "enabled" list
 $ microk8s status
 ```
 
-NOTE. Don't install Istio as a MicroK8s add-on, since MicroK8s will
-install Istio 1.5, which is ancient!
+##### Notes
+- *Istio*. Don't install Istio as a MicroK8s add-on, since MicroK8s
+  will install Istio 1.5, which is ancient!
+- *Storage*. MicroK8s comes with its own storage provider
+  (`microk8s.io/hostpath`) which the storage add-on enables
+  as well as creating a default K8s storage class called
+  `microk8s-hostpath`.
+
 
 Now we've got to [broaden MicroK8s node port range][mk8s.port-range].
 This is to make sure it'll be able to expose any K8s node port we're
@@ -202,8 +208,9 @@ $ kustomize build \
     kubectl apply -f -
 ```
 
-NOTE. Argo CD project errors. If you see a message like the one below
-in the output, rerun the command again — see [#42][boot.argo-app-issue]
+##### Note
+Argo CD project errors. If you see a message like the one below in
+the output, rerun the command again — see [#42][boot.argo-app-issue]
 about it.
 
 > unable to recognize "STDIN": no matches for kind "AppProject" in version "argoproj.io/v1alpha1"
@@ -237,6 +244,35 @@ can with
 $ kubectl -n argocd delete secret argocd-initial-admin-secret
 ```
 
+
+### Post-install steps
+
+After running some smoke tests to make sure all the services and
+other bits and pieces are in place, you've got to create an initial
+KITT4SME platform admin user. That's the Keycloak admin user for the
+master realm. To do that, you need to connect to the platform from
+your machine using a Web browser and then enter the admin username
+and password as explained in the [Keycloak manual][keycloak.fst-admin].
+Here's how.
+
+1. Copy the content of `~/.kube/config` on `kitt4sme.collab-cloud.eu`
+   over to your box.
+2. Edit the file to change `server: https://127.0.0.1:8081` to
+   `server: https://kitt4sme.collab-cloud.eu:8081`.
+3. Make it your current K8s config: `export KUBECONFIG=/where/you/saved/config`.
+4. Tunnel your local port `8080` to that of the Keycloak service in
+   the cluster: `kubectl port-forward svc/keycloak 8080:8080`
+5. Open `http://localhost:8080` in your browser.
+6. You should see the Keycloak new admin form. Enter a username and
+   a **very strong** password.
+7. Stop port-forwarding, delete the K8s admin config you copied over
+   earlier and exit the shell—which zaps `KUBECONFIG` you set earlier.
+
+##### Note
+Why not create the Keycloak admin right on `kitt4sme.collab-cloud.eu`?
+See [#70][boot.fst-admin-issue] about it.
+
+
 Now give yourself a pat on the shoulder. You've got a shiny, brand
 new, fully functional KITT4SME cloud to...manage and maintain.
 Godspeed!
@@ -247,8 +283,10 @@ Godspeed!
 [arch.cloud]: https://github.com/c0c0n3/kitt4sme/blob/master/arch/mesh/cloud.md
 [argocd]: https://argoproj.github.io/cd/
 [boot.argo-app-issue]: https://github.com/c0c0n3/kitt4sme.live/issues/42
+[boot.fst-admin-issue]: https://github.com/c0c0n3/kitt4sme.live/issues/70
 [demo]: https://github.com/c0c0n3/kitt4sme/tree/master/poc
 [istio]: https://istio.io/
+[keycloak.fst-admin]: https://www.keycloak.org/docs/latest/server_admin/#creating-first-admin_server_administration_guide
 [mk8s]: https://microk8s.io/
 [mk8s.port-range]: https://github.com/ubuntu/microk8s/issues/284
 [nix]: https://nixos.org/
