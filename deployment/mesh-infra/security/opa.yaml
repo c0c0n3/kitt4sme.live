@@ -51,7 +51,7 @@ spec:
           - "--ignore=.*"
           - "--log-format=json-pretty"
           - "--log-level=debug"
-          - "/policy/service.rego"
+          - "/policy/"
           ports:
           - containerPort: 9191
           livenessProbe:
