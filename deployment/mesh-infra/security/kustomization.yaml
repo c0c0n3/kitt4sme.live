@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- fiware-ingress-policy.yaml
+- opa.yaml
+
+secGenerator:
+- name: opa-policy
+  files:
+  - rego/fiware/service.rego
