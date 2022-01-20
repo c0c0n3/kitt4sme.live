@@ -5,7 +5,7 @@ resources:
 - fiware-ingress-policy.yaml
 - opa.yaml
 
-secGenerator:
+secretGenerator:
 - name: opa-policy
   files:
   - rego/fiware/service.rego
