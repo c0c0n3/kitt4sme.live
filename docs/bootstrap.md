@@ -68,7 +68,7 @@ cluster — e.g. `istioctl 1.11.4`. Let's create a convenience script
 to start a Nix shell with our flake:
 
 ```bash
-$ echo 'nix develop github:c0c0n3/kitt4sme.live?dir=nix' > ~/tools.sh
+$ echo 'nix shell github:c0c0n3/kitt4sme.live?dir=nix' > ~/tools.sh
 $ chmod +x ~/tools.sh
 ```
 
@@ -166,10 +166,10 @@ of the bootstrap procedure.
 what that means, go read the [Cloud instance][arch.cloud] section of
 the architecture document :-)
 
-Deploy Istio to the cluster using our demo profile
+Deploy Istio to the cluster using our own profile
 
 ```bash
-$ wget -q -O profile.yaml https://raw.githubusercontent.com/c0c0n3/kitt4sme.live/main/deployment/mesh-infra/routing/istio-demo-profile.yaml
+$ wget -q -O profile.yaml https://raw.githubusercontent.com/c0c0n3/kitt4sme.live/main/deployment/mesh-infra/istio/profile.yaml
 $ istioctl install -y --verify -f profile.yaml
 ```
 

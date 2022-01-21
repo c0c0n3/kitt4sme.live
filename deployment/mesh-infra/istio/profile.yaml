@@ -6,12 +6,24 @@
 # - added nodePort 80 and 443 to make the ingress gateway accept external
 #   HTTP and HTTPS traffic from those ports, since we're not using an
 #   external load balancer.
+# - added extensionProviders stanza to be able to delegate security
+#   decisions to OPA through a custom authorisation policy, see
+#   * https://istio.io/latest/blog/2021/better-external-authz/
+#   NOTE. With this setup, Envoy calls an OPA service in the cluster.
+#   It's also possible (advisable actually!) to run an OPA process as
+#   an additional sidecar so you never pay the price of a network call
+#   to check security policies.
 #
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 spec:
   meshConfig:
     accessLogFile: /dev/stdout
+    extensionProviders:
+    - name: "opa.default"
+      envoyExtAuthzGrpc:
+        service: "opa.default.svc.cluster.local"
+        port: "9191"
   components:
     egressGateways:
     - name: istio-egressgateway

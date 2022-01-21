@@ -9,4 +9,5 @@ resources:
 - kiali/
 - prometheus/
 - routing/
+- security/
 - storage/
