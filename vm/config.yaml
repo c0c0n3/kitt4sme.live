@@ -1,0 +1,10 @@
+---
+settings:
+  provider: 'virtualbox'
+  box: 'kitt4sme/single_node_cluster'
+  gui: false
+  name: 'kitt4sme'
+  network: 'public_network'
+  ip: '192.168.1.220'
+  memory: 8192
+  cpus: 4

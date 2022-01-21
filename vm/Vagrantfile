@@ -1,0 +1,24 @@
+# encoding: utf-8
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION= "2"
+
+require 'yaml'
+
+current_dir    = File.dirname(File.expand_path(__FILE__))
+config_file    = YAML.load_file("#{current_dir}/config.yaml")
+vagrant_config = config_file['settings']
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = vagrant_config['box']
+  config.vm.define vagrant_config['name']
+  config.vm.hostname = vagrant_config['name']
+  config.vm.network vagrant_config['network'], ip: vagrant_config['ip']
+  config.vm.provider vagrant_config['provider'] do |v|
+    v.gui = vagrant_config['gui']
+    v.name = vagrant_config['name']
+    v.memory = vagrant_config['memory']
+    v.cpus = vagrant_config['cpus']
+  end
+end
