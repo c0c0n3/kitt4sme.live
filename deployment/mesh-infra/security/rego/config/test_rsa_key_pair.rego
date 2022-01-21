@@ -1,8 +1,9 @@
 #
-# Constants to hold the RSA key pair we use to sign and validate JWTs.
+# Constants to hold the RSA key pair we use to sign and validate
+# test JWTs.
 #
 
-package fiware.service
+package config
 
 
 # Constant to hold the RSA key pair in PEM format.

@@ -10,7 +10,7 @@
 #
 # Example
 #
-# $ cd poc/deployment/opa/rego
+# $ cd deployment/mesh-infra/security/rego
 # $ opa eval 'data.fiware.service.allow' -i fiware/istio-example-input.json -d ./
 #   # ^ or equivalently
 #   # opa eval 'allow' -i fiware/istio-example-input.json -d ./ --package 'fiware.service'
@@ -33,6 +33,8 @@
 
 
 package fiware.service
+
+import data.config as config
 
 
 default allow = false
@@ -67,9 +69,10 @@ valid_request {
 # date in the past.
 #
 claims := payload {
+    [_, p, _] := io.jwt.decode(bearer_token)
     [valid, header, payload] := io.jwt.decode_verify(bearer_token, {
         "alg": "RS256",
-        "cert": pub_key
+        "cert": config.tenant_rsa256[p.tenant]
     })
 
     # Assert `valid` is `true`.
@@ -91,16 +94,3 @@ bearer_token := t {
     startswith(v, "Bearer ")
     t := substring(v, count("Bearer "), -1)
 }
-
-# RSA public key to check JWT signatures.
-# See `rsa-key-pair.rego` for the details.
-#
-pub_key := `-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqM88PI71ThQgHbXSJ0tp
-SpkgzD8+/5nKaWer0Q9mlR21eDYE/c4esH0DzGlVUxVv4BUUhLz66YB/oGzTKTnW
-GMXfk1eAWF8zfyOYM/3C2OZAYu/bSaaUyTtn/TjVrXkefuanmKmVId93aNTceVeU
-mZJ1x9ihY4IsbOJebxv0Zsjvh6xsDU90Ck4ohxPbon5T9e6R37tM6wm9rD6TcOke
-YYeP4z4mVfamagp4ZPJC0Y4hdbAB92gDM4+EP31yvFxhyiq3ElR+3O6AIMGMTh1C
-fbJNuRaf/MfnYRxMpPc8WKH8cCHNSXgA5Ikvx+Yi3fEGF8Xa3h1H0NX48UVf79sF
-wwIDAQAB
------END PUBLIC KEY-----`

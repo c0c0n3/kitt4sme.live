@@ -1,21 +1,21 @@
 #
-# Generate a test JWT token signed with the RSA key in `rsa-key-pair.rego`
+# Generate a test JWT token signed with the RSA key in `test_rsa_key_pair.rego`
 # having a tenant field set to the `input` and an expiry date in 2286.
 #
 # Example
 #
-# $ cd poc/deployment/opa/rego
+# $ cd deployment/mesh-infra/security/rego
 # $ echo '"my-tenant"' | \
-#   opa eval 'tasty_token' -I -d ./ --package 'fiware.service'
+#   opa eval 'tasty_token' -I -d ./ --package 'config'
 #   # ^ or equivalently
-#   # opa eval 'data.fiware.service.tasty_token' -I -d ./
+#   # opa eval 'data.config.tasty_token' -I -d ./
 #   # also try appending `-f values` for less verbose output.
 #
 
-package fiware.service
+package config
 
 
-import data.fiware.service.rsa_key_pair_jwk as jwk
+import data.config.rsa_key_pair_jwk as jwk
 
 
 tasty_token = t {
