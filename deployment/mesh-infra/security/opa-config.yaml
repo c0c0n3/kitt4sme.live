@@ -1,0 +1,13 @@
+plugins:
+  envoy_ext_authz_grpc:
+    addr: :9191
+    query: data.fiware.service.allow
+decision_logs:
+  console: true
+
+
+          - "--addr=localhost:8181"
+          - "--diagnostic-addr=0.0.0.0:8282"
+          - "--ignore=.*"
+          - "--log-format=json-pretty"
+          - "--log-level=debug"
