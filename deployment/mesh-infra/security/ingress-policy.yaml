@@ -22,5 +22,6 @@ spec:
         # where there's no need for authorisation.
         notPaths:
         - "/auth"
+        - "/auth/*"
         - "/orion/version"
         - "/quantumleap/version"
