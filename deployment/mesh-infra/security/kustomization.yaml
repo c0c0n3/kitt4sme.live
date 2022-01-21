@@ -8,4 +8,6 @@ resources:
 secretGenerator:
 - name: opa-policy
   files:
-  - rego/fiware/service.rego
+  - rego/main.rego
+  - config.keys.rego=rego/config/keys.rego
+  - fiware.service.rego=rego/fiware/service.rego
