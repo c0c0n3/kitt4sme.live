@@ -10,8 +10,6 @@ spec:
     port: 3000
     protocol: TCP
     targetPort: 3000
-    # Make Web UI available at port 3000 from outside the cluster.
-    nodePort: 3000
   selector:
     app: grafana
   type: NodePort
