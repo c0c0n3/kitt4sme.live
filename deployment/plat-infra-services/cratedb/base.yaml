@@ -12,11 +12,10 @@ spec:
   # HTTP clients.
   - port: 4200
     name: crate-web
-    nodePort: 4200
+    targetPort: 4200
   # PostgreSQL wire protocol clients.
   - port: 5432
-    # Make it available at port 4200 from outside the cluster.
-    nodePort: 5432
+    targetPort: 5432
     name: postgres
   selector:
     app: crate
