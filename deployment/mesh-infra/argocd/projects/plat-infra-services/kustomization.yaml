@@ -6,5 +6,6 @@ resources:
 - cratedb
 - grafana
 - mongodb
+- opcua-agent-supsi
 - orion
 - quantumleap
