@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: opcua-agent-supsi
+  labels:
+    app: opcua-agent-supsi
+spec:
+  selector:
+    app: opcua-agent-supsi
+  ports:
+  - name: iota-north
+    port: 4001
+    targetPort: 4001
+    protocol: TCP
+  - name: rest-svc
+    port: 4081
+    targetPort: 8080
+    protocol: TCP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opcua-agent-supsi
+  labels:
+    app: opcua-agent-supsi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opcua-agent-supsi
+  template:
+    metadata:
+      labels:
+        app: opcua-agent-supsi
+    spec:
+      containers:
+      - name: opcua-agent-supsi
+        image: "iotagent4fiware/iotagent-opcua:1.4.0"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: iota-north
+          containerPort: 4001
+        - name: rest-svc
+          containerPort: 8080
+        volumeMounts:
+          - name: config
+            mountPath: /usr/src/app/conf
+            # stop clients from changing the config we mount.
+            # NOTE the :8080/json endpoint lets you upload a new JSON
+            # file to override /usr/src/app/conf/config.json.
+            readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: opcua-agent-supsi-config
