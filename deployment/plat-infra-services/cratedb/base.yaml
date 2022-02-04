@@ -19,9 +19,9 @@ spec:
     name: postgres
   selector:
     app: crate
-  type: NodePort
 
 ---
+
 kind: StatefulSet
 apiVersion: "apps/v1"
 metadata:
