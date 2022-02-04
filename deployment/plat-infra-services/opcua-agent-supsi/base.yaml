@@ -26,7 +26,7 @@ metadata:
   labels:
     app: opcua-agent-supsi
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: opcua-agent-supsi
