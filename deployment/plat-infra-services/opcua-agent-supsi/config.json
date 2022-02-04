@@ -1,0 +1,38 @@
+{
+	"logLevel": "DEBUG",
+	"multiCore": false,
+	"relaxTemplateValidation": true,
+	"contextBroker": {
+		"host": "orion",
+		"port": 1026,
+		"ngsiVersion": "v2",
+		"jsonLdContext": "",
+		"service": "supsi",
+		"subservice": "/"
+	},
+	"server": {
+		"port": 4001,
+		"baseRoot": "/"
+	},
+	"deviceRegistry": {
+		"type": "memory"
+	},
+	"mongodb": {
+		"host": "nowhere",
+		"port": "27017",
+		"db": "opcua_agent_supsi",
+		"retries": 5,
+		"retryTime": 5
+	},
+	"types": {},
+	"browseServerOptions": null,
+	"service": "supsi",
+	"subservice": "/",
+	"providerUrl": "http://opcua-agent-supsi:4001",
+	"pollingExpiration": "200000",
+	"pollingDaemonFrequency": "20000",
+	"deviceRegistrationDuration": "P1M",
+	"defaultType": null,
+	"contexts": [],
+	"contextSubscriptions": []
+}
