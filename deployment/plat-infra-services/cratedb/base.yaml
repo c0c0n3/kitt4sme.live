@@ -71,6 +71,10 @@ spec:
           - -Cgateway.recover_after_nodes=1
           - -Cgateway.expected_nodes=${EXPECTED_NODES}
           - -Cpath.data=/data
+        volumeMounts:
+          # Mount persistent storage on configured data dir (path.data).
+          - mountPath: /data
+            name: crate-volume
         resources:
           limits:
             # How much memory each pod gets.
@@ -104,3 +108,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+      volumes:
+      - name: crate-volume
+        persistentVolumeClaim:
+          claimName: crate-pvc
