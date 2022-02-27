@@ -9,5 +9,5 @@ resources:
 - projects
 
 patchesStrategicMerge:
-# - argocd-cmd-params-cm.yaml
+- argocd-cmd-params-cm.yaml
 - argocd-secret.yaml
