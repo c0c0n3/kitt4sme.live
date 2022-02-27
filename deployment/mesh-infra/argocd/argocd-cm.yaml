@@ -1,0 +1,27 @@
+#
+# See:
+# - https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/
+# - argocd-rbac-cm.yaml
+# - argocd-secret.yaml
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  url: http://192.168.64.20/argocd
+  oidc.config: |
+    name: Keycloak
+    issuer: http://192.168.64.20/auth/realms/master
+    clientID: argocd
+    clientSecret: $oidc.keycloak.clientSecret
+    requestedScopes: ["openid", "profile", "email", "groups"]
+
+# NOTE
+# 1. Client secret lookup. Argo CD looks up any key starting with `$`
+# in the `argocd-secret` K8s secret.
+# See:
+# - https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sso-further-reading
