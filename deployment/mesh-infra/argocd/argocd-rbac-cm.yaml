@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
+  labels:
+    app.kubernetes.io/name: argocd-rbac-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  policy.csv: |
+    g, ArgoCDAdmins, role:admin
+
+# NOTE
+# 1. Keycloak SSO. The above policy gives admin access to Argo CD to any
+# any user in the Keycloak ArgoCDAdmins group.
+# See:
+# - argocd-cm.yaml
+# - argocd-secret.yaml
+# - https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/

@@ -25,7 +25,7 @@ spec:
   hosts:
   - "*"
   http:
-  - match:  # see https://github.com/istio/istio/issues/8076
+  - match:  # NOTE (1)
     - uri:
         prefix: /orion/
     - uri:
@@ -37,7 +37,7 @@ spec:
         host: orion.default.svc.cluster.local
         port:
           number: 1026
-  - match:  # see https://github.com/istio/istio/issues/8076
+  - match:  # NOTE (1)
     - uri:
         prefix: /quantumleap/
     - uri:
@@ -49,7 +49,7 @@ spec:
         host: quantumleap.default.svc.cluster.local
         port:
           number: 8668
-  - match:
+  - match:  # NOTE (2)
     - uri:
         prefix: /auth
     route:
@@ -57,3 +57,32 @@ spec:
         host: keycloak.default.svc.cluster.local
         port:
           number: 8080
+  - match:  # NOTE (1)
+    - uri:
+        prefix: /argocd/
+    - uri:
+        prefix: /argocd
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: argocd-server.argocd.svc.cluster.local
+        port:
+          number: 80
+
+# NOTE
+# 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
+# and `/x/p` get rewritten to `/`, `/` and `/p` respectively. Istio will
+# moan about it, e.g.
+#
+#   Warning: virtualService rule #3 match #0 of prefix /argocd/ is not used
+#           (duplicate/overlapping match in rule #1 of prefix /argocd on #3)
+#
+# But if you take out either URI prefix match, things will break---e.g.
+# try navigating to the Argo CD UI.
+# See:
+# - https://github.com/istio/istio/issues/8076
+#
+# 2. Keycloak base path. Keycloak is configured with a `web-context`
+# of `auth`, which makes every URL in the UI is relative to `/auth`.
+# So we don't need a rewrite rule in this case.
