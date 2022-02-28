@@ -12,10 +12,10 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
 data:
-  url: http://192.168.64.20/argocd
+  url: http://kitt4sme.collab-cloud.eu/argocd
   oidc.config: |
     name: Keycloak
-    issuer: http://192.168.64.20/auth/realms/master
+    issuer: http://kitt4sme.collab-cloud.eu/auth/realms/master
     clientID: argocd
     clientSecret: $oidc.keycloak.clientSecret
     requestedScopes: ["openid", "profile", "email", "groups"]
