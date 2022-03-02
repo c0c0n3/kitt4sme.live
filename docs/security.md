@@ -63,7 +63,7 @@ So all you need to do is to set the Keycloak Argo CD client secret
 you Base-64 encoded earlier:
 
 ```yaml
-# argocd-cm.yaml
+# argocd-secret.yaml
 # ...
   oidc.keycloak.clientSecret: S3NxUDBwNVRldkJQdGlITE1YVUpCQ2l1Ykd1dGdwaWI=
 # ...
