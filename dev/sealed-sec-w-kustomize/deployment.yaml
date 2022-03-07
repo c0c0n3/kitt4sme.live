@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox
+  labels:
+    app: busybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      containers:
+      - name: busybox
+        image: gcr.io/google_containers/busybox
+        command:
+          - sh
+          - -c
+          - '
+while true;
+  do echo "$(date +%H:%M:%S) | env: $EVAR | file: $(cat /etc/config/password)";
+  sleep 30;
+done'
+        env:
+        - name: EVAR
+          valueFrom:
+            secretKeyRef:
+              name: admin-password
+              key: password
+        volumeMounts:
+        - name: sec-volume
+          mountPath: /etc/config
+      volumes:
+      - name: sec-volume
+        secret:
+          secretName: admin-password
