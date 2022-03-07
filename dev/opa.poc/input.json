@@ -1,0 +1,5 @@
+{
+    "tenant": "jane.doe",
+    "path": "/v2/entities/urn:foo",
+    "method": "POST"
+}

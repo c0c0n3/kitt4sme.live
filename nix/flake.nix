@@ -15,10 +15,11 @@
       mkSysOutput = { system, sysPkgs }:
       let
         opa = sysPkgs.callPackage ./opa.nix {};
+        kubeseal = sysPkgs.callPackage ./kubeseal.nix {};
       in {
         defaultPackage.${system} = with sysPkgs; buildEnv {
           name = "kitt4sme-cluster-shell";
-          paths = [ git kubectl istioctl argocd kustomize opa ];
+          paths = [ git kubectl istioctl argocd kustomize opa kubeseal ];
         };
       };
     in

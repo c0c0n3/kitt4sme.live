@@ -1,0 +1,42 @@
+#
+# We'd like to set up our GitOps pipeline so
+#
+# 1. Secrets can be safely kept in our GitHub public repo.
+# 2. When we push a secret update to the repo, the cluster processes
+#   that use the secret get to see the new secret data as soon as
+#   possible and without any manual intervention.
+#
+# What we do here is making Kustomise work with Sealed Secrets to
+# achieve (2). Read more about it in the README :-)
+#
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Tie Secret names to SealedSecret names.
+# Read the notes in the file.
+configurations:
+- name-refs.yaml
+
+# Add the annotations below to every Secret Kustomize generates.
+generatorOptions:
+  annotations:
+    # Make Sealed Secrets Controller override each dummy Secret we generate
+    # with the actual Secret extracted from the corresponding SealedSecret.
+    # (Controller won't override an existing Secret unless the Secret has
+    # this annotation.)
+    sealedsecrets.bitnami.com/managed: "true"
+
+# Add a dummy secret for each sealed secret.
+# The  dummy secret name must be the same as that of the `SealedSecret`
+# and input `Secret`. Also, the dummy secret must import its content
+# from the `SealedSecret` manifest file.
+secretGenerator:
+- name: admin-password
+  type: Opaque
+  files:
+  - sealed-secret.yaml
+
+# Include the `SealedSecret` manifest but not the input `Secret` one.
+resources:
+- sealed-secret.yaml
+- deployment.yaml

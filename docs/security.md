@@ -3,6 +3,110 @@ Security
 > Keeping the meanies out.
 
 
+### Managing secrets
+
+We set up our GitOps pipeline so
+
+1. Secrets can be safely kept in our GitHub public repo.
+2. When we push a secret update to the repo, the cluster processes
+   that use the secret get to see the new secret data as soon as
+   possible and without any manual intervention.
+
+In fact, we use [Sealed Secrets][sealsec] and [Reloader][reloader]
+to achieve (1) and (2). Sealed Secrets lets us encrypt plain K8s
+`Secret`s and store them in our repo. We use the `kubeseal` tool
+to convert a plain K8s `Secret` into a `SealedSecret` CRD containing
+the original secret data but encrypted. We keep `SealedSecret`s in
+our repo, but never the original `Secret`s used to generate them.
+When Argo CD deploys a `SealedSecret`, the Sealed Secrets controller
+in the live cluster decrypts the data back into a plain K8s `Secret`.
+Reloader monitors the deployment so as soon as the controller creates
+or updates a `Secret` object, Reloader bounces the pods referencing
+it.
+
+Why not use plain Kustomize instead of Reloader? We actually tried a
+Sealed Secrets + Kustomize only setup and developed a test bed for it.
+You can find the [code and docs here][seal-sec-w-kust] along with an
+explanation of why we think this setup isn't optimal.
+
+#### Storing secrets in the repo
+We keep all `Secret`-related stuff in
+
+* `deployment/mesh-infra/security/secrets`
+
+The `templates` sub-directory contains plain K8s `Secret` manifests
+we use to generate the actual `SealedSecret` to be deployed to the
+cluster. If you're creating a new `Secret`, you should add a template
+for it, so the next dev after you will have an easy time updating the
+secret.
+
+A template file is basically just a K8s `Secret` manifest with dummy
+values in the secret data fields. But you've got to remember to add
+a Sealed Secrets annotation like this
+
+```yaml
+# ...
+  annotations:
+    sealedsecrets.bitnami.com/managed: "true"
+# ...
+```
+
+The annotation tells Sealed Secrets Controller to update an existing
+`Secret` object in the cluster whenever the corresponding `SealedSecret`
+changes. When we update a `SealedSecret`, Controller will extract its
+secret data, but if another `Secret` with the same name exists, Controller
+will refuse to update it with the new content just unsealed unless
+the `Secret` object has the above annotation attached to it.
+
+We keep the `SealedSecret`s generated out of the templates in the
+`secrets` directory, using the same file name as the template. The
+file name should follow this pattern: `<secret name>.yaml`. E.g.
+keep a `Secret` named `keycloak-builtin-admin` in a file named
+`keycloak-builtin-admin.yaml`.
+
+#### Workflow
+The first step to create a new `Secret` or update an existing one is
+to clone the repo. After cloning, get into the KITT4SME Nix shell,
+then go to the `secrets` directory
+
+```console
+$ cd nix
+$ nix shell
+$ cd ../deployment/mesh-infra/security/secrets
+```
+
+Now edit an existing template (or create a new one) to enter the
+secret data in plain text. Then generate the `SealedSecret` by
+running `kubeseal` as in the example below.
+
+```console
+$ kubeseal -o yaml < templates/keycloak-builtin-admin.yaml > keycloak-builtin-admin.yaml
+```
+
+Notice `kubeseal` needs to be able to access the cluster for that to
+work. You can also work offline if you like, but you'll have to fetch
+the controller pub key with `kubeseal --fetch-cert` beforehand. Read
+the Sealed Secrets docs for the details.
+
+As soon as you've generated the `SealedSecret`, you should use `git`
+to revert the changes you made to the template to avoid committing
+actual plain text secret data.
+
+Finally, make sure each `Deployment` referencing the `Secret` has
+a Reloader annotation to track secret updates. Set the secret name
+as annotation value like in the example below.
+
+```yaml
+# ...
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "keycloak-builtin-admin"
+# ...
+```
+
+Commit your changes and push upstream. Done!
+
+
 ### Argo CD SSO
 
 You can configure Argo CD with Keycloak single-sign on. To do that,
@@ -63,7 +167,7 @@ So all you need to do is to set the Keycloak Argo CD client secret
 you Base-64 encoded earlier:
 
 ```yaml
-# argocd-cm.yaml
+# argocd-secret.yaml
 # ...
   oidc.keycloak.clientSecret: S3NxUDBwNVRldkJQdGlITE1YVUpCQ2l1Ykd1dGdwaWI=
 # ...
@@ -73,3 +177,6 @@ you Base-64 encoded earlier:
 
 
 [argocd.keycloak-sso]: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/
+[reloader]: https://github.com/stakater/Reloader
+[sealsec]: https://github.com/bitnami-labs/sealed-secrets
+[seal-sec-w-kust]: ../dev/sealed-sec-w-kustomize
