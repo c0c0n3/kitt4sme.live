@@ -152,26 +152,35 @@ S3NxUDBwNVRldkJQdGlITE1YVUpCQ2l1Ykd1dGdwaWI=
 ```
 
 #### Argo CD config
-The `deployment/mesh-infra/argocd` directory already contains the
-files you'll need for the SSO setup, pre-configured to match the
-values you entered earlier in Keycloak.
+The `deployment/mesh-infra` directory already contains the files you'll
+need for the SSO setup, pre-configured to match the values you entered
+earlier in Keycloak.
 
-- `argocd-cm.yaml`: Keycloak `master` realm URL, Argo CD root URL,
+- `argocd/argocd-cm.yaml`: Keycloak `master` realm URL, Argo CD root URL,
   OIDC client ID of `argocd` and `groups` client scope.
-- `argocd-rbac-cm.yaml`: Argo CD admin permissions to any member of
+- `argocd/argocd-rbac-cm.yaml`: Argo CD admin permissions to any member of
    the Keycloak `ArgoCDAdmins` group.
-- `argocd-secret.yaml`: Base64-encoded secret of the Argo CD client
-  in Keycloak.
+- `security/secrets/argocd.yaml`: sealed secret containing the Argo CD
+   client secret from Keycloak.
 
-So all you need to do is to set the Keycloak Argo CD client secret
-you Base-64 encoded earlier:
+So all you need to do is regenerate the Argo CD sealed secret with the
+Keycloak Argo CD client secret you Base-64 encoded earlier:
 
 ```yaml
-# argocd-secret.yaml
+# security/secrets/templates/argocd.yaml
 # ...
   oidc.keycloak.clientSecret: S3NxUDBwNVRldkJQdGlITE1YVUpCQ2l1Ykd1dGdwaWI=
 # ...
 ```
+
+Then
+
+```console
+$ cd security/secrets
+$ kubeseal -o yaml < templates/argocd.yaml > argocd.yaml
+```
+
+and push upstream as explained in the "Managing secrets" section.
 
 
 
