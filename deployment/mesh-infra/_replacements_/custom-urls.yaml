@@ -1,0 +1,45 @@
+# To understand how replacements work, look at the example in
+# - kitt4sme.live/dev/kustomize-replace-ex
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-urls
+data:
+  # Argo CD overrides.
+  argocd:
+    # A URL pointing to a custom Git online repo from where to source the
+    # Kustomization to build the cluster. Overrides the default of
+    # - https://github.com/c0c0n3/kitt4sme.live
+    repo: https://github.com/your/kitt4sme
+
+    # URL to the Argo CD Web UI. You should only replace the host part
+    # and/or the scheme (http, https) but keep the path (/argocd) unless
+    # you also change the Istio ingress route.
+    # Overrides the default of
+    # - https://kitt4sme.collab-cloud.eu/argocd
+    webapp: http://192.168.64.20/argocd
+
+    # OIDC config. You only need this if you've configured Argo CD to do
+    # SSO with Keycloak. The only thing you should change in the block
+    # below is the scheme (http, https) and host part of the issuer's URL
+    # as it defaults to
+    # - https://kitt4sme.collab-cloud.eu/auth/realms/master
+    # Don't modify anything else unless you know what you're doing :-)
+    sso: |
+      name: Keycloak
+      issuer: http://192.168.64.20/auth/realms/master
+      clientID: argocd
+      clientSecret: $oidc.keycloak.clientSecret
+      requestedScopes: ["openid", "profile", "email", "groups"]
+
+# NOTE
+# ----
+# 1. Argo CD Web app URL. Ideally the only thing that should be configurable
+# should be the URL scheme and host. Then we should auto-magically append the
+# path part ourselves. I don't think it's possible to do that with plain
+# Kustomize, you'd probably need to write a Go plugin?
+# 2. SSO config. This is meant to replace the `oidc.config` value in our
+# `argocd-cm`. (Note the type of this value is string, not associative
+# array as you might think.) Ideally what we want here is just the URL scheme
+# and host. Then we should auto-magically produce the whole string ourselves,
+# i.e. `name: ... "groups"]`.

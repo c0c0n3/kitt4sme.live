@@ -11,3 +11,15 @@ resources:
 - routing/
 - security/
 - storage/
+#
+# Comment in the following to customise your own Kitt4sme live instance.
+# Edit `_replacements_/custom-urls.yaml` to specify your own settings.
+# NOTE. If you're familiar w/ Kustomize, a much better option is to use
+# a proper overlay.
+#
+# - _replacements_/
+
+# replacements:
+# - path: _replacements_/argocd-sso.yaml
+# - path: _replacements_/argocd-webapp.yaml
+# - path: _replacements_/gitops-repo.yaml
