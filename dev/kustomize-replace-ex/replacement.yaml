@@ -1,0 +1,16 @@
+#
+# Replacement op spec.
+# We say we want to replace `metadata.labels.greeting` of the deployment
+# called `target` with the value of `data.greeting` coming from the config
+# map called `source`.
+#
+source:
+  kind: ConfigMap
+  name: source
+  fieldPath: data.greeting
+targets:
+- select:
+    kind: Deployment
+    name: target
+  fieldPaths:
+  - metadata.labels.greeting

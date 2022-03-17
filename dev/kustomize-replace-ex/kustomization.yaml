@@ -1,0 +1,52 @@
+#
+# Kustomize replacement example.
+#
+# We've got two deployment definitions in `deployment.yaml`. One deployment
+# is called `target`, the other `not-me`. Both have a `metadata.labels.greeting`
+# field. We want to replace this field's value in the `target` deployment
+# with that of the `data.greeting` field in the `source` config map defined
+# in `configmap.yaml`.
+#
+# If you run `kustomize build`, the output should be
+#
+# apiVersion: v1
+# data:
+#   greeting: howzit!
+# kind: ConfigMap
+# metadata:
+#   name: source
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     greeting: placeholder
+#   name: not-me
+#   namespace: default
+# ---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     greeting: howzit!
+#   name: target
+#   namespace: default
+#
+# Ideally the config map resource shouldn't be part of the output, but
+# I haven't found a way to exclude it.
+#
+#
+# Kustomize docs:
+# - https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/replacements/
+# Possibly very handy new feature being implemented:
+# - https://github.com/kubernetes-sigs/kustomize/issues/4053
+#
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+replacements:
+- path: replacement.yaml
+
+resources:
+- configmap.yaml
+- deployment.yaml

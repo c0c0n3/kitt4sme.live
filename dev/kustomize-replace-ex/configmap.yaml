@@ -1,0 +1,13 @@
+#
+# Source values we want to use for replacement.
+# Specifically, we're going to replace values in other manifests with
+# the value of the `data.greeting` field.
+# We use a ConfigMap out of convenience, but we could use other resource
+# types too.
+#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: source
+data:
+  greeting: howzit!
