@@ -138,9 +138,13 @@ Create a client scope for the Argo CD OIDC client.
 Add a new OIDC client.
 
 - **Client ID**: argocd
-- **Root URL**: https://kitt4sme.collab-cloud.eu/argocd
+- **Root URL**: https://kitt4sme.collab-cloud.eu/argocd (if you're
+  building your own cluster replace the host part of the URL with yours,
+  but keep the `/argocd` path)
 - **Access Type**: `confidential`
 - **Valid Redirect URIs**: https://kitt4sme.collab-cloud.eu/argocd/auth/callback
+  (if you're building your own cluster replace the host part of the
+  URL with yours, but keep the `/argocd/auth/callback` path)
 - **Base URL**: /applications
 - **Client Scopes**: add `groups` to **Default Client Scopes**
 
