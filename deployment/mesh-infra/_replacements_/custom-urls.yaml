@@ -5,32 +5,30 @@ kind: ConfigMap
 metadata:
   name: custom-urls
 data:
-  # Argo CD overrides.
-  argocd:
-    # A URL pointing to a custom Git online repo from where to source the
-    # Kustomization to build the cluster. Overrides the default of
-    # - https://github.com/c0c0n3/kitt4sme.live
-    repo: https://github.com/your/kitt4sme
+  # A URL pointing to a custom Git online repo from where to source the
+  # Kustomization to build the cluster. Overrides the default of
+  # - https://github.com/c0c0n3/kitt4sme.live
+  argocd.repo: https://github.com/your/kitt4sme
 
-    # URL to the Argo CD Web UI. You should only replace the host part
-    # and/or the scheme (http, https) but keep the path (/argocd) unless
-    # you also change the Istio ingress route.
-    # Overrides the default of
-    # - https://kitt4sme.collab-cloud.eu/argocd
-    webapp: http://192.168.64.20/argocd
+  # URL to the Argo CD Web UI. You should only replace the host part
+  # and/or the scheme (http, https) but keep the path (/argocd) unless
+  # you also change the Istio ingress route.
+  # Overrides the default of
+  # - https://kitt4sme.collab-cloud.eu/argocd
+  argocd.webapp: http://192.168.64.20/argocd
 
-    # OIDC config. You only need this if you've configured Argo CD to do
-    # SSO with Keycloak. The only thing you should change in the block
-    # below is the scheme (http, https) and host part of the issuer's URL
-    # as it defaults to
-    # - https://kitt4sme.collab-cloud.eu/auth/realms/master
-    # Don't modify anything else unless you know what you're doing :-)
-    sso: |
-      name: Keycloak
-      issuer: http://192.168.64.20/auth/realms/master
-      clientID: argocd
-      clientSecret: $oidc.keycloak.clientSecret
-      requestedScopes: ["openid", "profile", "email", "groups"]
+  # OIDC config. You only need this if you've configured Argo CD to do
+  # SSO with Keycloak. The only thing you should change in the block
+  # below is the scheme (http, https) and host part of the issuer's URL
+  # as it defaults to
+  # - https://kitt4sme.collab-cloud.eu/auth/realms/master
+  # Don't modify anything else unless you know what you're doing :-)
+  argocd.sso: |
+    name: Keycloak
+    issuer: http://192.168.64.20/auth/realms/master
+    clientID: argocd
+    clientSecret: $oidc.keycloak.clientSecret
+    requestedScopes: ["openid", "profile", "email", "groups"]
 
 # NOTE
 # ----

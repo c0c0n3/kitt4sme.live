@@ -7,7 +7,7 @@
 source:
   kind: ConfigMap
   name: custom-urls
-  fieldPath: data.argocd.sso
+  fieldPath: data.[argocd.sso]
 targets:
 - select:
     kind: ConfigMap
