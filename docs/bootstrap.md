@@ -32,6 +32,41 @@ what you'll do with your toy platform later, you might need more RAM
 and storage.
 
 
+### Building your own cluster
+
+If you're a Kitt4sme dev wanting to deploy to `kitt4sme.collab-cloud.eu`,
+skip this section. If you're still reading, then I guess you'd like
+to build your own Kitt4sme instance on your own box.
+
+The first step is to fork `kitt4sme.live` on GitHub so you can use
+your fork as a GitOps source for building your cluster. Then in your
+fork edit
+
+* `deployment/mesh-infra/_replacements_/custom-urls.yaml`
+
+to enter suitable values for the following fields:
+
+* `argocd.repo`: URL of your GitHub fork. This will make Argo CD (see
+  below) source the cluster build instructions from your repo instead
+  of `kitt4sme.live`.
+* `argocd.webapp`: Base URL of Argo CD Web UI. Replace the host part
+  to match your hostname or IP address. You only going to need this
+  setting if you later configure Argo CD to do SSO through Keycloak.
+* `argocd.sso`: OIDC config for SSO through Keycloak. Like the above
+  setting, you'll only need this if you want to do SSO. Here too, the
+  only thing to change is the hostname/IP address to match yours.
+
+Then edit
+
+* `deployment/mesh-infra/kustomization.yaml`
+
+to uncomment the section where it says:
+
+> Comment back in the following to customise your own Kitt4sme live instance.
+
+Now commit your changes and push upstream to your fork.
+
+
 ### Tools
 
 We'll use [Nix][nix] to avoid polluting the Ubuntu box with extras.
@@ -201,7 +236,9 @@ the YAML in our repo to populate the cluster. Our repo also contains
 the instructions for Argo CD to manage its own deployment state as
 well as the rest of the KITT4SME platform — I know, it sounds like
 a dog chasing its own tail, but it works. So we can just build the
-YAML to deploy Argo CD and connect it to our repo like this
+YAML to deploy Argo CD and connect it to our repo like this (**replace
+the GitHub repo URL with that of your fork** if you're building your
+own Kitt4sme cluster)
 
 ```bash
 $ kustomize build \

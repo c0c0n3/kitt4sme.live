@@ -1,0 +1,16 @@
+#
+# Replace kitt4sme.live as a source repo for Argo CD with your own.
+# See `argocd.repo` field in `custom-urls.yaml`.
+#
+# To understand how replacements work, look at the example in
+# - kitt4sme.live/dev/kustomize-replace-ex
+source:
+  kind: ConfigMap
+  name: custom-urls
+  fieldPath: data.[argocd.repo]
+targets:
+- select:
+    kind: Application
+    namespace: argocd
+  fieldPaths:
+  - spec.source.repoURL

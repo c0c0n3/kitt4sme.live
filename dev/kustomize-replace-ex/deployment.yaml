@@ -1,0 +1,25 @@
+#
+# This deployment is the target of our replacement op.
+# The value of `metadata.labels.greeting` should be replaced with that
+# of `data.greeting` in the `source` config map.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: target
+  namespace: default
+  labels:
+    greeting: placeholder
+
+---
+
+#
+# The replacement op should not touch this deployment.
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: not-me
+  namespace: default
+  labels:
+    greeting: placeholder

@@ -1,0 +1,17 @@
+#
+# Replace kitt4sme.live's Argo CD SSO config with your own.
+# See `argocd.sso` field in `custom-urls.yaml`.
+#
+# To understand how replacements work, look at the example in
+# - kitt4sme.live/dev/kustomize-replace-ex
+source:
+  kind: ConfigMap
+  name: custom-urls
+  fieldPath: data.[argocd.sso]
+targets:
+- select:
+    kind: ConfigMap
+    name: argocd-cm
+    namespace: argocd
+  fieldPaths:
+  - data.[oidc.config]
