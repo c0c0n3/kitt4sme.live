@@ -8,4 +8,5 @@ resources:
 - mongodb
 - opcua-agent-supsi
 - orion
+- postgres
 - quantumleap
