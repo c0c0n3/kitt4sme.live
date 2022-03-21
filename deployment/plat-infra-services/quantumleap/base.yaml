@@ -43,3 +43,12 @@ spec:
             value: "crate"
           - name: CRATE_PORT
             value: "4200"
+          - name: QL_CONFIG
+            value: /config/db-routing.yaml
+          volumeMounts:
+          - name: db-routing
+            mountPath: /config
+      volumes:
+      - name: db-routing
+        configMap:
+          name: db-routing
