@@ -71,6 +71,21 @@ spec:
           - containerPort: 8668
             name: http
           env:
+          - name: POSTGRES_HOST
+            value: "postgres"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_USE_SSL
+            value: "False"
+          - name: POSTGRES_DB_NAME
+            value: "quantumleap"
+          - name: POSTGRES_DB_USER
+            value: "quantumleap"
+          - name: POSTGRES_DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: quantumleap.password
           - name: CRATE_HOST
             value: "crate"
           - name: CRATE_PORT
