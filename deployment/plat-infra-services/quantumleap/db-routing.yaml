@@ -1,0 +1,6 @@
+tenants:
+  smithereens:
+    backend: Crate
+  manufracture:
+    backend: Timescale
+default-backend: Crate

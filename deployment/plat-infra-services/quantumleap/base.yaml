@@ -18,9 +18,13 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: quantumleap
   labels:
     app: quantumleap
-  name: quantumleap
+  annotations:
+    # Tell Reloader to bounce the Argo CD server whenever the SSO config
+    # and built-in admin credentials change.
+    secret.reloader.stakater.com/reload: "postgres-users"
 spec:
   replicas: 1
   selector:
@@ -31,6 +35,34 @@ spec:
       labels:
         app: quantumleap
     spec:
+      initContainers:
+        - name: quantumleap-pg-init
+          # image: "orchestracities/quantumleap-pg-init:0.8.2"
+          # TODO ^ this image is buggy. It'll always exit with a 64 code
+          # even if the init procedure actually succeeded. See:
+          # - https://github.com/orchestracities/ngsi-timeseries-api/issues/448
+          # So for now we're using an old image, but when the bug gets fixed in
+          # QL, we should switch to the latest.
+          image: "smartsdk/quantumleap-pg-init:0.7.6"
+          imagePullPolicy: IfNotPresent
+          env:
+          - name: PG_HOST
+            value: postgres
+          - name: PG_PASS
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: QL_DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: quantumleap.password
+          - name: QL_DB_INIT_DIR
+            value: /db-init
+          volumeMounts:
+          - name: db-init
+            mountPath: /db-init
       containers:
         - image: "orchestracities/quantumleap:0.8.2"
           imagePullPolicy: IfNotPresent
@@ -39,7 +71,33 @@ spec:
           - containerPort: 8668
             name: http
           env:
+          - name: POSTGRES_HOST
+            value: "postgres"
+          - name: POSTGRES_PORT
+            value: "5432"
+          - name: POSTGRES_USE_SSL
+            value: "False"
+          - name: POSTGRES_DB_NAME
+            value: "quantumleap"
+          - name: POSTGRES_DB_USER
+            value: "quantumleap"
+          - name: POSTGRES_DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: quantumleap.password
           - name: CRATE_HOST
             value: "crate"
           - name: CRATE_PORT
             value: "4200"
+          - name: QL_CONFIG
+            value: /config/db-routing.yaml
+          volumeMounts:
+          - name: db-routing
+            mountPath: /config
+      volumes:
+      - name: db-routing
+        configMap:
+          name: db-routing
+      - name: db-init
+        emptyDir: {}
