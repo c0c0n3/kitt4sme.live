@@ -47,6 +47,9 @@ stuff as we go along. Here's what's available at the moment.
 * [Deploying an app service][app-deployment]. How to package an app
   service for deployment, configure the KITT4SME platform instance
   and finally go live.
+* [NGSI persistence][ngsi-p]. Short explanation of how KITT4SME
+  automatically stashes away your NGSI data and builds time series
+  out of it.
 
 
 ### Hacking
@@ -97,6 +100,7 @@ get stuff done:
 [gh.proj]: https://github.com/users/c0c0n3/projects/1
 [gh.proj-docs]: https://github.com/c0c0n3/kitt4sme/blob/master/plan/hitchhiker/README.md
 [k4s]: https://kitt4sme.eu/
+[ngsi-p]: ./docs/ngsi-persistence.md
 [rtor]: https://github.com/c0c0n3/kitt4sme.roughnator
 [sec]: ./docs/security.md
 [storage]: ./docs/storage.md
