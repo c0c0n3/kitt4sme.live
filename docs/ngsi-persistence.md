@@ -52,7 +52,7 @@ containing heart rate and temperature readings of a factory worker
 wearing it.
 
 ```console
-curl -v kitt4sme.collab-cloud.eu/orion/v2/entities ?options=upsert \
+curl -v kitt4sme.collab-cloud.eu/orion/v2/entities?options=upsert \
      -H 'Content-Type: application/json' \
      -H 'fiware-service: zekis_manufacturing' \
      -d '
