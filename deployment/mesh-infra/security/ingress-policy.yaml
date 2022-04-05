@@ -25,6 +25,7 @@ spec:
         - "/auth/*"
         - "/argocd"
         - "/argocd/*"
+        - "/dazzler/*"
         - "/orion/*"
         - "/orion/version"
         - "/quantumleap/version"
