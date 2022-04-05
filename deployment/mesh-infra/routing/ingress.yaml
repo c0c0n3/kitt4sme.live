@@ -69,6 +69,14 @@ spec:
         host: argocd-server.argocd.svc.cluster.local
         port:
           number: 80
+  - match:  # NOTE (3)
+    - uri:
+        prefix: /dazzler
+    route:
+    - destination:
+        host: dazzler.default.svc.cluster.local
+        port:
+          number: 8000
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
@@ -85,4 +93,8 @@ spec:
 #
 # 2. Keycloak base path. Keycloak is configured with a `web-context`
 # of `auth`, which makes every URL in the UI is relative to `/auth`.
+# So we don't need a rewrite rule in this case.
+#
+# 3. Dazzler base path. Dazzler is configured with a root URL of
+# `dazzler`, which makes every URL in the UI is relative to `/dazzler`.
 # So we don't need a rewrite rule in this case.
