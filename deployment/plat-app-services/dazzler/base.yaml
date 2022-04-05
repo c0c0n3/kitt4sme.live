@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dazzler
+  name: dazzler
+spec:
+  ports:
+  - name: http
+    port: 8000
+    protocol: TCP
+    targetPort: 8000
+  selector:
+    app: dazzler
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dazzler
+  name: dazzler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dazzler
+  template:
+    metadata:
+      labels:
+        app: dazzler
+    spec:
+      containers:
+        - image: "ghcr.io/c0c0n3/kitt4sme.dazzler:latest"
+          imagePullPolicy: IfNotPresent
+          name: dazzler
+          ports:
+          - containerPort: 8000
+            name: http
+          env:
+          - name: "quantumleap_base_url"
+            value: "http://quantumleap:8668"
