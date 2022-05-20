@@ -20,7 +20,7 @@
 
 buildGoModule rec {
   pname = "kubeseal";
-  version = "0.17.3";
+  version = "0.17.5";
 
   src = fetchFromGitHub {
     owner = "bitnami-labs";
