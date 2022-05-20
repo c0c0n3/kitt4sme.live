@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+
+  worker-profiler:
+    image: codenception/worker-profiler:2.7
+    # get around race conditions---e.g. WorkerPro tries to create its
+    # DB before Timescale is able to accept connections. Luckily, blindly
+    # restarting WorkerPro is safe...or is it?
+    restart: always
+    depends_on:
+      - timescale
+    ports:
+      - 7777:80
+    networks:
+      - e2etest
+    environment:
+      - POSTGRES_CONNECTION_STRING=Host=timescale:5432;Username=postgres;Password=*;Database=WorkerProfiler
+#      - POSTGRES_CONNECTION_STRING=postgres://postgres:*@timescale:5432/WorkerProfiler
+
+  timescale:
+    image: timescale/timescaledb-postgis:1.7.5-pg12
+    ports:
+      - "5432:5432"
+    networks:
+      - e2etest
+    environment:
+      - POSTGRES_PASSWORD=*
+
+networks:
+  e2etest:
+    driver: bridge
