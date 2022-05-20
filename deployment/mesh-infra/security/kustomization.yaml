@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - ingress-policy.yaml
 - opa.yaml
-- https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.17.3/controller.yaml
+- https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.17.5/controller.yaml
 - reloader.yaml
 - secrets
 
