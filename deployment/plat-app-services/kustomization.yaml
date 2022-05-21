@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - dazzler
 - roughnator
+- workerpro
