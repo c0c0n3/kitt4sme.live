@@ -5,10 +5,12 @@ metadata:
     app: workerpro
   name: workerpro
 spec:
+  type: NodePort
   ports:
   - name: http
-    port: 7777
     protocol: TCP
+    port: 7777
+    nodePort: 7777
     targetPort: 80
   selector:
     app: workerpro
