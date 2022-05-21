@@ -9,8 +9,8 @@ spec:
   ports:
   - name: http
     protocol: TCP
-    port: 7777
-    nodePort: 7777
+    port: 8080
+    nodePort: 8080
     targetPort: 80
   selector:
     app: workerpro
