@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: workerpro
+  name: workerpro
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 7777
+    nodePort: 7777
+    targetPort: 80
+  selector:
+    app: workerpro
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: workerpro
+  name: workerpro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workerpro
+  template:
+    metadata:
+      labels:
+        app: workerpro
+    spec:
+      containers:
+        - image: "codenception/worker-profiler:2.7"
+          imagePullPolicy: IfNotPresent
+          name: workerpro
+          ports:
+          - containerPort: 80
+            name: http
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: "POSTGRES_CONNECTION_STRING"
+            value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=WorkerProfiler"
