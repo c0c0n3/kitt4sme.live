@@ -50,6 +50,9 @@ stuff as we go along. Here's what's available at the moment.
 * [NGSI persistence][ngsi-p]. Short explanation of how KITT4SME
   automatically stashes away your NGSI data and builds time series
   out of it.
+* [WP6 pilot deployments][wp6.trials]. Outlines how the KITT4SME
+  platform got packaged and made available for the WP6 pilot
+  deployments.
 
 
 ### Hacking
@@ -104,3 +107,4 @@ get stuff done:
 [rtor]: https://github.com/c0c0n3/kitt4sme.roughnator
 [sec]: ./docs/security.md
 [storage]: ./docs/storage.md
+[wp6.trials]: ./docs/wp6-field-trials/README.md
