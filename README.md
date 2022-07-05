@@ -51,8 +51,8 @@ stuff as we go along. Here's what's available at the moment.
   automatically stashes away your NGSI data and builds time series
   out of it.
 * [WP6 pilot deployments][wp6.trials]. Outlines how the KITT4SME
-  platform got packaged and made available for the pilot deployments
-  WP6 will carry out.
+  platform got packaged and made available for the WP6 pilot
+  deployments.
 
 
 ### Hacking
