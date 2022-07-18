@@ -5,12 +5,12 @@ metadata:
     app: profilers
   name: profilers
 spec:
-  # TODO type: NodePort
+  type: NodePort
   ports:
   - name: http
     protocol: TCP
     port: 8080
-    # TODO nodePort: 8080
+    nodePort: 8080
     targetPort: 80
   selector:
     app: profilers
