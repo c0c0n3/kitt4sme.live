@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+
+  profilers:
+    image: konstantinos/k4s_profilers_repository:1.1
+    restart: always
+    depends_on:
+      - timescale
+    ports:
+      - 7777:80
+    networks:
+      - e2etest
+    environment:
+      - WORKER_PROFILER_DB_CONNECTION_STRING=Host=timescale:5432;Username=postgres;Password=*;Database=WorkerProfiler
+      - PRODUCTION_SYSTEM_PROFILER_DB_CONNECTION_STRING=Host=timescale:5432;Username=postgres;Password=*;Database=ProductionSystemProfiler
+
+  timescale:
+    image: timescale/timescaledb-postgis:1.7.5-pg12
+    ports:
+      - "5432:5432"
+    networks:
+      - e2etest
+    environment:
+      - POSTGRES_PASSWORD=*
+    volumes:
+      # Create the two DBs the profiler app expects. (The app will then
+      # populate them with its own bundled SQL scripts.)
+      # The startup script bundled w/ the official image will run any
+      # '.sql' scripts found in: /docker-entrypoint-initdb.d/
+      # See also
+      # - https://stackoverflow.com/questions/26598738
+      - ./create_dbs.sql:/docker-entrypoint-initdb.d/create_dbs.sql
+
+networks:
+  e2etest:
+    driver: bridge

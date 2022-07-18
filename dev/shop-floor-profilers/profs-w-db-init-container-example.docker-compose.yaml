@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+
+  # NOTE why an init shell script?
+  # You could run your SQL directly in Postgres at startup---see other Docker
+  # Compose file. That's the best approach for testing locally, but we can't
+  # use that approach in the cloud in general b/c every time you wanted to
+  # run some SQL you'd have to bounce the Postgres server.
+  db-init:
+    image: timescale/timescaledb-postgis:1.7.5-pg12
+    depends_on:
+      - timescale
+    environment:
+      - CONN_URI=postgresql://postgres:*@timescale
+    command:
+      - sh
+      - /create_dbs.sh
+    networks:
+      - e2etest
+    volumes:
+      - ./create_dbs.sh:/create_dbs.sh
+
+  profilers:
+    image: konstantinos/k4s_profilers_repository:1.1
+    restart: always
+    depends_on:
+      - db-init
+      - timescale
+    ports:
+      - 7777:80
+    networks:
+      - e2etest
+    environment:
+      - WORKER_PROFILER_DB_CONNECTION_STRING=Host=timescale:5432;Username=postgres;Password=*;Database=WorkerProfiler
+      - PRODUCTION_SYSTEM_PROFILER_DB_CONNECTION_STRING=Host=timescale:5432;Username=postgres;Password=*;Database=ProductionSystemProfiler
+
+  timescale:
+    image: timescale/timescaledb-postgis:1.7.5-pg12
+    ports:
+      - "5432:5432"
+    networks:
+      - e2etest
+    environment:
+      - POSTGRES_PASSWORD=*
+
+networks:
+  e2etest:
+    driver: bridge
