@@ -8,7 +8,7 @@ services:
   # use that approach in the cloud in general b/c every time you wanted to
   # run some SQL you'd have to bounce the Postgres server.
   db-init:
-    image: timescale/timescaledb-postgis:1.7.5-pg12
+    image: timescale/timescaledb-postgis:2.3.0-pg13
     depends_on:
       - timescale
     environment:
@@ -36,7 +36,7 @@ services:
       - PRODUCTION_SYSTEM_PROFILER_DB_CONNECTION_STRING=Host=timescale:5432;Username=postgres;Password=*;Database=ProductionSystemProfiler
 
   timescale:
-    image: timescale/timescaledb-postgis:1.7.5-pg12
+    image: timescale/timescaledb-postgis:2.3.0-pg13
     ports:
       - "5432:5432"
     networks:
