@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: profilers
+  name: profilers
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    nodePort: 8080
+    targetPort: 80
+  selector:
+    app: profilers
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: profilers
+  name: profilers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: profilers
+  template:
+    metadata:
+      labels:
+        app: profilers
+    spec:
+      initContainers:
+        - image: "timescale/timescaledb-postgis:2.3.0-pg13"
+          imagePullPolicy: IfNotPresent
+          name: profilers-init
+          command: ['sh', '/db-init/create_dbs.sh']
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: "CONN_URI"
+            value: "postgresql://postgres:$(POSTGRES_PASSWORD)@postgres"
+          volumeMounts:
+          - name: db-init
+            mountPath: /db-init
+            readOnly: true
+      containers:
+        - image: "konstantinos/k4s_profilers_repository:1.1"
+          imagePullPolicy: IfNotPresent
+          name: profilers
+          ports:
+          - containerPort: 80
+            name: http
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: "WORKER_PROFILER_DB_CONNECTION_STRING"
+            value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=WorkerProfiler"
+          - name: "PRODUCTION_SYSTEM_PROFILER_DB_CONNECTION_STRING"
+            value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=ProductionSystemProfiler"
+      volumes:
+      - name: db-init
+        configMap:
+          name: db-init

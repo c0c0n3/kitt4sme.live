@@ -1,9 +1,9 @@
 - op: replace
   path: /metadata/name
-  value: workerpro
+  value: profilers
 - op: replace
   path: /spec/source/path
-  value: deployment/plat-app-services/workerpro
+  value: deployment/plat-app-services/profilers
 - op: replace
   path: /spec/project
   value: plat-app-services
