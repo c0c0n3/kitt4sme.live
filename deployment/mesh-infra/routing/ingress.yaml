@@ -77,6 +77,14 @@ spec:
         host: dazzler.default.svc.cluster.local
         port:
           number: 8000
+  - match:  # NOTE (4)
+    - uri:
+        prefix: /sads
+    route:
+    - destination:
+        host: sads.default.svc.cluster.local
+        port:
+          number: 8501
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
@@ -96,5 +104,10 @@ spec:
 # So we don't need a rewrite rule in this case.
 #
 # 3. Dazzler base path. Dazzler is configured with a root URL of
-# `dazzler`, which makes every URL in the UI is relative to `/dazzler`.
+# `dazzler`, which makes every URL in the UI relative to `/dazzler`.
 # So we don't need a rewrite rule in this case.
+#
+# 4. SADS base path. The Streamlit server is configured with a root
+# URL of `sads`, which makes every URL in the UI relative to `/sads`.
+# So we don't need a rewrite rule in this case.
+#
