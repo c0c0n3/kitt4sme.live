@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sads
+  name: sads
+spec:
+  ports:
+  - name: http
+    port: 8501
+    protocol: TCP
+    targetPort: 8501
+  selector:
+    app: sads
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sads
+  name: sads
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sads
+  template:
+    metadata:
+      labels:
+        app: sads
+    spec:
+      containers:
+        - image: "ghcr.io/c0c0n3/kitt4sme.flaw-sleuth:0.2.0"
+          imagePullPolicy: IfNotPresent
+          name: sads
+          ports:
+          - containerPort: 8501
+            name: http
+          env:
+          - name: "STREAMLIT_SERVER_BASE_URL_PATH"
+            value: "/sads"
