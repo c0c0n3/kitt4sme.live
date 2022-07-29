@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
 - dazzler
+- insight
 - profilers
 - roughnator
 - sads
