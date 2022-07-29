@@ -21,6 +21,9 @@ metadata:
   labels:
     app: insight
   name: insight
+  annotations:
+    # Tell Reloader to bounce the service whenever the secret changes.
+    secret.reloader.stakater.com/reload: "insight-image"
 spec:
   replicas: 1
   selector:
