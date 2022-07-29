@@ -106,6 +106,14 @@ metadata:
 
 Commit your changes and push upstream. Done!
 
+#### Docker image secrets
+We basically use the same approach as above for managing Docker image
+secrets K8s can use to pull images from private registries. For an
+example of that, have a look at [PR #161][pr161] where we use a simple
+[script][pr161.script] to generate the Docker secret and stash it away
+in a [Sealed Secret][pr161.secret] which then gets used in the service
+[deployment][pr161.deploy].
+
 
 ### Argo CD SSO
 
@@ -190,6 +198,10 @@ and push upstream as explained in the "Managing secrets" section.
 
 
 [argocd.keycloak-sso]: https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/
+[pr161]: https://github.com/c0c0n3/kitt4sme.live/pull/161
+[pr161.deploy]: https://github.com/c0c0n3/kitt4sme.live/pull/161/files#diff-447dd6978db4b68bc6c30273982a81f658ed8293aade4f641ad7a20470cab36c
+[pr161.secret]: https://github.com/c0c0n3/kitt4sme.live/pull/161/files#diff-f36d24b0ef2a4c7a800aeb9230533d756a3796299a5f6e9d5754f2ca068a418d
+[pr161.script]: https://github.com/c0c0n3/kitt4sme.live/pull/161/files#diff-3613c00bf3d8759a8e2cce9f1f7cd878db383f159429790dcfd7a868b736b1eb
 [reloader]: https://github.com/stakater/Reloader
 [sealsec]: https://github.com/bitnami-labs/sealed-secrets
 [seal-sec-w-kust]: ../dev/sealed-sec-w-kustomize
