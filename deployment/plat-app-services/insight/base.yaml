@@ -34,7 +34,7 @@ spec:
       imagePullSecrets:
         - name: insight-image
       containers:
-        - image: "ghcr.io/avillaj1988/Insight_generator:0.1.0"
+        - image: "ghcr.io/avillaj1988/insight_generator:0.1.0"
           imagePullPolicy: IfNotPresent
           name: insight
           ports:
