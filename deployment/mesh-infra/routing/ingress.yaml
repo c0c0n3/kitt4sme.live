@@ -85,6 +85,16 @@ spec:
         host: sads.default.svc.cluster.local
         port:
           number: 8501
+  - match:
+    - uri:
+        prefix: /viqe/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: viqe.default.svc.cluster.local
+        port:
+          number: 8000
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`

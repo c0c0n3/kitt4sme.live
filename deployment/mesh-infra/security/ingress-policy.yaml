@@ -30,3 +30,4 @@ spec:
         - "/orion/version"
         - "/quantumleap/version"
         - "/sads/*"
+        - "/viqe/*"
