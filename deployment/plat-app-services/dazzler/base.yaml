@@ -32,12 +32,21 @@ spec:
         app: dazzler
     spec:
       containers:
-        - image: "ghcr.io/c0c0n3/kitt4sme.dazzler:latest"
+        - image: "ghcr.io/c0c0n3/kitt4sme.dazzler:0.3.0"
           imagePullPolicy: IfNotPresent
           name: dazzler
           ports:
           - containerPort: 8000
             name: http
           env:
-          - name: "quantumleap_base_url"
-            value: "http://quantumleap:8668"
+          - name: "DAZZLER_CONFIG"
+            value: "/etc/dazzler-config.yaml"
+          volumeMounts:
+          - name: dazzler-config
+            mountPath: /etc/dazzler-config.yaml
+            subPath: dazzler-config.yaml
+            readOnly: true
+      volumes:
+      - name: dazzler-config
+        configMap:
+          name: dazzler-config

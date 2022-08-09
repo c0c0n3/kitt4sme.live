@@ -1,0 +1,10 @@
+quantumleap_base_url: http://quantumleap:8668
+boards:
+  csic:
+  - builder: dazzler.dash.board.roughnator.dash_builder
+    board_path: roughnator
+  itek:
+  - builder: dazzler.dash.board.viqe.raw_material_dash_builder
+    board_path: raw_materials
+  - builder: dazzler.dash.board.viqe.tweezers_dash_builder
+    board_path: tweezers
