@@ -39,5 +39,14 @@ spec:
           - containerPort: 8000
             name: http
           env:
-          - name: "quantumleap_base_url"
-            value: "http://quantumleap:8668"
+          - name: "DAZZLER_CONFIG"
+            value: "/etc/dazzler-config.yaml"
+          volumeMounts:
+          - name: dazzler-config
+            mountPath: /etc/dazzler-config.yaml
+            subPath: dazzler-config.yaml
+            readOnly: true
+      volumes:
+      - name: dazzler-config
+        configMap:
+          name: dazzler-config
