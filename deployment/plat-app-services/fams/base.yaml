@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: fams
+  name: fams
+  annotations:
+    # Tell Reloader to bounce the service whenever the secret changes.
+    secret.reloader.stakater.com/reload: "fams-image"
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: fams
+  template:
+    metadata:
+      labels:
+        app: fams
+    spec:
+      imagePullSecrets:
+        - name: fams-image
+      containers:
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/fams:0.1.0-k4s"
+          imagePullPolicy: IfNotPresent
+          name: fams
+          args:
+          - +app=fiware
+          - +static_data_manager=orion
+          - +dynamic_data_manager=orion
+          - +connected_workers_manager=orion
+          env:
+          - name: "RUNNING_MODE"
+            value: "2"
+          - name: "CONF_PATH"
+            value: "/data/"
+          - name: "TZ"
+            value: "CET"
+          - name: "SERVER_ADDRESS"
+            value: "orion"
+          - name: "TENANT"
+            value: "supsi"
