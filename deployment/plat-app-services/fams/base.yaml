@@ -4,6 +4,9 @@ metadata:
   labels:
     app: fams
   name: fams
+  annotations:
+    # Tell Reloader to bounce the service whenever the secret changes.
+    secret.reloader.stakater.com/reload: "fams-image"
 spec:
   replicas: 1
   selector:
