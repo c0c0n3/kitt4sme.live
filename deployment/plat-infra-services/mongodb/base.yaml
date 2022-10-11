@@ -41,3 +41,11 @@ spec:
         ports:
         - containerPort: 27017
           name: mongo
+        volumeMounts:
+          # Mount persistent storage on default data dir.
+          - mountPath: "/data/db"
+            name: mongo-volume
+      volumes:
+      - name: mongo-volume
+        persistentVolumeClaim:
+          claimName: mongo-pvc
