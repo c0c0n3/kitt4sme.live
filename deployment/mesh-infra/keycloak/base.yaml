@@ -54,6 +54,8 @@ spec:
             secretKeyRef:
               name: keycloak-builtin-admin
               key: password
+        - name: DB_VENDOR
+          value: "h2"
         ports:
         - name: http
           containerPort: 8080
