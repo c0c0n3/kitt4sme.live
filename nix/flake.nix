@@ -22,7 +22,9 @@
       in {
         defaultPackage.${system} = with sysPkgs; buildEnv {
           name = "kitt4sme-cluster-shell";
-          paths = [ git kubectl istioctl argocd kustomize opa kubeseal ];
+          paths = [ git kubectl istioctl argocd kustomize opa kubeseal
+                    kubernetes-helm mosquitto
+                  ];
         };
       };
     in
