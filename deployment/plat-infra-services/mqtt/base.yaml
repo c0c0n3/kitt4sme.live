@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mosquitto
+  name: mosquitto
+spec:
+  ports:
+  - port: 1883
+    targetPort: default
+    protocol: TCP
+    name: mqtt
+  - port: 9001
+    targetPort: websocket
+    protocol: TCP
+    name: websocket
+  selector:
+    app: mosquitto
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mosquitto
+  name: mosquitto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mosquitto
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+    spec:
+      containers:
+      - name: mosquitto
+        image: "eclipse-mosquitto:2.0.15"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: mqtt
+          containerPort: 1883
+          protocol: TCP
+        - name: websocket
+          containerPort: 9001
+          protocol: TCP
+        livenessProbe:
+          tcpSocket:
+            port: mqtt
+        readinessProbe:
+          tcpSocket:
+            port: mqtt
+        volumeMounts:
+        - name: mosquitto-config
+          mountPath: /mosquitto/config
+      volumes:
+      - name: mosquitto-config
+        configMap:
+          name: mosquitto-config
