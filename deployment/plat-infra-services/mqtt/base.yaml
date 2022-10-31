@@ -7,7 +7,7 @@ metadata:
 spec:
   ports:
   - port: 1883
-    targetPort: default
+    targetPort: mqtt
     protocol: TCP
     name: mqtt
   - port: 9001
