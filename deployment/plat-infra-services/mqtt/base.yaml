@@ -63,6 +63,13 @@ spec:
         # - https://github.com/eclipse/mosquitto/tree/master/docker/2.0
         - name: mosquitto-volume
           mountPath: /mosquitto/data
+        # Mount password file to match path specified in config.
+        # NOTE. Path name. Our config file points to `/etc/mosquitto/passwd`
+        # and the secret comes w/ a key called `passwd`. So we mount on
+        # `/etc/mosquitto`.
+        - name: mosquitto-passwd
+          mountPath: /etc/mosquitto
+          readOnly: true
       volumes:
       - name: mosquitto-config
         configMap:
@@ -70,3 +77,6 @@ spec:
       - name: mosquitto-volume
         persistentVolumeClaim:
           claimName: mosquitto-pvc
+      - name: mosquitto-passwd
+        secret:
+          secretName: mosquitto-passwd
