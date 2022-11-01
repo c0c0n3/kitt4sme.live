@@ -10,6 +10,7 @@
 package kitt4sme
 
 import data.fiware.service as fiware
+import data.mqtt.service as mqtt
 
 
 default allow = false
@@ -17,4 +18,14 @@ default allow = false
 allow {
     fiware.allow
 }
-# TODO implement policy loading depending on input.
+
+# or
+
+allow {
+    mqtt.allow
+}
+
+# NOTE. These two policies are mutually exclusive. In fact, the
+# first one will deny access if there's no FIWARE service header,
+# but this header won't be in requests to "/mqtt/", which is the
+# path the second policy protects.
