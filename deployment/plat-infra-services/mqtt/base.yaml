@@ -22,9 +22,12 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: mosquitto
   labels:
     app: mosquitto
-  name: mosquitto
+  annotations:
+    # Tell Reloader to bounce Mosquitto whenever the password file changes.
+    secret.reloader.stakater.com/reload: "mosquitto-passwd"
 spec:
   replicas: 1
   selector:
