@@ -10,10 +10,10 @@ spec:
     targetPort: mqtt
     protocol: TCP
     name: mqtt
-  - port: 9001
-    targetPort: websocket
+  - port: 8080
+    targetPort: ws-mqtt
     protocol: TCP
-    name: websocket
+    name: ws-mqtt
   selector:
     app: mosquitto
 
@@ -46,8 +46,8 @@ spec:
         - name: mqtt
           containerPort: 1883
           protocol: TCP
-        - name: websocket
-          containerPort: 9001
+        - name: ws-mqtt
+          containerPort: 8080
           protocol: TCP
         livenessProbe:
           tcpSocket:
