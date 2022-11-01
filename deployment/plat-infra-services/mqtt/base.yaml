@@ -53,9 +53,20 @@ spec:
           tcpSocket:
             port: mqtt
         volumeMounts:
+        # Mount config where the Docker image expects it to be.
+        # See:
+        # - https://github.com/eclipse/mosquitto/tree/master/docker/2.0
         - name: mosquitto-config
           mountPath: /mosquitto/config
+        # Mount persistent storage on the volume the Docker image defines.
+        # See:
+        # - https://github.com/eclipse/mosquitto/tree/master/docker/2.0
+        - name: mosquitto-volume
+          mountPath: /mosquitto/data
       volumes:
       - name: mosquitto-config
         configMap:
           name: mosquitto-config
+      - name: mosquitto-volume
+        persistentVolumeClaim:
+          claimName: mosquitto-pvc
