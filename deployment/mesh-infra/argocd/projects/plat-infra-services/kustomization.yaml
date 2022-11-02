@@ -6,6 +6,7 @@ resources:
 - cratedb
 - grafana
 - mongodb
+- mqtt
 - opcua-agent-supsi
 - orion
 - postgres
