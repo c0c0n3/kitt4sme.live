@@ -95,6 +95,16 @@ spec:
         host: viqe.default.svc.cluster.local
         port:
           number: 8000
+  - match:
+    - uri:
+        prefix: /mqtt/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: mosquitto.default.svc.cluster.local
+        port:
+          number: 8080
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`

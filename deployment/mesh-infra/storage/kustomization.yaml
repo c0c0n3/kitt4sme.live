@@ -5,4 +5,5 @@ resources:
 - crate.yaml
 - keycloak.yaml
 - mongo.yaml
+- mosquitto.yaml
 - postgres.yaml
