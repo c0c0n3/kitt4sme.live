@@ -105,6 +105,16 @@ spec:
         host: mosquitto.default.svc.cluster.local
         port:
           number: 8080
+  - match:
+    - uri:
+        prefix: /ulagent/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: ulagent.default.svc.cluster.local
+        port:
+          number: 7896
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
