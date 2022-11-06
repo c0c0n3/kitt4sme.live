@@ -11,3 +11,4 @@ resources:
 - orion
 - postgres
 - quantumleap
+- ul-agent
