@@ -115,6 +115,16 @@ spec:
         host: ulagent.default.svc.cluster.local
         port:
           number: 7896
+  - match:
+    - uri:
+        prefix: /jsonagent/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: jsonagent.default.svc.cluster.local
+        port:
+          number: 7896
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
