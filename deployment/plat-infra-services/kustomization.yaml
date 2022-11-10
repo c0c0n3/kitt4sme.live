@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - cratedb/
 - grafana/
+- json-agent/
 - mongodb/
 - opcua-agent-supsi/
 - orion/

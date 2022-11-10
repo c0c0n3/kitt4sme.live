@@ -1,0 +1,9 @@
+- op: replace
+  path: /metadata/name
+  value: json-agent
+- op: replace
+  path: /spec/source/path
+  value: deployment/plat-infra-services/json-agent
+- op: replace
+  path: /spec/project
+  value: plat-infra-services

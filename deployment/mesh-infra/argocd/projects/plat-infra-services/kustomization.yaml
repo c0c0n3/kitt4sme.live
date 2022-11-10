@@ -5,6 +5,7 @@ resources:
 - project.yaml
 - cratedb
 - grafana
+- json-agent
 - mongodb
 - mqtt
 - opcua-agent-supsi
