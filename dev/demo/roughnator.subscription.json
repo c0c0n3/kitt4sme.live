@@ -1,0 +1,15 @@
+{
+    "description": "Notify Roughnator of changes to any entity",
+    "subject": {
+        "entities": [
+            {
+            "idPattern": ".*"
+        }
+        ]
+    },
+    "notification": {
+        "http": {
+            "url": "http://roughnator:8000/updates"
+        }
+    }
+}
