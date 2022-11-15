@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  mongodb:
+    image: mongo:4.4
+    networks:
+      - simtests
+
+  orion:
+    image: fiware/orion-ld:0.8.0
+    entrypoint: orionld -fg -multiservice -ngsiv1Autocast -dbhost mongodb -logLevel DEBUG
+    networks:
+      - simtests
+    ports:
+      - "1026:1026"
+    depends_on:
+      - mongodb
+
+  dazzler:
+    image: ghcr.io/c0c0n3/kitt4sme.dazzler:0.4.0
+    networks:
+      - simtests
+    ports:
+      - "8000:8000"
+    volumes:
+      - type: bind
+        source: ./dazzler-config.yaml
+        target: /etc/dazzler-config.yaml
+    environment:
+      - DAZZLER_CONFIG=/etc/dazzler-config.yaml
+
+networks:
+  simtests:
+    driver: bridge
