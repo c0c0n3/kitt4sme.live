@@ -3,4 +3,6 @@ tenants:
     backend: Crate
   manufracture:
     backend: Timescale
+  csic:
+    backend: Timescale
 default-backend: Crate
