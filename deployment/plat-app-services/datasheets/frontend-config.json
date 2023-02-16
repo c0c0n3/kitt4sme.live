@@ -1,0 +1,5 @@
+{
+    "KEYCLOAK_URL": "http://keycloak:8080/auth",
+    "KEYCLOAK_REALM": "kitt4sme",
+    "KEYCLOAK_CLIENT_ID": "datasheets"
+}
