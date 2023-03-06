@@ -3,7 +3,7 @@ kind: Kustomization
 
 
 resources:
-# - backend.yaml
+- backend.yaml
 - frontend.yaml
 
 configMapGenerator:

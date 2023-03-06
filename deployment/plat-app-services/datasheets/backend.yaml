@@ -38,7 +38,7 @@ spec:
       containers:
         - image: "ryankford/digital-datasheets:1.0-backend"
           # TODO                               ^ use next version w/ pg support
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           name: datasheet-backend
           ports:
           - containerPort: 5000

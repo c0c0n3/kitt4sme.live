@@ -33,8 +33,11 @@ spec:
     spec:
       containers:
       - image: "ryankford/digital-datasheets:1.0-frontend"
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: datasheet-frontend
+        env:
+        - name: PUBLIC_URL
+          value: "/datasheets/"
         ports:
         - containerPort: 3000
           name: http

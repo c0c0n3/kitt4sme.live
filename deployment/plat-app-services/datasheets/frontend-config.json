@@ -1,5 +1,10 @@
+#{
+#    "KEYCLOAK_URL": "http://keycloak:8080/auth",
+#    "KEYCLOAK_REALM": "kitt4sme",
+#    "KEYCLOAK_CLIENT_ID": "datasheets"
+#}
 {
-    "KEYCLOAK_URL": "http://keycloak:8080/auth",
-    "KEYCLOAK_REALM": "kitt4sme",
-    "KEYCLOAK_CLIENT_ID": "datasheets"
+  "KEYCLOAK_URL": "https://keycloak.collab-cloud.eu:8443/auth",
+  "KEYCLOAK_REALM": "DigitalDatasheets",
+  "KEYCLOAK_CLIENT_ID": "kitt4sme"
 }
