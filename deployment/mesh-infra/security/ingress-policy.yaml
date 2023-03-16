@@ -31,3 +31,6 @@ spec:
         - "/quantumleap/version"
         - "/sads/*"
         - "/viqe/*"
+        - "/datasheets/*"
+        - "/datasheets-backend-rest/*"
+
