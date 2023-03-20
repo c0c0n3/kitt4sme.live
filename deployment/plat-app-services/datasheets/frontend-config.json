@@ -1,5 +1,6 @@
 {
-    "KEYCLOAK_URL": "http://kitt4sme.collab-cloud.eu/auth",
-    "KEYCLOAK_REALM": "kitt4sme",
-    "KEYCLOAK_CLIENT_ID": "datasheets"
+  "KEYCLOAK_URL": "https://ramp.eu/auth",
+  "KEYCLOAK_REALM": "ramp",
+  "KEYCLOAK_CLIENT_ID": "digitaldatasheets",
+  "KEYCLOAK_CLIENT_SECRET": "2157a7DMvjZbxg5oMBRnmLJE77I9nga"
 }
