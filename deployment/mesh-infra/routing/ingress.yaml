@@ -12,7 +12,17 @@ spec:
       name: http
       number: 80
       protocol: HTTP
-
+    tls:
+      httpsRedirect: false
+  - hosts:
+    - "*"
+    port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: istio-gw-cert
 ---
 
 apiVersion: networking.istio.io/v1beta1
