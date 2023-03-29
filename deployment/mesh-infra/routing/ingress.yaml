@@ -161,7 +161,7 @@ spec:
   - destination:
       host: profilers.default.svc.cluster.local
       port:
-        number: 8080
+        number: 80
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
