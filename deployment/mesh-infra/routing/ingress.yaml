@@ -155,6 +155,13 @@ spec:
         host: datasheet-backend.default.svc.cluster.local
         port:
           number: 5000
+  - match:
+    - port: 8080
+  route:
+  - destination:
+      host: profilers.default.svc.cluster.local
+      port:
+        number: 80
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
