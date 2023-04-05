@@ -5,9 +5,14 @@ metadata:
     app: aq
   name: aq
 spec:
+  # zap node port as soon as we have a fix for
+  # - https://github.com/IDSIA/adapquest/issues/25
+  # and change service port from 8443 to 8080.
+  type: NodePort
   ports:
   - name: http
-    port: 8080
+    nodePort: 8443
+    port: 8443
     protocol: TCP
     targetPort: 8080
   selector:
@@ -30,6 +35,16 @@ spec:
     metadata:
       labels:
         app: aq
+      annotations:
+        # This annotation tells Istio **not** to add a sidecar.
+        # For now AQ can't work with a sidecar b/c of
+        # - https://github.com/c0c0n3/kitt4sme.live/issues/216
+        # Zap this annotation when there's a fix for the above
+        # issue or when AQ implements
+        # - https://github.com/IDSIA/adapquest/issues/25
+        # since then we can do URL-based routing instead of using
+        # a node port.
+        sidecar.istio.io/inject: "false"
     spec:
       initContainers:
         - image: "timescale/timescaledb-postgis:2.3.0-pg13"
@@ -65,8 +80,10 @@ spec:
           - containerPort: 8080
             name: http
           env:
-          - name: "server_servlet_context-path"
-            value: "/aq"
+          # uncomment this when IDSIA release a fix for the servlet root
+          # context, see: https://github.com/IDSIA/adapquest/issues/25
+          # - name: "server_servlet_context-path"
+          #   value: "/aq"
           - name: MAGIC_API_KEY
             value: "QWRhcHRpdmUgU3VydmV5"
           - name: DB_DBMS
