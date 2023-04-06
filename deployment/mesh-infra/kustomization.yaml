@@ -5,7 +5,7 @@ resources:
 - argocd/
 - grafana/
 - jaeger/
-- keycloak/
+# - keycloak/
 - kiali/
 - prometheus/
 - routing/
