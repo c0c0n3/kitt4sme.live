@@ -5,14 +5,9 @@ metadata:
     app: aq
   name: aq
 spec:
-  # zap node port as soon as we have a fix for
-  # - https://github.com/IDSIA/adapquest/issues/25
-  # and change service port from 8443 to 8080.
-  type: NodePort
   ports:
   - name: http
-    nodePort: 8443
-    port: 8443
+    port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
@@ -70,10 +65,8 @@ spec:
           - containerPort: 8080
             name: http
           env:
-          # uncomment this when IDSIA release a fix for the servlet root
-          # context, see: https://github.com/IDSIA/adapquest/issues/25
-          # - name: "server_servlet_context-path"
-          #   value: "/aq"
+          - name: "server_servlet_context-path"
+            value: "/aq"
           - name: MAGIC_API_KEY
             value: "QWRhcHRpdmUgU3VydmV5"
           - name: DB_DBMS
