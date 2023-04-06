@@ -3,12 +3,12 @@ kind: Kustomization
 
 resources:
 - project.yaml
-- aq
-- datasheets
+# - aq
+# - datasheets
 - dazzler
-- fams
-- insight
-- profilers
+# - fams
+# - insight
+# - profilers
 - roughnator
-- sads
-- viqe
+# - sads
+# - viqe
