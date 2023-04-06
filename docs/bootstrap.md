@@ -3,24 +3,21 @@ Cluster Bootstrap
 > One-off procedure to build & set up your KITT4SME mesh infra.
 
 We're going to put together a single-node MicroK8s cluster to host
-the KITT4SME platform. What we'll build is pretty much the same as
-in the [Demo Cluster][demo], but we're swapping out Minikube for
-[MicroK8s][mk8s] so we can still start small but then easily add
-more nodes in the future.
+the KITT4SME platform that you, as an open call developer, will use
+to integrate your solution. We use [MicroK8s][mk8s] so we can start
+small but then easily add more nodes in the future if needed.
 
-We've got an Ubuntu VM at `kitt4sme.collab-cloud.eu` to host the
-platform. (Ubuntu 20.04.1 LTS, GNU/Linux 5.4.0-42-generic x86_64,
-8 CPUs, 16GB RAM/4GB swap, 120GB storage.) You can SSH into the box
-with e.g.
+You need to provision some hardware to run the KITT4SME platform.
+Like I said earlier, we'll start with just one node, but feel free
+to expand the cluster later if you need to. Anyway, the initial node
+should have at least 8 CPUs, 16GB RAM/4GB swap, 120GB storage. Once
+you've got that box, you'll have to install Ubuntu 20.04.1 LTS
+(GNU/Linux 5.4.0-42-generic x86_64) on it. Please install the exact
+version mentioned here.
 
-```bash
-$ ssh martel@kitt4sme.collab-cloud.eu
-```
-
-The instructions below tell you what to do to build the platform on
-this box, but if you want to try this at home any Ubuntu box with the
-same specs will do. If you have Multipass, you can spin up a 20.4
-Ubuntu VM
+#### Tip
+If you just want to try out the platform quickly, you can spin up an
+Ubuntu 20.04 VM in no time with Multipass, e.g.
 
 ```bash
 $ multipass launch --name kitt4sme --cpus 2 --mem 4G --disk 40G 20.04
@@ -32,39 +29,31 @@ what you'll do with your toy platform later, you might need more RAM
 and storage.
 
 
-### Building your own cluster
-
-If you're a Kitt4sme dev wanting to deploy to `kitt4sme.collab-cloud.eu`,
-skip this section. If you're still reading, then I guess you'd like
-to build your own Kitt4sme instance on your own box.
+### Preparing your own fork
 
 The first step is to fork `kitt4sme.live` on GitHub so you can use
 your fork as a GitOps source for building your cluster. Then in your
 fork edit
 
-* `deployment/mesh-infra/_replacements_/custom-urls.yaml`
+* `deployment/mesh-infra/argocd/projects/base/app.yaml`
 
-to enter suitable values for the following fields:
+to set the URL of your GitHub fork in the `repoURL` field. This will
+make Argo CD (see below) source the cluster build instructions from
+your repo instead of https://github.com/c0c0n3/kitt4sme.live. For
+example, if your GitHub user is `jimbo`
 
-* `argocd.repo`: URL of your GitHub fork. This will make Argo CD (see
-  below) source the cluster build instructions from your repo instead
-  of `kitt4sme.live`.
-* `argocd.webapp`: Base URL of Argo CD Web UI. Replace the host part
-  to match your hostname or IP address. You only going to need this
-  setting if you later configure Argo CD to do SSO through Keycloak.
-* `argocd.sso`: OIDC config for SSO through Keycloak. Like the above
-  setting, you'll only need this if you want to do SSO. Here too, the
-  only thing to change is the hostname/IP address to match yours.
+```yaml
+  source:
+    repoURL: https://github.com/jimbo/kitt4sme.live
+    targetRevision: open-calls
+    #...other fields
+```
 
-Then edit
+Notice the `targetRevision` field specifies which branch to use in
+your repo. Keep `open-calls` for the bootstrap procedure and change
+it later if you'd like to use a different branch instead.
 
-* `deployment/mesh-infra/kustomization.yaml`
-
-to uncomment the section where it says:
-
-> Comment back in the following to customise your own Kitt4sme live instance.
-
-Now commit your changes and push upstream to your fork.
+When done, commit your changes and push upstream to your fork.
 
 
 ### Tools
@@ -80,7 +69,7 @@ The script should output a message like
 
 > Installation finished!  To ensure that the necessary environment
 > variables are set, either log in again, or type
-> 
+>
 > . /home/ubuntu/.nix-profile/etc/profile.d/nix.sh
 
 Your path to `nix.sh` will likely be different from the above, just
@@ -202,11 +191,20 @@ of the bootstrap procedure.
 what that means, go read the [Cloud instance][arch.cloud] section of
 the architecture document :-)
 
-Deploy Istio to the cluster using our own profile
+Deploy Istio to the cluster using our own profile. To do that first
+clone your fork and checkout the `open-calls` branch. For example,
+if your GitHub user is `jimbo`
 
 ```bash
-$ wget -q -O profile.yaml https://raw.githubusercontent.com/c0c0n3/kitt4sme.live/main/deployment/mesh-infra/istio/profile.yaml
-$ istioctl install -y --verify -f profile.yaml
+$ git clone https://github.com/jimbo/kitt4sme.live
+$ cd kitt4sme.live
+$ git checkout open-calls
+```
+
+The repo contains the profile you need. Install it with
+
+```bash
+$ istioctl install -y --verify -f deployment/mesh-infra/istio/profile.yaml
 ```
 
 Platform infra services (e.g. FIWARE) as well as app services (e.g.
@@ -217,8 +215,21 @@ add an Envoy sidecar to each service deployed to that namespace
 $ kubectl label namespace default istio-injection=enabled
 ```
 
-Have a read through the [Demo Cluster][demo] section on installing
-Istio for more info about our Istio setup with add-ons.
+Now go edit the K8s secrets in
+
+- `deployment/mesh-infra/security/secrets.plain`
+
+to enter passwords for ArgoCD, Postgres and Mosquitto. Then, from the
+repo's root dir, run
+
+```bash
+$ kubectl apply -f deployment/mesh-infra/argocd/namespace.yaml
+$ kustomize build deployment/mesh-infra/security/secrets.plain | \
+    kubectl apply -f -
+```
+
+to stash away your secrets in the cluster. Notice for Open Calls we
+manage secrets manually, outside of the ArgoCD GitOps pipeline.
 
 
 ### Continuous delivery
@@ -232,18 +243,14 @@ state with YAML files that we keep in the `deployment` dir within
 the current cluster state with what we declared in the repo.
 
 For that to happen, we've got to deploy Argo CD and tell it to use
-the YAML in our repo to populate the cluster. Our repo also contains
+the YAML in your repo to populate the cluster. Your repo also contains
 the instructions for Argo CD to manage its own deployment state as
 well as the rest of the KITT4SME platform — I know, it sounds like
 a dog chasing its own tail, but it works. So we can just build the
-YAML to deploy Argo CD and connect it to our repo like this (**replace
-the GitHub repo URL with that of your fork** if you're building your
-own Kitt4sme cluster)
+YAML to deploy Argo CD and connect it to your repo like this
 
 ```bash
-$ kustomize build \
-    https://github.com/c0c0n3/kitt4sme.live/deployment/mesh-infra/argocd | \
-    kubectl apply -f -
+$ kustomize build deployment/mesh-infra/argocd | kubectl apply -f -
 ```
 
 After deploying itself to the cluster, Argo CD will populate it with
@@ -261,25 +268,8 @@ Go for coffee.
 ### Post-install steps
 
 Run some smoke tests to make sure all the K8s resources got created,
-all the services are up and running and there's no errors. The only
-unhappy service should be Keycloak
+all the services are up and running and there's no errors.
 
-```console
-$ kubectl get pod --all-namespaces
-NAMESPACE  NAME                     READY   STATUS                     RESTARTS AGE
-...
-default  keycloak-645f7df959-4xc4x    1/2   CreateContainerConfigError   0      33s
-...
-```
-
-The reason for that is we create the initial admin user through a
-sealed secret which the Sealed Secrets controller can't unpack. In
-fact, you've got to generate the initial secrets to use with the new
-cluster as explained in the [security how-to][sec]. Among those secrets
-there's the one for the Keycloak admin.
-
-Another one of those secrets contains the Argo CD admin user password.
-(The user name is automatically generated by Argo CD to be: `admin`.)
 Notice Argo CD automatically generates an admin password on the first
 deployment. To show it, run
 
@@ -291,8 +281,8 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 You can use it if you get in trouble during the bootstrap procedure,
 but keeping it around is like an accident waiting to happen. So you
 should definitely zap it as soon as you've managed to log into Argo
-CD with the password you entered in our sealed secret. To do that,
-just
+CD with the password you entered in your own secret earlier. To do
+that, just
 
 ```bash
 $ kubectl -n argocd delete secret argocd-initial-admin-secret
@@ -301,10 +291,11 @@ $ kubectl -n argocd delete secret argocd-initial-admin-secret
 Finally, if you like, you can set up remote access to the cluster
 through `kubectl`. One quick way to do that is to
 
-1. Copy the content of `~/.kube/config` on `kitt4sme.collab-cloud.eu`
-   over to your box.
-2. Edit the file to change `server: https://127.0.0.1:8081` to
-   `server: https://kitt4sme.collab-cloud.eu:8081`.
+1. Copy the content of `~/.kube/config` over to the box you want to
+   access the cluster from.
+2. Edit the file to change `server: https://127.0.0.1:16443` to the
+   IP or host name of your freshly minted master node, e.g.
+   `server: https://my-master-node:16443`.
 3. Make it your current K8s config: `export KUBECONFIG=/where/you/saved/config`.
 
 Or add an entry to your existing local K8s config if you have one.
