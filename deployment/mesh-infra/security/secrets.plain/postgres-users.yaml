@@ -1,0 +1,17 @@
+#
+# Plain K8s Secret for Postgres users.
+#
+# WARNING. **Never** commit this file to the repo with an actual
+# password in it. After editing this file, just ask git to ditch
+# the local changes.
+#
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-users
+  namespace: default
+type: Opaque
+stringData:
+  postgres.password: use-a-very-strong-password!
+  quantumleap.password: use-a-very-strong-password!
+  aq.password: use-a-very-strong-password!

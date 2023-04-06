@@ -1,0 +1,34 @@
+#
+# Plain K8s Secret for Mosquitto.
+# Put the content of your Mosquitto password file in the `passwd`
+# key below.
+#
+# WARNING. **Never** commit this file to the repo with an actual
+# password in it. After editing this file, just ask git to ditch
+# the local changes.
+#
+# NOTE. Mosquitto password file.
+# As already mentioned, the value of the `passwd` key are the lines
+# that make up the Mosquitto password file you want to deploy. One
+# easy way to manage the content is to use `mosquitto_passwd` to generate
+# each line you want to keep in here, so you won't ever need a separate
+# Mosquitto password file. For example, say you'd like to add a user
+# "bot42". The following command asks you for a password and then prints
+# the line you'd have to add to `passwd`:
+#
+#   $ mosquitto_passwd -c /dev/stdout bot42
+#
+# Likewise, if you wanted to change the password of an existing user,
+# say the "iot" user, you'd run the above command again with "iot"
+# instead of "bot42" and then replace the "iot:..." line in `passwd`
+# with the line the command printed.
+#
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mosquitto-passwd
+  namespace: default
+type: Opaque
+stringData:
+  passwd: |
+    iot:$7$101$LxdahvM20GlxG7En$NRB+nEltMdLALJEgv/ik4w/YomeLXCadY2N8IrjrI6RhRQLxo/Bot2F2b2OFIUoJ3bvRAeG8SBycGvYzUZGttA==
