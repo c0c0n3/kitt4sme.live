@@ -95,6 +95,16 @@ spec:
         host: sads.default.svc.cluster.local
         port:
           number: 8501
+  - match: 
+    - uri:
+        prefix: /sads-offline
+    rewrite:
+      uri: /sads-offline
+    route:
+    - destination: 
+        host: sads-offline.default.svc.cluster.local
+        port: 
+          number: 8501
   - match:
     - uri:
         prefix: /viqe/
