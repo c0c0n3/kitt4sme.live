@@ -8,7 +8,7 @@ metadata:
     # Tell Reloader to bounce the service whenever the secret changes.
     secret.reloader.stakater.com/reload: "fams-image"
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: fams
