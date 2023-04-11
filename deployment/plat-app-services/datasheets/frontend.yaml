@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: datasheet-frontend
+  name: datasheet-frontend
+spec:
+  ports:
+  - name: http
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: datasheet-frontend
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datasheet-frontend
+  labels:
+    app: datasheet-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datasheet-frontend
+  template:
+    metadata:
+      labels:
+        app: datasheet-frontend
+    spec:
+      containers:
+      - image: "ryankford/digital-datasheets:1.0-frontend"
+        imagePullPolicy: Always
+        name: datasheet-frontend
+        env:
+        - name: PUBLIC_URL
+          value: "/datasheets/"
+        ports:
+        - containerPort: 3000
+          name: http
+        volumeMounts:
+        - name: config
+          mountPath: /src/config.json
+          subPath: config.json
+      volumes:
+      - name: config
+        configMap:
+          name: frontend-config

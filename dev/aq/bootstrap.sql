@@ -1,0 +1,6 @@
+CREATE ROLE ada
+    LOGIN PASSWORD '*';
+
+CREATE DATABASE adaptive
+    OWNER ada
+    ENCODING 'UTF8';

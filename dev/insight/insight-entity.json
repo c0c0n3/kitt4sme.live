@@ -1,0 +1,21 @@
+{
+	  "id": "urn:ngsi:IG:001",
+	  "type": "Insights",
+	  "Results": {
+		    "type": "StructuredValue",
+		    "value": {
+			      "KPI_name": ["Throughput", "Scrap", "Roughness"],
+			      "features_names": [
+				        ["ae", "fz", "Diam"],
+				        ["Diam", "fz", "ae", "HB"],
+				        ["AcelR", "Ra"]
+			      ],
+			      "features_values": [
+				        [2.86, 0.102, 10.21],
+				        [14.46, 0.05, 1.36, 88.9],
+				        [1.0335, -2.75]
+			      ],
+			      "KPI_best": ["163.37", "2.0", "1.03"]
+		    }
+	  }
+}

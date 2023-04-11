@@ -12,7 +12,17 @@ spec:
       name: http
       number: 80
       protocol: HTTP
-
+    tls:
+      httpsRedirect: false
+  - hosts:
+    - "*"
+    port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: istio-gw-cert
 ---
 
 apiVersion: networking.istio.io/v1beta1
@@ -105,6 +115,54 @@ spec:
         host: mosquitto.default.svc.cluster.local
         port:
           number: 8080
+  - match:
+    - uri:
+        prefix: /ulagent/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: ulagent.default.svc.cluster.local
+        port:
+          number: 7896
+  - match:
+    - uri:
+        prefix: /jsonagent/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: jsonagent.default.svc.cluster.local
+        port:
+          number: 7896
+  - match:
+    - uri:
+        prefix: /datasheets/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: datasheet-frontend.default.svc.cluster.local
+        port:
+          number: 3000
+  - match:
+    - uri:
+        prefix: /datasheets-backend-rest/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: datasheet-backend.default.svc.cluster.local
+        port:
+          number: 5000
+  - match:  # NOTE (5)
+    - uri:
+        prefix: /aq
+    route:
+    - destination:
+        host: aq.default.svc.cluster.local
+        port:
+          number: 8080
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
@@ -131,3 +189,6 @@ spec:
 # URL of `sads`, which makes every URL in the UI relative to `/sads`.
 # So we don't need a rewrite rule in this case.
 #
+# 5. AQ base path. The Servlet container is configured with a root
+# URL of `/aq`, which makes every URL in the UI relative to `/aq`.
+# So we don't need a rewrite rule in this case.

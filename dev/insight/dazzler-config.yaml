@@ -1,0 +1,6 @@
+orion_base_url: http://orion:1026
+quantumleap_base_url: http://quantumleap:8668
+boards:
+  csic:
+  - builder: dazzler.dash.board.insight.dash_builder
+    board_path: insight
