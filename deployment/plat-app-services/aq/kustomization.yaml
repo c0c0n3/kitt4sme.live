@@ -10,9 +10,7 @@ configMapGenerator:
   - bootstrap.sh
 - name: aq-surveys
   files:
-  - demo-data/surveys/AdaptiveSimpleSurvey.json
-  - demo-data/surveys/AlloyAdaptiveQuestionary.json
-  - demo-data/surveys/NonAdaptiveSimpleSurvey.json
+  - demo-data/surveys/k4s_adaptive_questionnaire_v1.0.xlsx
 - name: aq-templates
   files:
   - demo-data/templates/adaptive.questionnaire.template.xlsx
