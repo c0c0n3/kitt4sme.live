@@ -12,16 +12,79 @@ metadata:
     app.kubernetes.io/name: argocd-cm
     app.kubernetes.io/part-of: argocd
 data:
-  url: http://kitt4sme.collab-cloud.eu/argocd
+  url: https://kitt4sme.collab-cloud.eu/argocd
   oidc.config: |
     name: Keycloak
-    issuer: http://kitt4sme.collab-cloud.eu/auth/realms/master
+    issuer: https://kitt4sme.collab-cloud.eu/auth/realms/master
     clientID: argocd
     clientSecret: $oidc.keycloak.clientSecret
     requestedScopes: ["openid", "profile", "email", "groups"]
+    rootCA: |
+      -----BEGIN CERTIFICATE-----
+      MIIHUDCCBTigAwIBAgIQfIvT1jBxv1Uu2svR29e24zANBgkqhkiG9w0BAQsFADBp
+      MQswCQYDVQQGEwJVUzEOMAwGA1UECAwFVGV4YXMxEDAOBgNVBAcMB0hvdXN0b24x
+      GDAWBgNVBAoMD1NTTCBDb3Jwb3JhdGlvbjEeMBwGA1UEAwwVU1NMLmNvbSBSU0Eg
+      U1NMIHN1YkNBMB4XDTIyMDQwMTEyNTQxMloXDTIzMDUwMjEyNTQxMlowHDEaMBgG
+      A1UEAwwRKi5jb2xsYWItY2xvdWQuZXUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
+      ggEKAoIBAQCnkRTo8argvn/D03/9zB6kJnWM9GaDU8I1mgXxkVZrDAn8oAWX24m4
+      x1x3JBW8YjGs2ct+Oi7rATPuKlX6xYccvmswv6yxdbz8wSPcKUT7qTAatZ/iX9rV
+      AP6yNDXBUbqKcxQq6PkpeqntxLOJgc4YsO+4qUMLQlQC3McXwsRUl90W/zBgjQdx
+      vXC1x+9DpPSS9CkTU0gZAEhysIF5VoXwfBJtPY6xO8tfBxk/Ry0lQD6hPSyjinW2
+      kZr6dvOjaqaGPTdzJRtJ8wWkIhTBtwO80qLHt3mI+0ASKH00gd1sRD7gQElKDT9e
+      ZEPcoxRuBiHqG5UZzkbxiWEeEg4IzXa9AgMBAAGjggM/MIIDOzAMBgNVHRMBAf8E
+      AjAAMB8GA1UdIwQYMBaAFCYUfuDc16b34tQEJ99h8cLs5zLKMHIGCCsGAQUFBwEB
+      BGYwZDBABggrBgEFBQcwAoY0aHR0cDovL2NlcnQuc3NsLmNvbS9TU0xjb20tU3Vi
+      Q0EtU1NMLVJTQS00MDk2LVIxLmNlcjAgBggrBgEFBQcwAYYUaHR0cDovL29jc3Bz
+      LnNzbC5jb20wLQYDVR0RBCYwJIIRKi5jb2xsYWItY2xvdWQuZXWCD2NvbGxhYi1j
+      bG91ZC5ldTBRBgNVHSAESjBIMAgGBmeBDAECATA8BgwrBgEEAYKpMAEDAQEwLDAq
+      BggrBgEFBQcCARYeaHR0cHM6Ly93d3cuc3NsLmNvbS9yZXBvc2l0b3J5MB0GA1Ud
+      JQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATBFBgNVHR8EPjA8MDqgOKA2hjRodHRw
+      Oi8vY3Jscy5zc2wuY29tL1NTTGNvbS1TdWJDQS1TU0wtUlNBLTQwOTYtUjEuY3Js
+      MB0GA1UdDgQWBBTvGjAmWGDjKrKxZjs0njVqunV0LTAOBgNVHQ8BAf8EBAMCBaAw
+      ggF9BgorBgEEAdZ5AgQCBIIBbQSCAWkBZwB1ALNzdwfhhFD4Y4bWBancEQlKeS2x
+      ZwwLh9zwAw55NqWaAAABf+U58rIAAAQDAEYwRAIgcIj+sTM8j3Ttad9wx0qrNvTC
+      UvjXJ/UWGGnHacUFbWYCIDKmkTjYENW/t8LW1kJhvM5bHOqXF//zAwRLRC0ZqoPC
+      AHcAejKMVNi3LbYg6jjgUh7phBZwMhOFTTvSK8E6V6NS61IAAAF/5TnzHwAABAMA
+      SDBGAiEAsBgkzhNCN/rIGCDCt9Oj9kI1tBs7k3n2B6DknsuY9j4CIQDhGESh4GaF
+      DjiGqjwsN9BMlyJJBg6TJwGzHYF2m4vQWAB1AOg+0No+9QY1MudXKLyJa8kD08vR
+      EWvs62nhd31tBr1uAAABf+U58rAAAAQDAEYwRAIgWXQ9d5xfBjrQWgPMYokVoBkD
+      HwB/fBxPgcV55Ts89fgCIHMFmJnCb5ZTXDKbwfu18MTr3NfLKo3IZGw7K58abV3f
+      MA0GCSqGSIb3DQEBCwUAA4ICAQCA/Vr3XetQ6l+xGKSTyG1PJA0SLcYxI6QsFEw7
+      2PsHPbGigTFHPVBbcIMY1o5ouwDhaVAW6uToWZryXnKTF7I+BgaNxtM7ZjYWjCSq
+      2tYaRaBPZXf+KNt0MNvZRsvEyAzLQzKiALEhNDj6byZ+8Q6+FW/n0mu+Kz1uEACX
+      PjyoQYe8ljSom0diFbGogAew3Uo9L5/whbsNUKV2IvSzMiInbSe129ctP2KzzXPk
+      DlJH+vQccHlKBLxGAoZKOdPC1phyPxOZut4XkID4gsGNsXxfQmGv3lEgrBvffWKN
+      r4fbo7xKQ9TZq12iIxb1pO/FbFuJlGT6sQnxxkJKh+135nlDvYXLJm2+T1LcQjTW
+      gGxP4bzbY4+jimpuX9DYrS4xiF8pqaZMg7nSHENXe7VL8fhpQYHfRynWUx65P5hN
+      5GqM5z6Mn5XrM0YhwyUcgfhfBinePPzgOFfAP6AeDYPCem+uh1wH+ecTunlHumDb
+      4ozny8Fal3KT9ACvAZTbwr4xbx3wCB4pzzoCr3r4c86DL8fUnXrm9vYoP/USYlqM
+      fHkqWo2ccbYqhFp2GCAvwzECTcaLE6U9k0yCL/h6FmopEI2IspAGNAKBixnHU/7H
+      SqPJQIKda7XDoyhB4P+JwApbMN0B3R6JXVyUD905V+o7OHJ1KcsC82jEsgKu7D9b
+      oPaBNg==
+      -----END CERTIFICATE-----
 
 # NOTE
 # 1. Client secret lookup. Argo CD looks up any key starting with `$`
 # in the `argocd-secret` K8s secret.
 # See:
 # - https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#sso-further-reading
+#
+# 2. Root CA. Argo CD will call the specified issuer to retrieve OIDC
+# config (<issuer>/.well-known/openid-configuration) and exchange grant
+# codes for proper auth tokens. If the issuer field is an HTTPs URL,
+# Argo CD will try validating the server TLS cert. If the server cert
+# was signed by a root or intermediate authority not known to Argo CD,
+# validation will fail. By default, Argo CD looks for the CAs bundled
+# with the Docker image. Unfortunately, recent images don't bundle the
+# SSL.com intermediate authority that signed our Kitt4sme cert, which
+# makes validation fail with this error message
+#
+#   Failed to query provider
+#   "https://kitt4sme.collab-cloud.eu/auth/realms/master":
+#   Get "https://kitt4sme.collab-cloud.eu/auth/realms/master/.well-known/openid-configuration":
+#   x509: certificate signed by unknown authority
+#
+# Luckily, recent Argo CD versions let you add your OIDC provider's
+# cert to the ones Argo CD trusts through the `rootCA` field. In our
+# case this field contains the *.collab-cloud.eu cert, the same as the
+# one we use for the Istio gateway.
