@@ -98,8 +98,6 @@ spec:
   - match: 
     - uri:
         prefix: /sads-offline
-    rewrite:
-      uri: /sads-offline
     route:
     - destination: 
         host: sads-offline.default.svc.cluster.local
