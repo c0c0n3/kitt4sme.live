@@ -2,38 +2,95 @@ Cluster Bootstrap
 -----------------
 > One-off procedure to build & set up your KITT4SME mesh infra.
 
-We're going to put together a single-node MicroK8s cluster to host
-the KITT4SME platform that you, as an open call developer, will use
-to integrate your solution. We use [MicroK8s][mk8s] so we can start
-small but then easily add more nodes in the future if needed.
+### Docker based version
 
-You need to provision some hardware to run the KITT4SME platform.
-Like I said earlier, we'll start with just one node, but feel free
-to expand the cluster later if you need to. Anyway, the initial node
-should have at least 8 CPUs, 16GB RAM/4GB swap, 120GB storage. Once
-you've got that box, you'll have to install Ubuntu 20.04.1 LTS
-(GNU/Linux 5.4.0-42-generic x86_64) on it. Please install the exact
-version mentioned here.
+The docker based version is a simplified stripped down version of the KITT4SME platform. It is a docker compose file that includes the FIWARE stack (Orion Context Broker, QuantumLeap, CrateDb and CrateDb initiation script). **In this docker compose file you must add your AI dockerized service.**
+
+```
+version: '3.9'
+
+services:
+  
+  # Here add your AI service
+  
+  mongodb:
+    container_name: mongodb
+    restart: always
+    volumes:
+      - ./mongo-volume:/data/db
+    image: mongo:4.4
+    networks:
+      - k4smenetwork
+
+  orion:
+    container_name: orion
+    restart: always
+    image: fiware/orion-ld:0.8.0
+    entrypoint: orionld -fg -multiservice -ngsiv1Autocast -dbhost mongodb -logLevel DEBUG
+    networks:
+      - k4smenetwork
+    ports:
+      - "1026:1026"
+    depends_on:
+      - mongodb
+
+  crate:
+    container_name: crate
+
+    image: crate:4.5.1
+    command: crate -Cauth.host_based.enabled=false -Ccluster.name=democluster -Chttp.cors.enabled=true -Chttp.cors.allow-origin="*"
+    volumes:
+      - ./cratedb-volume:/data
+    ports:
+      - "4200:4200"
+      - "4300:4300"
+    networks:
+      - k4smenetwork
+
+  quantumleap:
+    container_name: quantumleap
+    restart: always
+    image: orchestracities/quantumleap:0.8.3
+    depends_on:
+      - crate
+    networks:
+      - k4smenetwork
+    ports:
+      - "8668:8668"
+    environment:
+      - QL_DEFAULT_DB=crate
+      - CRATE_HOST=crate
+      - USE_GEOCODING=False
+      - CACHE_QUERIES=False
+      - LOGLEVEL=DEBUG
+
+networks:
+  k4smenetwork:
+    driver: bridge
+```
+
+### Kubernetes based version
+
+We're going to put together a single-node MicroK8s cluster to host the KITT4SME platform that you, as an open call developer, will use to integrate your solution. We use [MicroK8s][mk8s] so we can start small but then easily add more nodes in the future if needed. You need to provision some hardware to run the KITT4SME platform. The specs are the following 
+- At least 8 CPUs, 
+- 16GB RAM/4GB swap, 
+- 120GB storage. 
+
+Once you've are done with the hardware, you'll have to install Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-42-generic x86_64) on it. **Please install the exact version mentioned here.**
 
 #### Tip
-If you just want to try out the platform quickly, you can spin up an
-Ubuntu 20.04 VM in no time with Multipass, e.g.
+If you just want to try out the platform quickly, you can spin up an Ubuntu 20.04 VM in no time with Multipass, e.g.
 
 ```bash
 $ multipass launch --name kitt4sme --cpus 2 --mem 4G --disk 40G 20.04
 $ multipass shell kitt4sme
 ```
 
-and then follow the instructions below. Keep in mind, depending on
-what you'll do with your toy platform later, you might need more RAM
-and storage.
+and then follow the instructions below. Keep in mind, depending on what you'll do with your toy platform later, you might need more RAM and storage.
 
+#### Preparing your own fork
 
-### Preparing your own fork
-
-The first step is to fork `kitt4sme.live` on GitHub so you can use
-your fork as a GitOps source for building your cluster. Then in your
-fork edit
+The first step is to fork `kitt4sme.live` on GitHub so you can use your fork as a GitOps source for building your cluster. Then in your fork edit
 
 * `deployment/mesh-infra/argocd/projects/base/app.yaml`
 
@@ -49,14 +106,10 @@ example, if your GitHub user is `jimbo`
     #...other fields
 ```
 
-Notice the `targetRevision` field specifies which branch to use in
-your repo. Keep `open-calls` for the bootstrap procedure and change
-it later if you'd like to use a different branch instead.
-
-When done, commit your changes and push upstream to your fork.
+Notice the `targetRevision` field specifies which branch to use in your repo. Keep `open-calls` for the bootstrap procedure and change it later if you'd like to use a different branch instead. When done, commit your changes and push upstream to your fork.
 
 
-### Tools
+#### Tools
 
 We'll use [Nix][nix] to avoid polluting the Ubuntu box with extras.
 Install with
@@ -103,7 +156,7 @@ existing tool installation on this box. No dependency hell. But still
 inside the Nix shell, you'll get the right version of each tool.
 
 
-### Cluster orchestration
+#### Cluster orchestration
 
 We'll use [MicroK8s][mk8s] as a cluster manager and orchestration.
 (Read the [Cloud instance][arch.cloud] section of the architecture
@@ -185,7 +238,7 @@ Don't exit the Nix shell as we'll need some of the tools for the rest
 of the bootstrap procedure.
 
 
-### Mesh infra
+#### Mesh infra
 
 [Istio][istio] will be our mesh infra software. (If you're not sure
 what that means, go read the [Cloud instance][arch.cloud] section of
@@ -232,7 +285,7 @@ to stash away your secrets in the cluster. Notice for Open Calls we
 manage secrets manually, outside of the ArgoCD GitOps pipeline.
 
 
-### Continuous delivery
+#### Continuous delivery
 
 [Argo CD][argocd] will be our declarative continuous delivery engine.
 (Read the [Cloud instance][arch.cloud] section of the architecture
@@ -265,7 +318,7 @@ Go for coffee.
   > unable to recognize "STDIN": no matches for kind "AppProject" in version "argoproj.io/v1alpha1"
 
 
-### Post-install steps
+#### Post-install steps
 
 Run some smoke tests to make sure all the K8s resources got created,
 all the services are up and running and there's no errors.
@@ -287,9 +340,7 @@ that, just
 ```bash
 $ kubectl -n argocd delete secret argocd-initial-admin-secret
 ```
-
-Finally, if you like, you can set up remote access to the cluster
-through `kubectl`. One quick way to do that is to
+Finally, if you like, you can set up remote access to the cluster through `kubectl`. One quick way to do that is to
 
 1. Copy the content of `~/.kube/config` over to the box you want to
    access the cluster from.
