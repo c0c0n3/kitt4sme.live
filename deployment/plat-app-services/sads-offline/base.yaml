@@ -32,7 +32,7 @@ spec:
         app: sads-offline
     spec:
       containers:
-        - image: "ghcr.io/souayb/sads_offline:main"
+        - image: "ghcr.io/souayb/sads_offline:v0.1.2"
           imagePullPolicy: IfNotPresent
           name: sads-offline
           ports:
