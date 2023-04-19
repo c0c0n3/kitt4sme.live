@@ -18,7 +18,7 @@
 
 set -e
 
-GITLAB_USR="gitlab+deploy-k4s-fams"
+GITLAB_USR="gitlab+deploy-fams-k4s-cloud"
 GITLAB_TOKEN=$1
 
 kubectl create secret docker-registry fams-image \
