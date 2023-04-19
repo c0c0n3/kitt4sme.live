@@ -30,6 +30,7 @@ spec:
         - "/orion/version"
         - "/quantumleap/version"
         - "/sads/*"
+        - "/sads-offline/*"
         - "/viqe/*"
         - "/datasheets/*"
         - "/datasheets-backend-rest/*"
