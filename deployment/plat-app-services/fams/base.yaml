@@ -8,7 +8,7 @@ metadata:
     # Tell Reloader to bounce the service whenever the secret changes.
     secret.reloader.stakater.com/reload: "fams-image"
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: fams
@@ -20,7 +20,7 @@ spec:
       imagePullSecrets:
         - name: fams-image
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/fams:0.1.0-k4s"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/fams:0.1.2-k4s"
           imagePullPolicy: IfNotPresent
           name: fams
           args:
@@ -35,7 +35,7 @@ spec:
             value: "/data/"
           - name: "TZ"
             value: "CET"
-          - name: "SERVER_ADDRESS"
-            value: "orion"
+          - name: "ORION_URL"
+            value: "http://orion:1026"
           - name: "TENANT"
             value: "supsi"
