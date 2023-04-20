@@ -94,6 +94,12 @@ spec:
             value: "true"
           - name: ADAPQUEST_CONTROLLER_EXPERIMENTS
             value: "false"
+          - name: ADAPQUEST_PAGE_TITLE
+            value: "KITT4SME Adaptive Questionnaire"
+          - name: ADAPQUEST_EXIT_URL
+            value: "https://ramp.eu"
+          - name: ADAPQUEST_EXIT_TEXT
+            value: "find a kit for your needs"
           volumeMounts:
           - name: aq-surveys
             mountPath: /adaptive/data/surveys
