@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: platform-configurator
+  name: platform-configurator
+  annotations:
+    # Tell Reloader to bounce the service whenever the secret changes.
+    secret.reloader.stakater.com/reload: "platform-configurator-image"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platform-configurator
+  template:
+    metadata:
+      labels:
+        app: platform-configurator
+    spec:
+      imagePullSecrets:
+        - name: platform-configurator-image
+      containers:
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:dev"
+          imagePullPolicy: IfNotPresent
+          name: platform-configurator
+          env:
+          - name: "DS_DB_HOST"
+            value: "postgres"
+          - name: "DS_DB_PORT"
+            value: "5432"
+          - name: "DS_DB_NAME"
+            value: "db_KITT"
+          - name: "DS_DB_USER"
+            value: "postgres"
+          - name: "DS_DB_PASSWORD"
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: "AQ_DB_HOST"
+            value: "postgres"
+          - name: "AQ_DB_PORT"
+            value: "5432"
+          - name: "AQ_DB_NAME"
+            value: "adaptive"
+          - name: "AQ_DB_USER"
+            value: "ada"
+          - name: "AQ_DB_PASSWORD"
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: aq.password

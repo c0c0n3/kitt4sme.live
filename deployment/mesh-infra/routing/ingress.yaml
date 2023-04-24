@@ -171,6 +171,16 @@ spec:
         host: aq.default.svc.cluster.local
         port:
           number: 8080
+  - match:
+    - uri:
+        prefix: /platform-configurator/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: platform-configurator.default.svc.cluster.local
+        port:
+          number: 8000
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
