@@ -11,6 +11,7 @@ Cluster Bootstrap
   - Roughnator example
   
  - Kubernetes based KITT4SME platform
+    - Preparing your own fork
     - Tools
     - Cluster orchestration
     - Mesh infra
