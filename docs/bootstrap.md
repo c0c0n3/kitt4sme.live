@@ -26,11 +26,11 @@ Hello. In this page you will find the basic content to make your AI solution par
 The things you have to do are the following:
 
 1. Your AI solution must be a docker image. It may be a RESTful web application or any other app that runs indefinitely. 
-2. Initially you will integrate it with the stripped down version of the KITT4SME platform (docker compose code below).
+2. Initially you will integrate it with the stripped down version of the KITT4SME platform
 3. Your AI solution must be able to interact with the Orion Context Broker and/or the data sources.
 4. Create a subscription to the Orion Context Broker, in order it to push the data to the QuantumLeap. 
 5. Run and end to end scenario, and make sure that everything works as expected.
-6. The solution will be a member of a Kubernetes cluster, as part of the full KITT4SME solution (on how to do it, it is part of this page).
+6. The solution will be a member of a Kubernetes cluster, as part of the full KITT4SME solution 
 
 ### Docker compose based KITT4SME platform
 
@@ -274,7 +274,6 @@ example, if your GitHub user is `jimbo`
 ```
 
 Notice the `targetRevision` field specifies which branch to use in your repo. Keep `open-calls` for the bootstrap procedure and change it later if you'd like to use a different branch instead. When done, commit your changes and push upstream to your fork.
-
 
 #### Tools
 
