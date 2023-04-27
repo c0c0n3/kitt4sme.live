@@ -1,6 +1,6 @@
 Cluster Bootstrap
 -----------------
-> One-off procedure to build & set up your KITT4SME mesh infra.
+> One-off procedure to build & set up your KITT4SME infrastructure.
 
 ## Table Of Contents
 
