@@ -34,7 +34,7 @@ spec:
         app: matchmaking
     spec:
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isin/omran.ayoub/matchmakingtool:0.1.0"
+        - image: "gitlab-core.supsi.ch:5050/dti-isin/omran.ayoub/matchmakingtool:0.2.0"
           imagePullPolicy: IfNotPresent
           name: matchmaking
           ports:
