@@ -275,7 +275,10 @@ We're going to put together a single-node MicroK8s cluster to host the KITT4SME 
 - 16GB RAM/4GB swap, 
 - 120GB storage. 
 
-Once you've are done with the hardware, you'll have to install Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-42-generic x86_64) on it. **Please install the exact Ubuntu version mentioned here.**
+Once you've are done with the hardware, you'll have to install *Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-42-generic x86_64) on it*. 
+
+**Please install the exact Ubuntu version mentioned here.**
+
 If you just want to try out the platform quickly, you can spin up an Ubuntu 20.04 VM in no time with Multipass, e.g.
 
 ```bash
