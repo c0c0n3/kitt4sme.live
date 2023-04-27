@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: matchmaking
+  name: matchmaking
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8081
+    nodePort: 8081
+    targetPort: 80
+  selector:
+    app: matchmaking
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: matchmaking
+  name: matchmaking
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matchmaking
+  template:
+    metadata:
+      labels:
+        app: matchmaking
+    spec:
+      containers:
+        - image: "gitlab-core.supsi.ch:5050/dti-isin/omran.ayoub/matchmakingtool:latest"
+          imagePullPolicy: IfNotPresent
+          name: matchmaking
+          ports:
+          - containerPort: 80
+            name: http
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: "WORKER_PROFILER_DB_CONNECTION_STRING"
+            value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=WorkerProfiler"
+          - name: "PRODUCTION_SYSTEM_PROFILER_DB_CONNECTION_STRING"
+            value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=ProductionSystemProfiler"
+      volumes:
+      - name: db-init
+        configMap:
+          name: db-init
