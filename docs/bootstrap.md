@@ -9,7 +9,7 @@ Cluster Bootstrap
   - QuantumLeap subscription to the Orion Context Broker
   - NGSI payloads
   - Roughnator example
- - Kubernetes based version
+ - Kubernetes based KITT4SME platform
 ---
 
 ### Introduction
@@ -231,7 +231,7 @@ Before running your solution, you can run the Roughnator, to understand more how
 
 ----
 
-### Kubernetes based version
+### Kubernetes based KITT4SME platform
 
 We're going to put together a single-node MicroK8s cluster to host the KITT4SME platform that you, as an open call developer, will use to integrate your solution. We use [MicroK8s][mk8s] so we can start small but then easily add more nodes in the future if needed. You need to provision some hardware to run the KITT4SME platform. The specs are the following 
 - At least 8 CPUs, 
