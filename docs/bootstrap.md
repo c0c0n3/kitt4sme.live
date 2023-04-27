@@ -2,9 +2,32 @@ Cluster Bootstrap
 -----------------
 > One-off procedure to build & set up your KITT4SME mesh infra.
 
-### Docker based version
+## Table Of Contents
 
-This is the first milestone that you have to success. Initially you will work the stripped down docker based version of the KITT4SME platform. You can use the provided docker compose code below that includes the FIWARE stack (Orion Context Broker, QuantumLeap, CrateDb and CrateDb initiation script), and the only thing you have to do is to include your AI dockerized service in the file.
+- Introduction
+- Docker compose based KITT4SME platform
+  - QuantumLeap subscription to the Orion Context Broker
+  - NGSI payloads
+  - Roughnator example
+ - Kubernetes based version
+---
+
+### Introduction
+
+Hello. In this page you will find the basic content to make your AI solution part of the KITT4SME platform. Additionally you will links to to the rest of the documentation will more detailed information for each topic.
+
+The things you have to do are the following:
+
+1. Your AI solution must be a docker image. It may be a RESTful web application or any other app that runs indefinitely. 
+2. Initially you will integrate it with the stripped down version of the KITT4SME platform (docker compose code below).
+3. Your AI solution must be able to interact with the Orion Context Broker and/or the data sources.
+4. Create a subscription to the Orion Context Broker, in order to push the data to the QuantumLeap. 
+5. Run and end to end scenario, and make sure that everything works as expected.
+6. The solution will be a member of a Kubernetes cluster, as part of the full KITT4SME solution (on how to do it, it is part of this page).
+
+### Docker compose based KITT4SME platform
+
+Initially you will work the stripped down docker based version of the KITT4SME platform. You can use the provided docker compose code below that includes the FIWARE stack (Orion Context Broker, QuantumLeap, CrateDb and CrateDb initiation script), and the only thing you have to do is to include your AI dockerized service in the file.
 
 If you want to deploy you application in a different way, it is fine. 
 
@@ -119,7 +142,7 @@ For more, study the following:
 - [https://www.fiware.org/](https://www.fiware.org/)
 
 
-#### NGSI entities
+#### NGSI payloads
 
 In relation to KITT4SME workflow, the platform is expected to be able to acquire data from the following data sources: 
 - The shop floor through a diverse range of Internet of Things (IoT) devices 
@@ -163,12 +186,9 @@ a separate entity representing the shop floor where the milling machine is locat
 }
 ```
 
-Another special kind of attribute is the "Metadata" attribute which can
-be nested inside an attribute to convey additional information about the
-attribute's value. The JSON fragment below contains the same
-`spindleTemperature` attribute from the previous example but with two
-additional metadata fields to provide an accuracy rating for the measured
-temperature and a timestamp indicating when the reading was taken.
+Another special kind of attribute is the "Metadata" attribute which can be nested inside an attribute to convey additional information about the
+attribute's value. The JSON fragment below contains the same `spindleTemperature` attribute from the previous example but with two
+additional metadata fields to provide an accuracy rating for the measured temperature and a timestamp indicating when the reading was taken.
 
 ```json
 {
@@ -201,11 +221,19 @@ For more, study the following:
 
 - [https://fiware-tutorials.readthedocs.io/en/stable/getting-started/](https://fiware-tutorials.readthedocs.io/en/stable/getting-started/)
 
+
+#### Roughnator example
+
+The Roughnator is a live simulator that simulates a live environment like the one of the KITT4SME cluster.
+Before running your solution, you can run the Roughnator, to understand more how the stripped down version works
+
+[https://github.com/c0c0n3/kitt4sme.roughnator/](https://github.com/c0c0n3/kitt4sme.roughnator/)
+
 ----
 
 ### Kubernetes based version
 
-This is the second milestone you have to succeed. We're going to put together a single-node MicroK8s cluster to host the KITT4SME platform that you, as an open call developer, will use to integrate your solution. We use [MicroK8s][mk8s] so we can start small but then easily add more nodes in the future if needed. You need to provision some hardware to run the KITT4SME platform. The specs are the following 
+We're going to put together a single-node MicroK8s cluster to host the KITT4SME platform that you, as an open call developer, will use to integrate your solution. We use [MicroK8s][mk8s] so we can start small but then easily add more nodes in the future if needed. You need to provision some hardware to run the KITT4SME platform. The specs are the following 
 - At least 8 CPUs, 
 - 16GB RAM/4GB swap, 
 - 120GB storage. 
