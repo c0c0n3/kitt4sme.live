@@ -4,7 +4,9 @@ Cluster Bootstrap
 
 ### Docker based version
 
-The docker based version is a simplified stripped down version of the KITT4SME platform. It is a docker compose file that includes the FIWARE stack (Orion Context Broker, QuantumLeap, CrateDb and CrateDb initiation script). **In this docker compose file you must add your AI dockerized service.**
+This is the first milestone that you have to success. Initially you will work the stripped down docker based version of the KITT4SME platform. You can use the provided docker compose code below that includes the FIWARE stack (Orion Context Broker, QuantumLeap, CrateDb and CrateDb initiation script), and the only thing you have to do is to include your AI dockerized service in the file.
+
+If you want to deploy you application in a different way, it is fine. 
 
 ```
 version: '3.9'
@@ -69,9 +71,141 @@ networks:
     driver: bridge
 ```
 
+#### QuantumLeap subscription to the Orion Context Broker
+
+In order the QuantumLeap to subscribe to the Orion Context Broker you have to execute the following POST request
+
+```
+POST http://localhost:1026/v2/subscriptions
+
+{
+  "description": "All entities subscription",
+  "subject": {
+    "entities": [
+      {
+        "idPattern": ".*"
+      }
+    ]
+  },
+  "notification": {
+    "http": {
+      "url": "http://localhost:8668/v2/notify"
+    }
+  },
+  "expires": "2040-01-01T14:00:00.00Z"
+}
+```
+
+You can use curl or POSTMAN, or any tool you like. 
+
+Let's break down the request above:
+
+- **Method**: POST
+- **Orion Context Broker url**: http(s)://{whatever is here}:1026/v2/subscriptions. The Orion Context Broker listens by default to the 1026 port.
+- **idPattern**: The pattern that filters the needed entities based on their ids. In our case we will leave the wildcard as it is.
+- ** notification url**: The quantumleap url. QuantumLeap listens by default to the 8668 port.
+- **expires**: The subscription expiration date. Set something that expires years later
+
+For more, study the following:
+
+- [https://github.com/c0c0n3/kitt4sme/blob/master/arch/fw-middleware/ngsi-services.md](https://github.com/c0c0n3/kitt4sme/blob/master/arch/fw-middleware/ngsi-services.md)
+
+- [https://github.com/c0c0n3/kitt4sme/blob/master/arch/fw-middleware/ctx-change-propagation.md](https://github.com/c0c0n3/kitt4sme/blob/master/arch/fw-middleware/ctx-change-propagation.md)
+
+- [https://github.com/c0c0n3/kitt4sme/blob/master/arch/fw-middleware/time-series.md](https://github.com/c0c0n3/kitt4sme/blob/master/arch/fw-middleware/time-series.md)
+
+- [https://github.com/c0c0n3/kitt4sme.live/blob/main/docs/ngsi-persistence.md](https://github.com/c0c0n3/kitt4sme.live/blob/main/docs/ngsi-persistence.md)
+
+- [https://www.fiware.org/](https://www.fiware.org/)
+
+
+#### NGSI entities
+
+In relation to KITT4SME workflow, the platform is expected to be able to acquire data from the following data sources: 
+- The shop floor through a diverse range of Internet of Things (IoT) devices 
+- Cyber-physical systems such as wearable devices, environmental sensors, cameras and robots.
+
+Thus, for the sake of interoperability, the data must be defined as NGSI payloads. The NGSI payloads are pushed from the data sources and/or your AI solution to the Orion Context Broker
+
+Each IoT device or robot typically produces raw data (e.g. a temperature reading) in a proprietary format which may vary over time even within the same device (e.g., think of a firmware upgrade) and a similar degree of data format volatility can be expected of information systems (e.g., think of a database schema change). Thus, to acquire data from those environments, a plethora of diverse data formats will need to be understood by the platform, at least at its boundary where information is exchanged with external systems. Moreover, new formats may have to be accommodated as shop floors are connected to the platform. The same line of reasoning applies to data semantics too as the structure and interpretation of the data has to be known by platform components which extract information from those data.
+
+We begin with the elements of the data model which allow to encode objects (concepts, things, etc.) and relationships among them. The `Entity` data
+structure identifies a certain concept of interest in a model and describes its properties. Each `Entity` object must have an `id` field containing
+a URI that uniquely identifies it and a `type` field to classify the object. 
+
+An `Entity` contains one or more `Attribute`s, each with a `value` and a `type` field. The `value` field holds the actual value of an object's
+property whereas the `type` field contains a text label which specifies the data type of that value. When processing an entity, some FIWARE components
+attempt to interpret an attribute's value according to the type label, thus it is important to use a label suitable for the value at hand. Most
+FIWARE components support boolean types (`type = Boolean`), numeric types (`Integer`, `Float`, `Number`), text (`String`, `Text`), time (`Date`,
+`Time`, `DateTime`), geometry (points, lines, etc.), arrays (`Array`) and instances of arbitrary data structures (`StructuredValue`). 
+
+Additionally, an attribute having a type of `Relationship` is interpreted as a pointer
+to other entities and its `value` should be one or more URIs identifying other entities in the system. Thus, these "Relation" attributes play a
+special role among attributes in that they allow to encode an entity graph where nodes are `Entity` instances and edges are Relation attributes.
+
+FIWARE services exchange data by means of JSON documents. Each `Entity` instance is encoded as a JSON `object` with `id` and `type` `string` fields
+and an `object` field in correspondence of each `Attribute`. By way of example, the JSON document below encodes an instance of a milling machine
+entity owned by a company named Smithereens. One attribute of this entity is the temperature of the machine's spindle and the other is a pointer to
+a separate entity representing the shop floor where the milling machine is located.
+
+```json
+{
+    "id": "urn:ngsi-ld:smithereens:MillingMachine:1f3d-8776-a3d5-671b",
+    "type": "MillingMachine",
+    "spindleTemperature": {
+        "type": "Float",
+        "value": 64.8
+    },
+    "refShopFloor": {
+        "type": "Relationship",
+        "value": "urn:ngsi-ld:smithereens:ShopFloor:2"
+    }
+}
+```
+
+Another special kind of attribute is the "Metadata" attribute which can
+be nested inside an attribute to convey additional information about the
+attribute's value. The JSON fragment below contains the same
+`spindleTemperature` attribute from the previous example but with two
+additional metadata fields to provide an accuracy rating for the measured
+temperature and a timestamp indicating when the reading was taken.
+
+```json
+{
+    ...
+    "spindleTemperature": {
+        "type": "Float",
+        "value": 64.8
+        "metadata": {
+            "accuracy": {
+                "value": 2,
+                "type": "Number"
+            },
+            "timestamp": {
+                 "value": "2021-04-12T07:20:27.378Z",
+                 "type": "DateTime"
+            }
+        }
+    }
+    ...
+}
+```
+
+For more, study the following:
+
+- [https://github.com/c0c0n3/kitt4sme/blob/master/arch/fw-middleware/data.md](https://github.com/c0c0n3/kitt4sme/blob/master/arch/fw-middleware/data.md)
+
+- [https://github.com/c0c0n3/kitt4sme.roughnator/blob/main/roughnator/ngsy.py](https://github.com/c0c0n3/kitt4sme.roughnator/blob/main/roughnator/ngsy.py)
+
+- [KITT4SME existing NGSI payloads](https://github.com/c0c0n3/kitt4sme.live/issues/72#issuecomment-1019972046)
+
+- [https://fiware-tutorials.readthedocs.io/en/stable/getting-started/](https://fiware-tutorials.readthedocs.io/en/stable/getting-started/)
+
+----
+
 ### Kubernetes based version
 
-We're going to put together a single-node MicroK8s cluster to host the KITT4SME platform that you, as an open call developer, will use to integrate your solution. We use [MicroK8s][mk8s] so we can start small but then easily add more nodes in the future if needed. You need to provision some hardware to run the KITT4SME platform. The specs are the following 
+This is the second milestone you have to succeed. We're going to put together a single-node MicroK8s cluster to host the KITT4SME platform that you, as an open call developer, will use to integrate your solution. We use [MicroK8s][mk8s] so we can start small but then easily add more nodes in the future if needed. You need to provision some hardware to run the KITT4SME platform. The specs are the following 
 - At least 8 CPUs, 
 - 16GB RAM/4GB swap, 
 - 120GB storage. 
