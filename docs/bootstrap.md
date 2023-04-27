@@ -5,6 +5,8 @@ Cluster Bootstrap
 ## Table Of Contents
 
 - Introduction
+- Technical questions discussion board
+
 - Docker compose based KITT4SME platform
   - QuantumLeap subscription to the Orion Context Broker
   - NGSI payloads
@@ -21,7 +23,7 @@ Cluster Bootstrap
 
 ### Introduction
 
-Hello. In this page you will find the basic content to make your AI solution part of the KITT4SME platform. Additionally you will links to to the rest of the documentation will more detailed information for each topic.
+Hello. In this page you will find the basic content to make your AI solution part of the [KITT4SME](https://github.com/c0c0n3/kitt4sme/blob/master/arch/intro/motivation.md) platform. Additionally you will find links to the rest of the documentation with more details for each topic.
 
 The things you have to do are the following:
 
@@ -30,7 +32,23 @@ The things you have to do are the following:
 3. Your AI solution must be able to interact with the Orion Context Broker and/or the data sources.
 4. Create a subscription to the Orion Context Broker, in order it to push the data to the QuantumLeap. 
 5. Run and end to end scenario, and make sure that everything works as expected.
-6. The solution will be a member of a Kubernetes cluster, as part of the full KITT4SME solution 
+6. The solution will be a member of a Kubernetes cluster, as part of the full KITT4SME solution
+
+### Technical questions discussion board.
+
+The platform that we are going use is the Github discussions board. The board can be found here https://github.com/c0c0n3/kitt4sme.live/discussions
+
+**The board is public so be careful what you ask! So please avoid including private business information in your questions.**
+
+Please respect the following guidelines:
+
+- Be clear and specific: When asking a question, be as clear and specific as possible. This will help to ensure that your question is understood and that the answer is relevant to your needs.
+
+- Be respectful: Always treat others with respect and kindness, even if you disagree with their perspective or approach. Remember that we are all working towards the same goal.
+
+- Be patient: Allow others time to respond to your question. Remember that everyone has their own workload and may not be able to respond immediately.
+
+- Be concise: Try to keep your questions concise and focused. This will help to ensure that your question is answered quickly and accurately. Test first, then ask: Please first study the documentation, try to make it work by yourselves, and then ask a question. Avoid bombing the platform with questions about everything.
 
 ### Docker compose based KITT4SME platform
 
@@ -38,7 +56,7 @@ Initially you will work the stripped down docker based version of the KITT4SME p
 
 If you want to deploy you application in a different way, it is fine. 
 
-```
+```bash
 version: '3.9'
 
 services:
@@ -105,7 +123,7 @@ networks:
 
 In order the QuantumLeap to subscribe to the Orion Context Broker you have to execute the following POST request
 
-```
+```json
 POST http://localhost:1026/v2/subscriptions
 
 {
@@ -245,7 +263,7 @@ We're going to put together a single-node MicroK8s cluster to host the KITT4SME 
 - 16GB RAM/4GB swap, 
 - 120GB storage. 
 
-Once you've are done with the hardware, you'll have to install Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-42-generic x86_64) on it. **Please install the exact version mentioned here.**
+Once you've are done with the hardware, you'll have to install Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-42-generic x86_64) on it. **Please install the exact Ubuntu version mentioned here.**
 If you just want to try out the platform quickly, you can spin up an Ubuntu 20.04 VM in no time with Multipass, e.g.
 
 ```bash
