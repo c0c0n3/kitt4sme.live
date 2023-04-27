@@ -9,12 +9,13 @@ Cluster Bootstrap
   - QuantumLeap subscription to the Orion Context Broker
   - NGSI payloads
   - Roughnator example
+  
  - Kubernetes based KITT4SME platform
-  - Tools
-  - Cluster orchestration
-  - Mesh infra
-  - Continuous delivery
-  - Post-install steps
+    - Tools
+    - Cluster orchestration
+    - Mesh infra
+    - Continuous delivery
+    - Post-install steps
 ---
 
 ### Introduction
