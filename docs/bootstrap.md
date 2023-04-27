@@ -133,7 +133,7 @@ Let's break down the request above:
 - **Method**: POST
 - **Orion Context Broker url**: http(s)://{whatever is here}:1026/v2/subscriptions. The Orion Context Broker listens by default to the 1026 port.
 - **idPattern**: The pattern that filters the needed entities based on their ids. In our case we will leave the wildcard as it is.
-- ** notification url**: The quantumleap url. QuantumLeap listens by default to the 8668 port.
+- **notification url**: The quantumleap url. QuantumLeap listens by default to the 8668 port.
 - **expires**: The subscription expiration date. Set something that expires years later
 
 For more, study the following:
