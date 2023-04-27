@@ -5,6 +5,7 @@ Cluster Bootstrap
 ## Table Of Contents
 
 - Introduction
+- Before we begin
 - Technical questions discussion board
 
 - Docker compose based KITT4SME platform
@@ -32,7 +33,18 @@ The things you have to do are the following:
 3. Your AI solution must be able to interact with the Orion Context Broker and/or the data sources.
 4. Create a subscription to the Orion Context Broker, in order it to push the data to the QuantumLeap. 
 5. Run and end to end scenario, and make sure that everything works as expected.
-6. The solution will be a member of a Kubernetes cluster, as part of the full KITT4SME solution
+6. The solution will be a member of a Kubernetes cluster, as part of the full KITT4SME solution.
+
+### Before we begin
+
+There are some things that you must know, before you star working with the KITT4SME platform
+
+- [Cloud computing principles](https://www.geeksforgeeks.org/principles-of-cloud-computing/)
+
+- [Docker](https://www.docker.com/)
+
+- [Kubernetes](https://kubernetes.io/)
+
 
 ### Technical questions discussion board.
 
@@ -52,7 +64,7 @@ Please respect the following guidelines:
 
 ### Docker compose based KITT4SME platform
 
-Initially you will work the stripped down docker based version of the KITT4SME platform. You can use the provided docker compose code below that includes the FIWARE stack (Orion Context Broker, QuantumLeap, CrateDb and CrateDb initiation script), and the only thing you have to do is to include your AI dockerized service in the file.
+Initially you will work with the stripped down docker based version of the KITT4SME platform. You can use the provided docker compose code below that includes the FIWARE stack (Orion Context Broker, QuantumLeap, CrateDb and CrateDb initiation script), and the only thing you have to do is to include your AI dockerized service in the file.
 
 If you want to deploy you application in a different way, it is fine. 
 
