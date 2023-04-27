@@ -245,8 +245,6 @@ We're going to put together a single-node MicroK8s cluster to host the KITT4SME 
 - 120GB storage. 
 
 Once you've are done with the hardware, you'll have to install Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-42-generic x86_64) on it. **Please install the exact version mentioned here.**
-
-#### Tip
 If you just want to try out the platform quickly, you can spin up an Ubuntu 20.04 VM in no time with Multipass, e.g.
 
 ```bash
@@ -254,7 +252,7 @@ $ multipass launch --name kitt4sme --cpus 2 --mem 4G --disk 40G 20.04
 $ multipass shell kitt4sme
 ```
 
-and then follow the instructions below. Keep in mind, depending on what you'll do with your toy platform later, you might need more RAM and storage.
+and then follow the instructions below. Keep in mind, depending on what you'll do with your platform later, you might need more RAM and storage.
 
 #### Preparing your own fork
 
