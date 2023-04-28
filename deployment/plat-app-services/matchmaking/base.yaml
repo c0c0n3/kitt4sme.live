@@ -54,3 +54,5 @@ spec:
             value: "postgres"
           - name: "PASSWORD1"
             value: "$(POSTGRES_PASSWORD)"
+      volumes:
+      - name: matchmaking-volume
