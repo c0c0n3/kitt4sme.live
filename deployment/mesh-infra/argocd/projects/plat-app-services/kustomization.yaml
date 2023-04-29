@@ -8,9 +8,10 @@ resources:
 - dazzler
 - fams
 - insight
+- matchmaking
+- platform-configurator
 - profilers
 - roughnator
 - sads
 - sads-offline
 - viqe
-- matchmaking
