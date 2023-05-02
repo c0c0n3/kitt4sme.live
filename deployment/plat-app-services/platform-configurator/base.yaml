@@ -67,3 +67,5 @@ spec:
               secretKeyRef:
                 name: postgres-users
                 key: aq.password
+          - name: "RAMP_KITS_URL"
+            value: "https://ramp.eu/kits"
