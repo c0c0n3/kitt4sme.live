@@ -20,22 +20,23 @@ spec:
       imagePullSecrets:
         - name: fams-image
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/fams:0.1.2-k4s"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/fams:0.2.0-k4s"
           imagePullPolicy: IfNotPresent
           name: fams
           args:
           - +app=fiware
-          - +static_data_manager=orion
-          - +dynamic_data_manager=orion
-          - +connected_workers_manager=orion
+          - app.models.random_forest=[{model_path:$${app.data_dir}/models/random_forest/star-v2/Model_1683019550.joblib,features_path:$${app.data_dir}/models/random_forest/star-v2/Features_Structure1683019550.csv}]
+          - +static_data_manager=fiware
+          - +dynamic_data_manager=fiware
+          - +connected_workers_manager=fiware
           env:
-          - name: "RUNNING_MODE"
-            value: "2"
-          - name: "CONF_PATH"
+          - name: "DATA_DIR"
             value: "/data/"
           - name: "TZ"
             value: "CET"
           - name: "ORION_URL"
             value: "http://orion:1026"
+          - name: "QUANTUMLEAP_URL"
+            value: "http://quantumleap:8668"
           - name: "TENANT"
-            value: "supsi"
+            value: "demo"
