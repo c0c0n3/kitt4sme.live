@@ -47,7 +47,7 @@ spec:
                 name: postgres-users
                 key: postgres.password
           - name: "HOST1"
-            value: "postgres:5432"
+            value: "postgres"
           - name: "DATABASE1"
             value: "WorkerProfiler"
           - name: "USER1"
