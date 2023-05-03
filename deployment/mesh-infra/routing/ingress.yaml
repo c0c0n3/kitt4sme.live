@@ -89,6 +89,14 @@ spec:
           number: 8000
   - match:  # NOTE (4)
     - uri:
+        prefix: /sads-offline
+    route:
+    - destination:
+        host: sads-offline.default.svc.cluster.local
+        port:
+          number: 8501
+  - match:  # NOTE (5)
+    - uri:
         prefix: /sads
     route:
     - destination:
@@ -155,6 +163,24 @@ spec:
         host: datasheet-backend.default.svc.cluster.local
         port:
           number: 5000
+  - match:  # NOTE (6)
+    - uri:
+        prefix: /aq
+    route:
+    - destination:
+        host: aq.default.svc.cluster.local
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: /platform-configurator/
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: platform-configurator.default.svc.cluster.local
+        port:
+          number: 8000
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
@@ -177,7 +203,30 @@ spec:
 # `dazzler`, which makes every URL in the UI relative to `/dazzler`.
 # So we don't need a rewrite rule in this case.
 #
-# 4. SADS base path. The Streamlit server is configured with a root
+# 4. SADS offline routing. This routing rule must come before the
+# one for SADS classic. This is because we're using a prefix match
+# in both cases: `/sads-offline` and `/sads`. So if we invert the
+# order, both routes will hit SADS classic:
+# - https://github.com/c0c0n3/kitt4sme.live/issues/238
+# Why not use a regex match? In principle it's a better option since
+# it avoids reliance on Istio match order, which is a bit of a hack.
+# For example,
+#
+#   - match:
+#     - uri:
+#         regex: /(sads$|sads[^-])
+#
+# should match `/sads`, `/sads/`, `/sads/wada-wada` but not `/sads-offline`.
+# Unfortunately, that regex doesn't work with Istio 1.11.4. Hence the
+# hack. Finally, notice the SADS offline Steamlit server is configured
+# with a root URL of `sads-offline`, which makes every URL in the UI
+# relative to `/sads-offline`.  So we don't need a rewrite rule in
+# this case.
+#
+# 5. SADS base path. The Streamlit server is configured with a root
 # URL of `sads`, which makes every URL in the UI relative to `/sads`.
 # So we don't need a rewrite rule in this case.
 #
+# 6. AQ base path. The Servlet container is configured with a root
+# URL of `/aq`, which makes every URL in the UI relative to `/aq`.
+# So we don't need a rewrite rule in this case.

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 #
-# Generate a SealedSecret for pulling the Fatigue Monitoring System
+# Generate a SealedSecret for pulling the Platform Configurator
 # image.
 # Usage:
 #
-#   $ ./fams-image.sh TokenYouGotFromSUPSI
+#   $ ./platform-configurator.sh TokenYouGotFromSUPSI
 #
 # where the argument is a GitLab token SUPSI gave you that includes
 # a permission to pull images from https://gitlab-core.supsi.ch:5050.
@@ -18,13 +18,13 @@
 
 set -e
 
-GITLAB_USR="gitlab+deploy-fams-k4s-cloud"
+GITLAB_USR="gitlab+deploy-pc-k4s-cloud"
 GITLAB_TOKEN=$1
 
-kubectl create secret docker-registry fams-image \
+kubectl create secret docker-registry platform-configurator-image \
         --docker-server="https://gitlab-core.supsi.ch:5050" \
         --docker-username="${GITLAB_USR}" \
         --docker-password="${GITLAB_TOKEN}" \
         -o yaml --dry-run='client' | \
     sed 's!^  creationT.*$!  namespace: default\n  annotations:\n    sealedsecrets.bitnami.com/managed: "true"!' | \
-    kubeseal -o yaml -w fams-image.yaml
+    kubeseal -o yaml -w platform-configurator-image.yaml

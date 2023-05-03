@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+
+  aq:
+    image: ghcr.io/idsia/adapquest:v1.6.1
+    restart: unless-stopped
+    depends_on:
+      - timescale
+    ports:
+      - 8080:8080
+    networks:
+      - e2etest
+    environment:
+      MAGIC_API_KEY: "QWRhcHRpdmUgU3VydmV5"
+
+      DB_DBMS: "postgresql"
+      DB_HOSTNAME: "timescale"
+      DB_PORT: "5432"
+      DB_SCHEMA: "adaptive"
+      DB_USERNAME: "ada"
+      DB_PASSWORD: "*"
+
+      ADAPQUEST_CONTROLLER_ASSISTANT: "false"
+      ADAPQUEST_CONTROLLER_CONSOLE: "true"
+      ADAPQUEST_CONTROLLER_DASHBOARD: "false"
+      ADAPQUEST_CONTROLLER_DEMO: "true"
+      ADAPQUEST_CONTROLLER_EXPERIMENTS: "false"
+    volumes:
+      - ./surveys:/adaptive/data/surveys
+
+  timescale:
+    image: timescale/timescaledb-postgis:2.3.0-pg13
+    ports:
+      - "5432:5432"
+    networks:
+      - e2etest
+    environment:
+      - POSTGRES_PASSWORD=*
+    volumes:
+      # Create the DB and user Adaptive Questionnaire. (AQ will then
+      # populate the DB through its own Hybernate ORM layer.)
+      # The startup script bundled w/ the official Timescale image will
+      # run any '.sql' scripts found in: /docker-entrypoint-initdb.d/
+      # See also
+      # - https://stackoverflow.com/questions/26598738
+      - ./bootstrap.sql:/docker-entrypoint-initdb.d/bootstrap.sql
+
+networks:
+  e2etest:
+    driver: bridge

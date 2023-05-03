@@ -169,7 +169,9 @@ need for the SSO setup, pre-configured to match the values you entered
 earlier in Keycloak.
 
 - `argocd/argocd-cm.yaml`: Keycloak `master` realm URL, Argo CD root URL,
-  OIDC client ID of `argocd` and `groups` client scope.
+  OIDC client ID of `argocd` and `groups` client scope. At the moment this
+  file also contains the `kitt4sme.collab-cloud.eu` TLS cert because the
+  certificate authority that signed it is not among those Argo CD trusts.
 - `argocd/argocd-rbac-cm.yaml`: Argo CD admin permissions to any member of
    the Keycloak `ArgoCDAdmins` group.
 - `security/secrets/argocd.yaml`: sealed secret containing the Argo CD

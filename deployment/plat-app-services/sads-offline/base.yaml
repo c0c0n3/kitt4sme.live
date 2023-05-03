@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: sads-offline
+  name: sads-offline
+spec:
+  ports:
+  - name: http
+    port: 8501
+    protocol: TCP
+    targetPort: 8501
+  selector:
+    app: sads-offline
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sads-offline
+  name: sads-offline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sads-offline
+  template:
+    metadata:
+      labels:
+        app: sads-offline
+    spec:
+      containers:
+        - image: "ghcr.io/souayb/sads_offline:v0.1.2"
+          imagePullPolicy: IfNotPresent
+          name: sads-offline
+          ports:
+          - containerPort: 8501
+            name: http
+          env:
+          - name: "STREAMLIT_SERVER_BASE_URL_PATH"
+            value: "/sads-offline"

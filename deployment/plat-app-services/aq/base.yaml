@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: aq
+  name: aq
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: aq
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: aq
+  name: aq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aq
+  template:
+    metadata:
+      labels:
+        app: aq
+    spec:
+      initContainers:
+        - image: "timescale/timescaledb-postgis:2.3.0-pg13"
+          imagePullPolicy: IfNotPresent
+          name: aq-init
+          command: ['sh', '/db-init/bootstrap.sh']
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: CONN_URI
+            value: "postgresql://postgres:$(POSTGRES_PASSWORD)@postgres"
+          - name: AQ_DB
+            value: "adaptive"
+          - name: AQ_USER
+            value: "ada"
+          - name: AQ_PASS
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: aq.password
+          volumeMounts:
+          - name: aq-db-init
+            mountPath: /db-init
+            readOnly: true
+      containers:
+        - image: "ghcr.io/idsia/adapquest:v1.6.4"
+          imagePullPolicy: IfNotPresent
+          name: aq
+          ports:
+          - containerPort: 8080
+            name: http
+          env:
+          - name: "server_servlet_context-path"
+            value: "/aq"
+          - name: MAGIC_API_KEY
+            value: "QWRhcHRpdmUgU3VydmV5"
+          - name: DB_DBMS
+            value: "postgresql"
+          - name: DB_HOSTNAME
+            value: "postgres"
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_SCHEMA
+            value: "adaptive"
+          - name: DB_USERNAME
+            value: "ada"
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: aq.password
+          - name: ADAPQUEST_CONTROLLER_ASSISTANT
+            value: "false"
+          - name: ADAPQUEST_CONTROLLER_CONSOLE
+            value: "true"
+          - name: ADAPQUEST_CONTROLLER_DASHBOARD
+            value: "false"
+          - name: ADAPQUEST_CONTROLLER_DEMO
+            value: "true"
+          - name: ADAPQUEST_CONTROLLER_EXPERIMENTS
+            value: "false"
+          - name: ADAPQUEST_PAGE_TITLE
+            value: "KITT4SME Adaptive Questionnaire"
+          - name: ADAPQUEST_EXIT_URL
+            value: "https://ramp.eu"
+          - name: ADAPQUEST_EXIT_TEXT
+            value: "find a kit for your needs"
+          volumeMounts:
+          - name: aq-surveys
+            mountPath: /adaptive/data/surveys
+            readOnly: false
+          - name: aq-templates
+            mountPath: /adaptive/data/templates
+            readOnly: false
+      volumes:
+      - name: aq-db-init
+        configMap:
+          name: aq-db-init
+      - name: aq-surveys
+        configMap:
+          name: aq-surveys
+      - name: aq-templates
+        configMap:
+          name: aq-templates
