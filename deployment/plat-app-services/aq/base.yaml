@@ -109,9 +109,10 @@ spec:
           - name: KEYCLOAK_REALM
             value: "kitt4sme"
           - name: KEYCLOAK_AUTH_SERVER_URL
-            value: "http://kitt4sme.collab-cloud.eu/auth"
+            value: "https://kitt4sme.collab-cloud.eu/auth"
           - name: KEYCLOAK_RESOURCE
             value: "aq"
+            # or rather: "kitt4sme_testing" as per Panos's config
           volumeMounts:
           - name: aq-surveys
             mountPath: /adaptive/data/surveys
