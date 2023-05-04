@@ -104,6 +104,14 @@ spec:
             value: "email"
           - name: SPRING_PROFILE_ACTIVE
             value: "live"
+          - name: KEYCLOAK_ENABLED
+            value: "true"
+          - name: KEYCLOAK_REALM
+            value: "kitt4sme"
+          - name: KEYCLOAK_AUTH_SERVER_URL
+            value: "http://kitt4sme.collab-cloud.eu/auth"
+          - name: KEYCLOAK_RESOURCE
+            value: "aq"
           volumeMounts:
           - name: aq-surveys
             mountPath: /adaptive/data/surveys
