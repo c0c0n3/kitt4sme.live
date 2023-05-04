@@ -97,9 +97,11 @@ spec:
           - name: ADAPQUEST_PAGE_TITLE
             value: "KITT4SME Adaptive Questionnaire"
           - name: ADAPQUEST_EXIT_URL
-            value: "https://ramp.eu"
+            value: "https://kitt4sme.collab-cloud.eu/platform-configurator/kits-ramp"
           - name: ADAPQUEST_EXIT_TEXT
             value: "find a kit for your needs"
+          - name: ADAPQUEST_KEYCLOAK_FIELD
+            value: "email"
           volumeMounts:
           - name: aq-surveys
             mountPath: /adaptive/data/surveys
