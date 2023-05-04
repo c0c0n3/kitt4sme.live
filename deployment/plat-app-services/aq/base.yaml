@@ -104,15 +104,15 @@ spec:
             value: "email"
           - name: SPRING_PROFILE_ACTIVE
             value: "live"
-          - name: KEYCLOAK_ENABLED
-            value: "true"
-          - name: KEYCLOAK_REALM
-            value: "kitt4sme"
-          - name: KEYCLOAK_AUTH_SERVER_URL
-            value: "https://kitt4sme.collab-cloud.eu/auth"
-          - name: KEYCLOAK_RESOURCE
-            value: "aq"
-            # or rather: "kitt4sme_testing" as per Panos's config
+          # - name: KEYCLOAK_ENABLED
+          #   value: "true"
+          # - name: KEYCLOAK_REALM
+          #   value: "kitt4sme"
+          # - name: KEYCLOAK_AUTH_SERVER_URL
+          #   value: "https://kitt4sme.collab-cloud.eu/auth"
+          # - name: KEYCLOAK_RESOURCE
+          #   value: "aq"
+          #   # or rather: "kitt4sme_testing" as per Panos's config
           volumeMounts:
           - name: aq-surveys
             mountPath: /adaptive/data/surveys
