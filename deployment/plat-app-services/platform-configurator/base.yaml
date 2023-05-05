@@ -37,7 +37,7 @@ spec:
       imagePullSecrets:
         - name: platform-configurator-image
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.2.0"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.3.0"
           imagePullPolicy: IfNotPresent
           name: platform-configurator
           env:
@@ -67,5 +67,12 @@ spec:
               secretKeyRef:
                 name: postgres-users
                 key: aq.password
-          - name: "RAMP_KITS_URL"
+          - name: "RAMP_KITS_SVC_URL"
+            value: "https://ramp.eu/ms/company/api/v1/service-request/kits"
+          - name: "RAMP_KITS_SVC_API_KEY"
+            valueFrom:
+              secretKeyRef:
+                 name: api-keys
+                 key: pc.ramp.kits.svc
+          - name: RAMP_REDIRECT_URL
             value: "https://ramp.eu/kits"
