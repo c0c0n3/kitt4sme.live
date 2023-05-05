@@ -32,7 +32,7 @@ spec:
         app: dazzler
     spec:
       containers:
-        - image: "ghcr.io/c0c0n3/kitt4sme.dazzler:0.5.0"
+        - image: "ghcr.io/c0c0n3/kitt4sme.dazzler:0.6.0"
           imagePullPolicy: IfNotPresent
           name: dazzler
           ports:
