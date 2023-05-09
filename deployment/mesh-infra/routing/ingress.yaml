@@ -102,7 +102,7 @@ spec:
     - destination:
         host: sads.default.svc.cluster.local
         port:
-          number: 8501
+          number: 8500
   - match:
     - uri:
         prefix: /viqe/
