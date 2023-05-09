@@ -51,7 +51,7 @@ spec:
             mountPath: /db-init
             readOnly: true
       containers:
-        - image: "konstantinos/k4s_profilers_repository:3.4"
+        - image: "konstantinos/k4s_profilers_repository:4.0"
           imagePullPolicy: IfNotPresent
           name: profilers
           ports:
@@ -64,7 +64,7 @@ spec:
                 name: postgres-users
                 key: postgres.password
           - name: "WORKER_PROFILER_DB_CONNECTION_STRING"
-            value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=WorkerProfiler"
+            value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=WorkerProfilerV2"
           - name: "PRODUCTION_SYSTEM_PROFILER_DB_CONNECTION_STRING"
             value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=ProductionSystemProfiler"
       volumes:
