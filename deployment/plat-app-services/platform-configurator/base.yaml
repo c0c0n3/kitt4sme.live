@@ -37,7 +37,7 @@ spec:
       imagePullSecrets:
         - name: platform-configurator-image
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.3.1"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.4.1"
           imagePullPolicy: IfNotPresent
           name: platform-configurator
           env:
@@ -75,4 +75,4 @@ spec:
                  name: api-keys
                  key: pc.ramp.kits.svc
           - name: RAMP_REDIRECT_URL
-            value: "https://ramp.eu/kits"
+            value: "https://ramp.eu/#/service-request/create/{sid}"
