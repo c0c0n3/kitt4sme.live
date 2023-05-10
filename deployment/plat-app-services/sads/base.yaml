@@ -7,9 +7,9 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 8501
+    port: 8500
     protocol: TCP
-    targetPort: 8501
+    targetPort: 8500
   selector:
     app: sads
 
@@ -32,11 +32,11 @@ spec:
         app: sads
     spec:
       containers:
-        - image: "ghcr.io/c0c0n3/kitt4sme.flaw-sleuth:0.2.0"
+        - image: "ghcr.io/c0c0n3/kitt4sme.flaw-sleuth:0.3.0"
           imagePullPolicy: IfNotPresent
           name: sads
           ports:
-          - containerPort: 8501
+          - containerPort: 8500
             name: http
           env:
           - name: "STREAMLIT_SERVER_BASE_URL_PATH"
