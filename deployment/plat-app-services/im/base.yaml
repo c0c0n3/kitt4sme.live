@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: intervention-manager
+  name: intervention-manager
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: intervention-manager
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: intervention-manager
+  name: intervention-manager
+  annotations:
+    # Tell Reloader to bounce the service whenever the secret changes.
+    secret.reloader.stakater.com/reload: "supsi-k4s-images,supsi-im-images"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intervention-manager
+  template:
+    metadata:
+      labels:
+        app: intervention-manager
+    spec:
+      imagePullSecrets:
+        - name: supsi-k4s-images
+        - name: supsi-im-images
+      containers:
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/intervention-manager/intervention-manager:1.0.2-k4s"
+          imagePullPolicy: IfNotPresent
+          name: intervention-manager
+          env:
+          - name: "SERVER.SERVLET.CONTEXTPATH"
+            value: "/intervention-manager"
+          - name: "IM_ORIONBROKERPATH"
+            value: "http://orion:1026"
+          - name: "IM_HIMBASEPATH"
+            value: "http://localhost:8081"
+          - name: "IM_SMARTDECISIONBLOCKSERVICEPATH"
+            value: "http://localhost:5000"
+          - name: "IM_SCREWSDBPATH"
+            value: "http://localhost:5001"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/intervention-manager/historical-interventions-manager:0.1.0-k4s"
+          imagePullPolicy: IfNotPresent
+          name: him
+          env:
+          - name: "CONTEXT_PATH"
+            value: "/"
+          - name: "HIBERNATE_DDL"
+            value: "update"
+          - name: "PORT"
+            value: "8081"
+          - name: "SPRING_DATA_MONGODB_URI"
+            value: "mongodb://mongodb:27017/"  # check for credentials
+          - name: "SPRING_DATA_MONGODB_DATABASE"
+            value: "him"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/intervention-manager/smart-decision-block-service:0.1.0-k4s"
+          imagePullPolicy: IfNotPresent
+          name: sdb-svc
+          env:
+          - name: "MONGODB_CONN_STRING"
+            value: "mongodb://mongodb:27017/"  # check for credentials
+          - name: "MONGODB_DB"
+            value: "him"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/screw-sdb:0.1.0-k4s"
+          imagePullPolicy: IfNotPresent
+          name: screw-sdb-svc
+          command: ["flask", "run", "-p", "5001"]
+          env:
+          - name: FLASK_APP
+            value: "main.py"
