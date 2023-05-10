@@ -20,7 +20,7 @@ spec:
       imagePullSecrets:
         - name: fams-image
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/fams:0.2.0-k4s"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/fams:0.2.3-k4s"
           imagePullPolicy: IfNotPresent
           name: fams
           args:
