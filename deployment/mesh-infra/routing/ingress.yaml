@@ -181,6 +181,14 @@ spec:
         host: platform-configurator.default.svc.cluster.local
         port:
           number: 8000
+  - match:
+    - uri:
+        prefix: /intervention-manager
+    route:
+    - destination:
+        host: intervention-manager.default.svc.cluster.local
+        port:
+          number: 8080
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
