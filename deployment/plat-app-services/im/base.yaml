@@ -43,25 +43,25 @@ spec:
           name: intervention-manager
           env:
           - name: "SERVER.SERVLET.CONTEXTPATH"
-            value: "/intervention-manager/"
+            value: "/intervention-manager"
           - name: "IM_ORIONBROKERPATH"
             value: "http://orion:1026"
           - name: "IM_HIMBASEPATH"
-            value: "http://him:8080"
+            value: "http://localhost:8081"
           - name: "IM_SMARTDECISIONBLOCKSERVICEPATH"
-            value: "http://sdb-svc:5000"
+            value: "http://localhost:5000"
           - name: "IM_SCREWSDBPATH"
-            value: "http://screw-sdb-svc:5000"
+            value: "http://localhost:5001"
         - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/intervention-manager/historical-interventions-manager:0.1.0-k4s"
           imagePullPolicy: IfNotPresent
           name: him
           env:
-          - name: "CONTEXTPATH"
+          - name: "CONTEXT_PATH"
             value: "/"
           - name: "HIBERNATE_DDL"
             value: "update"
           - name: "PORT"
-            value: "8080"
+            value: "8081"
           - name: "SPRING_DATA_MONGODB_URI"
             value: "mongodb://mongodb:27017/"  # check for credentials
           - name: "SPRING_DATA_MONGODB_DATABASE"
@@ -77,3 +77,7 @@ spec:
         - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/screw-sdb:0.1.0-k4s"
           imagePullPolicy: IfNotPresent
           name: screw-sdb-svc
+          command: ["flask", "run", "-p", "5001"]
+          env:
+          - name: FLASK_APP
+            value: "main.py"
