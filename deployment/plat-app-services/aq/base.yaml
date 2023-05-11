@@ -58,7 +58,7 @@ spec:
             mountPath: /db-init
             readOnly: true
       containers:
-        - image: "ghcr.io/idsia/adapquest:v1.6.5"
+        - image: "ghcr.io/idsia/adapquest:v1.6.6"
           imagePullPolicy: IfNotPresent
           name: aq
           ports:
@@ -87,13 +87,15 @@ spec:
           - name: ADAPQUEST_CONTROLLER_ASSISTANT
             value: "false"
           - name: ADAPQUEST_CONTROLLER_CONSOLE
-            value: "true"
+            value: "false"
           - name: ADAPQUEST_CONTROLLER_DASHBOARD
             value: "false"
           - name: ADAPQUEST_CONTROLLER_DEMO
-            value: "true"
+            value: "false"
           - name: ADAPQUEST_CONTROLLER_EXPERIMENTS
             value: "false"
+          - name: ADAPQUEST_CONTROLLER_LIVE
+            value: "true"
           - name: ADAPQUEST_PAGE_TITLE
             value: "KITT4SME Adaptive Questionnaire"
           - name: ADAPQUEST_EXIT_URL
@@ -104,15 +106,19 @@ spec:
             value: "email"
           - name: SPRING_PROFILE_ACTIVE
             value: "live"
-          # - name: KEYCLOAK_ENABLED
-          #   value: "true"
-          # - name: KEYCLOAK_REALM
-          #   value: "kitt4sme"
-          # - name: KEYCLOAK_AUTH_SERVER_URL
-          #   value: "https://kitt4sme.collab-cloud.eu/auth"
-          # - name: KEYCLOAK_RESOURCE
-          #   value: "aq"
-          #   # or rather: "kitt4sme_testing" as per Panos's config
+          - name: KEYCLOAK_ENABLED
+            value: "true"
+          - name: KEYCLOAK_REALM
+            value: "kitt4sme"
+          - name: KEYCLOAK_AUTH_SERVER_URL
+            value: "https://kitt4sme.collab-cloud.eu/auth"
+          - name: KEYCLOAK_RESOURCE
+            value: "aq"
+          - name: KEYCLOAK_CREDENTIALS_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: oidc-clients
+                key: aq.oidc.client.secret
           volumeMounts:
           - name: aq-surveys
             mountPath: /adaptive/data/surveys
