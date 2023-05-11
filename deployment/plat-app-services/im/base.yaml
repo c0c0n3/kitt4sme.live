@@ -38,7 +38,7 @@ spec:
         - name: supsi-k4s-images
         - name: supsi-im-images
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/intervention-manager/intervention-manager:1.0.2-k4s"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/human-digital-twin/intervention-manager/intervention-manager:1.0.4-k4s"
           imagePullPolicy: IfNotPresent
           name: intervention-manager
           env:
