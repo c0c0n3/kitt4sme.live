@@ -21,6 +21,9 @@ metadata:
   labels:
     app: aq
   name: aq
+  annotations:
+    # Tell Reloader to bounce the service whenever our secrets changes.
+    secret.reloader.stakater.com/reload: "postgres-users,oidc-clients"
 spec:
   replicas: 1
   selector:
