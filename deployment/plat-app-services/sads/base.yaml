@@ -32,7 +32,7 @@ spec:
         app: sads
     spec:
       containers:
-        - image: "ghcr.io/c0c0n3/kitt4sme.flaw-sleuth:0.3.0"
+        - image: "ghcr.io/c0c0n3/kitt4sme.flaw-sleuth:0.4.0"
           imagePullPolicy: IfNotPresent
           name: sads
           ports:
