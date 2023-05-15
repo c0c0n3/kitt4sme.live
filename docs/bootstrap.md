@@ -64,7 +64,7 @@ Please respect the following guidelines:
 
 ----
 
-### Docker compose based KITT4SME platform
+### Docker compose based KITT4SME platform [Please complete this step till September.]
 
 Initially you will work with the stripped down docker based version of the KITT4SME platform. You can use the provided docker compose code below that includes the FIWARE stack (Orion Context Broker, QuantumLeap, CrateDb and CrateDb initiation script), and the only thing you have to do is to include your AI dockerized service in the file.
 
