@@ -8,7 +8,7 @@ Cluster Bootstrap
 - Before we begin
 - Technical questions discussion board
 
-- Docker compose based KITT4SME platform
+- Docker compose based KITT4SME platform [Please complete this step till September.]
   - QuantumLeap subscription to the Orion Context Broker
   - NGSI payloads
   - Roughnator example
@@ -20,6 +20,11 @@ Cluster Bootstrap
     - Mesh infra
     - Continuous delivery
     - Post-install steps
+
+  - RAMP Marketplace
+    - What is the RAMP Marketplace
+    - How to register an organization to RAMP Marketplace 
+    - How to register a software solution to RAMP Marketplace  
 ---
 
 ### Introduction
@@ -559,8 +564,50 @@ Now give yourself a pat on the shoulder. You've got a shiny, brand
 new, fully functional KITT4SME cloud to...manage and maintain.
 Godspeed!
 
+----
 
+### RAMP Marketplace
 
+#### What is the RAMP Marketplace
+TBD
+
+#### How to register an organization to RAMP Marketplace 
+
+**1.	Register a user:**
+
+    a. Sign in / Register (top-right) 
+    b. Register
+    
+**2.	Create an organization:**
+
+    a. My organization (top-right menu) 
+    b. Create a new organization.
+    
+#### How to register a software solution to RAMP Marketplace  
+
+**Register the component(s):**
+
+1.	My organization (top-right menu) 
+2.	Components of the respective organization 
+3.	Add component.
+    
+    **Step 1.** General Info: they provide a generic description and add the appropriate ‘annotations’ to make their solution findable in relevant searches; this annotation takes the form of keywords and association to the relevant industry area. These fields are mandatory for the registration of the new solution to the collection of RAMP’s solutions.
+
+    **Step 2.** Demo links: they add links that guide interested users of the components to locations that describe the advertised functionality, in the form of a video or a live demo.
+
+    **Step 3.** Download links: They add the locations (links) to make it available as an executable,  source code or docker image (a docker pull command is given in the case of a docker image) after defining the license under which the solution is published
+
+    **Step 4.** Technical details: they add brief documentation targeting a technical developer, the required interfaces for importing data and for the produced output and the dependencies from external tools or libraries. 
+
+_Please take consideration the following:_
+
+  _•	Each developer should create their own organization (per partner, not per project) (e.g. ‘European Dynamics’)_
+
+  _•	Each developer should add their components within their organization._
+
+  _•	The project name (e.g. KITT4SME) should be added as a ‘keyword’. This allows later the visitors to filter the available components per project._
+  
+_•	All the information in the component registration form can be filled in at the same time. E.g. someone can add both a source code repository for download, an executable application download link and a docker pull command, and all will be shown_
 
 [arch.cloud]: https://github.com/c0c0n3/kitt4sme/blob/master/arch/mesh/cloud.md
 [argocd]: https://argoproj.github.io/cd/
