@@ -579,27 +579,38 @@ On the other hand, solution providers gain access to a new international market 
 
 **1.	Register a user:**
 
-    a. Sign in / Register (top-right) 
+a. Sign in / Register (top-right) 
     
-    ![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/bb4a722b-7410-44b4-9f38-62fe8d57ec4a)
+![Sign in - Register](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/bb4a722b-7410-44b4-9f38-62fe8d57ec4a)
 
-    
-    b. Register
-    
-    ![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/3d9ae0b7-50e7-4a17-bac0-d43aea84350c)
+b. Register
 
+![To register page](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/3d9ae0b7-50e7-4a17-bac0-d43aea84350c)
+
+![Register page](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/6d700511-4c7e-4641-a415-84aa3ab44701)
     
 **2.	Create an organization:**
 
     a. My organization (top-right menu) 
     b. Create a new organization.
-    
+    c. Make the organization profile public
+
+![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/32e28dee-cfa8-451e-a13e-4759cc5051e4)
+
+![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/0ded2ea5-bed9-4fb1-b041-92c21a336ee6)
+
+![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/e8c105a9-500b-4eaf-950f-86d8188517e0)
+
 #### How to register a software solution to RAMP Marketplace  
 
 **Register the component(s):**
 
 1.	My organization (top-right menu) 
-2.	Components of the respective organization 
+
+2.	Click the green "Components" button
+
+![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/dfe699c6-6615-42dd-a2c6-faed33bf08a1)
+
 3.	Add component.
     
     **Step 1.** General Info: they provide a generic description and add the appropriate ‘annotations’ to make their solution findable in relevant searches; this annotation takes the form of keywords and association to the relevant industry area. These fields are mandatory for the registration of the new solution to the collection of RAMP’s solutions.
@@ -609,6 +620,13 @@ On the other hand, solution providers gain access to a new international market 
     **Step 3.** Download links: They add the locations (links) to make it available as an executable,  source code or docker image (a docker pull command is given in the case of a docker image) after defining the license under which the solution is published
 
     **Step 4.** Technical details: they add brief documentation targeting a technical developer, the required interfaces for importing data and for the produced output and the dependencies from external tools or libraries. 
+    
+##### End result
+![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/190961c2-39fe-4a46-9291-cd1bd6a53ed9)
+
+##### Check that your component is publicly visible in the ‘Component Catalogue’
+
+![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/9ae7f9d7-0d46-49f1-b927-9e11284f2c35)
 
 _Please take under consideration the following:_
 
