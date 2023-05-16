@@ -569,7 +569,11 @@ Godspeed!
 ### RAMP Marketplace
 
 #### What is the RAMP Marketplace
-TBD
+RAMP (Robotics and Automation Marketplace) [ramp.eu] is an online marketplace intended to create a bridge between the manufacturing end users and the solution providers. RAMP makes more effective the artificial intelligence and automation value chain for the manufacturing industry. It provides an open platform for manufacturing end users and solutions’ providers, thus promoting dynamic networking and interactions between the users. KITT4SME is one of the components of the RAMP and the solutions of the granted open call applicants will be offered through RAMP.
+
+RAMP helps cutting costs and reducing the knowledge and access gap between the manufacturing end users of AI and robotics & automation in multiple ways. Among others, it consolidates all value chain actors in one place, allowing them to find faster the best solution. Having the needed relevant information of the providers easily accessible, and by reading their previous customers’ comments and feedback, it is easier to compare different offers and providers. Additional online tools facilitate online co-creation of solutions, further cutting the initial phase costs and reducing the planning time.
+
+On the other hand, solution providers gain access to a new international market and business opportunities. Manufacturing end users can now find them faster, while it is easier to communicate with more potential customers and gain insight on their needs. Lastly, RAMP collects open digitisation platforms and community support
 
 #### How to register an organization to RAMP Marketplace 
 
@@ -599,7 +603,7 @@ TBD
 
     **Step 4.** Technical details: they add brief documentation targeting a technical developer, the required interfaces for importing data and for the produced output and the dependencies from external tools or libraries. 
 
-_Please take consideration the following:_
+_Please take under consideration the following:_
 
   _•	Each developer should create their own organization (per partner, not per project) (e.g. ‘European Dynamics’)_
 
@@ -609,6 +613,7 @@ _Please take consideration the following:_
   
 _•	All the information in the component registration form can be filled in at the same time. E.g. someone can add both a source code repository for download, an executable application download link and a docker pull command, and all will be shown_
 
+[ramp.eu]: https://ramp.eu/#/home
 [arch.cloud]: https://github.com/c0c0n3/kitt4sme/blob/master/arch/mesh/cloud.md
 [argocd]: https://argoproj.github.io/cd/
 [boot.argo-app-issue]: https://github.com/c0c0n3/kitt4sme.live/issues/42
