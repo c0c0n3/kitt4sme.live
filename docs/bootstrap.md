@@ -580,7 +580,14 @@ On the other hand, solution providers gain access to a new international market 
 **1.	Register a user:**
 
     a. Sign in / Register (top-right) 
+    
+    ![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/bb4a722b-7410-44b4-9f38-62fe8d57ec4a)
+
+    
     b. Register
+    
+    ![image](https://github.com/c0c0n3/kitt4sme.live/assets/2041951/3d9ae0b7-50e7-4a17-bac0-d43aea84350c)
+
     
 **2.	Create an organization:**
 
