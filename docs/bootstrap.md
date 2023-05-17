@@ -143,9 +143,11 @@ networks:
 In order the QuantumLeap to subscribe to the Orion Context Broker you have to execute the following POST request
 
 ```json
-POST http://localhost:1026/v2/subscriptions
-
-{
+curl --location 'http://localhost:1026/v2/subscriptions' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'fiware-service: default' \
+--data '{
   "description": "All entities subscription",
   "subject": {
     "entities": [
@@ -160,7 +162,7 @@ POST http://localhost:1026/v2/subscriptions
     }
   },
   "expires": "2040-01-01T14:00:00.00Z"
-}
+}'
 ```
 
 You can use curl or POSTMAN, or any tool you like. 
