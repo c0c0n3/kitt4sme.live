@@ -170,9 +170,10 @@ You can use curl or POSTMAN, or any tool you like.
 Let's break down the request above:
 
 - **Method**: POST
-- **HTTP Header**: 'Accept **Value** application/json' 
-- **HTTP Header**:'Content-Type **Value** application/json'
-- **HTTP Header**:'fiware-service **Value** default'
+- **HTTP Header**: _'Accept'_ **Value**: _application/json'_
+- **HTTP Header**:_'Content-Type'_ **Value**: _application/json'_
+- **HTTP Header**:_'fiware-service'_ **Value**: _'default'_
+- 
 - **Orion Context Broker url**: http(s)://{whatever is here}:1026/v2/subscriptions. The Orion Context Broker listens by default to the 1026 port.
 - **idPattern**: The pattern that filters the needed entities based on their ids. In our case we will leave the wildcard as it is.
 - **notification url**: The quantumleap url. QuantumLeap listens by default to the 8668 port.
