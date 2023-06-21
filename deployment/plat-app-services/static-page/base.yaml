@@ -5,12 +5,10 @@ metadata:
     app: static-page
   name: static-page
 spec:
-  type: NodePort
   ports:
   - name: http
     protocol: TCP
     port: 80
-    nodePort: 30000
     targetPort: 80
   selector:
     app: static-page
