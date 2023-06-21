@@ -36,3 +36,4 @@ spec:
         - "/datasheets-backend-rest/*"
         - "/aq"
         - "/aq/*"
+        - "/static-page/*"
