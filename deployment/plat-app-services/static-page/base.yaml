@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - image: "ryankford/kitt4sme-static-page:1.0"
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           name: static-page
           ports:
           - containerPort: 80
