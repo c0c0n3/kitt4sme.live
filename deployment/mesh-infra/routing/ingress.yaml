@@ -24,7 +24,6 @@ spec:
       mode: SIMPLE
       credentialName: istio-gw-cert
 ---
-
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -35,18 +34,76 @@ spec:
   hosts:
   - "*"
   http:
-  - match:  # NOTE (1)
+  - match:
     - uri:
-        prefix: /orion/
-    - uri:
-        prefix: /orion
+        exact: /
     rewrite:
       uri: /
     route:
     - destination:
-        host: orion.default.svc.cluster.local
+        host: static-page.default.svc.cluster.local
         port:
-          number: 1026
+          number: 80
+  - match:
+    - uri:
+        exact: /style.css
+    rewrite:
+      uri: /style.css
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        exact: /kitt4sme_architecture.png
+    rewrite:
+      uri: /kitt4sme_architecture.png
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /partners/
+    rewrite:
+      uri: /partners/
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        exact: /kitt4sme_logo.png
+    rewrite:
+      uri: /kitt4sme_logo.png
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        exact: /eu_logo.png
+    rewrite:
+      uri: /eu_logo.png
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        exact: /favicon.ico
+    rewrite:
+      uri: /favicon.ico
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
   - match:  # NOTE (1)
     - uri:
         prefix: /quantumleap/
