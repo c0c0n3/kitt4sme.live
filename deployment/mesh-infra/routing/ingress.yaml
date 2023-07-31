@@ -59,7 +59,18 @@ spec:
         host: static-page.default.svc.cluster.local
         port:
           number: 80
-
+  - match:  # NOTE (1)
+    - uri:
+        prefix: /orion/
+    - uri:
+        prefix: /orion
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: orion.default.svc.cluster.local
+        port:
+          number: 1026
   - match:  # NOTE (1)
     - uri:
         prefix: /quantumleap/
