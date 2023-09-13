@@ -24,7 +24,6 @@ spec:
       mode: SIMPLE
       credentialName: istio-gw-cert
 ---
-
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -35,6 +34,31 @@ spec:
   hosts:
   - "*"
   http:
+  - match:
+    - uri:
+        exact: /
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /partners/
+    rewrite:
+      uri: /partners/
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
+  - route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
   - match:  # NOTE (1)
     - uri:
         prefix: /orion/
