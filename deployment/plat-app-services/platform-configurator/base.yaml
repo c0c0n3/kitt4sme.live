@@ -37,9 +37,10 @@ spec:
       imagePullSecrets:
         - name: platform-configurator-image
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.4.1"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.5.0"
           imagePullPolicy: IfNotPresent
           name: platform-configurator
+          args: ["--root-path", "/platform-configurator"]
           env:
           - name: "DS_DB_HOST"
             value: "postgres"
