@@ -192,7 +192,9 @@ spec:
 
   - match:
     - uri:
-        prefix: /static-page/
+        prefix: /home
+    - uri:
+        prefix: /home/
     rewrite:
       uri: /
     route:
