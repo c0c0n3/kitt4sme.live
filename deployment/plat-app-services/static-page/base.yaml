@@ -32,7 +32,7 @@ spec:
         app: static-page
     spec:
       containers:
-        - image: "ryankford/kitt4sme-static-page:1.0.1"
+        - image: "ryankford/kitt4sme-static-page:1.0"
           imagePullPolicy: Always
           name: static-page
           ports:
