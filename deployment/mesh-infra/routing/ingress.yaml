@@ -192,8 +192,6 @@ spec:
 
   - match:
     - uri:
-        prefix: /home
-    - uri:
         prefix: /home/
     rewrite:
       uri: /
