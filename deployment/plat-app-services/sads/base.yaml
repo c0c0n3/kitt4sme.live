@@ -22,7 +22,7 @@ metadata:
     app: sads
   name: sads
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: sads
