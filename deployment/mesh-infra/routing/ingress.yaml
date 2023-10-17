@@ -89,20 +89,20 @@ spec:
           number: 8000
   - match:  # NOTE (4)
     - uri:
-        prefix: /sads-offline
+        prefix: /sads
     route:
     - destination:
         host: sads-offline.default.svc.cluster.local
         port:
           number: 8501
-  - match:  # NOTE (5)
-    - uri:
-        prefix: /sads
-    route:
-    - destination:
-        host: sads.default.svc.cluster.local
-        port:
-          number: 8500
+  # - match:  # NOTE (5)
+  #   - uri:
+  #       prefix: /sads
+  #   route:
+  #   - destination:
+  #       host: sads.default.svc.cluster.local
+  #       port:
+  #         number: 8500
   - match:
     - uri:
         prefix: /viqe/
