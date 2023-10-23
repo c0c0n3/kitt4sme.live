@@ -4,3 +4,40 @@ metadata:
   labels:
     app: optiplant
   name: optiplant
+spec:
+  ports:
+  - name: http
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: optiplant
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: optiplant
+  name: optiplant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: optiplant
+  template:
+    metadata:
+      labels:
+        app: optiplant
+    spec:
+      containers:
+        - image: "donmichael/optiplant:1.0.2"
+          imagePullPolicy: IfNotPresent
+          name: optiplant
+          ports:
+          - containerPort: 8000
+            name: http
+          env:
+          - name: "ORION_BASE_URL"
+            value: "http://orion:1026"
