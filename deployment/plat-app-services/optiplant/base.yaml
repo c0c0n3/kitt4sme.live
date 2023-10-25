@@ -36,7 +36,7 @@ spec:
           imagePullPolicy: IfNotPresent
           name: optiplant
           ports:
-          - containerPort: 8000
+          - containerPort: 5000
             name: http
           env:
           - name: "ORION_BASE_URL"
