@@ -46,7 +46,7 @@ spec:
           - name: VALIDATION_URL
             value: "https://ramp.eu/ms/component/api/v1/component/"
           - name: VALIDATION_TIMEOUT
-            value: 24
+            value: "24"
           - name: POSTGRES_HOST
             value: "postgres"
           - name: POSTGRES_PORT
