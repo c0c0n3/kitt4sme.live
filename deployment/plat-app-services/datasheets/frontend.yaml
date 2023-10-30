@@ -32,7 +32,7 @@ spec:
         app: datasheet-frontend
     spec:
       containers:
-      - image: "ryankford/digital-datasheets:1.0-frontend"
+      - image: "ryankford/digital-datasheets:1.0.1-frontend"
         imagePullPolicy: Always
         name: datasheet-frontend
         env:
