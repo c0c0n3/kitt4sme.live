@@ -36,7 +36,7 @@ spec:
         app: datasheet-backend
     spec:
       containers:
-        - image: "ryankford/digital-datasheets:1.0-backend"
+        - image: "ryankford/digital-datasheets:1.0.1-backend"
           imagePullPolicy: Always
           name: datasheet-backend
           ports:
@@ -50,7 +50,7 @@ spec:
           - name: POSTGRES_USE_SSL
             value: "False"
           - name: POSTGRES_DB_NAME
-            value: "db_KITT"
+            value: "db_KITT_dev"
           - name: POSTGRES_DB_USER
             value: "postgres"
           - name: POSTGRES_DB_PASS
