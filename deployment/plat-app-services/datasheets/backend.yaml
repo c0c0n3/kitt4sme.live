@@ -36,7 +36,7 @@ spec:
         app: datasheet-backend
     spec:
       containers:
-        - image: "ryankford/digital-datasheets:1.0.2-backend"
+        - image: "ryankford/digital-datasheets:1.0.1-backend"
           imagePullPolicy: Always
           name: datasheet-backend
           ports:
