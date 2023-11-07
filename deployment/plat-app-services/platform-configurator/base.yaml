@@ -37,24 +37,13 @@ spec:
       imagePullSecrets:
         - name: platform-configurator-image
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.5.0"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.7.0"
           imagePullPolicy: IfNotPresent
           name: platform-configurator
           args: ["--root-path", "/platform-configurator"]
           env:
-          - name: "DS_DB_HOST"
-            value: "postgres"
-          - name: "DS_DB_PORT"
-            value: "5432"
-          - name: "DS_DB_NAME"
-            value: "db_KITT"
-          - name: "DS_DB_USER"
-            value: "postgres"
-          - name: "DS_DB_PASSWORD"
-            valueFrom:
-              secretKeyRef:
-                name: postgres-users
-                key: postgres.password
+          - name: "DS_API_HOST"
+            value: "datasheet-backend:5000"
           - name: "AQ_DB_HOST"
             value: "postgres"
           - name: "AQ_DB_PORT"
