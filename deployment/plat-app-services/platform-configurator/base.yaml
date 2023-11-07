@@ -43,7 +43,7 @@ spec:
           args: ["--root-path", "/platform-configurator"]
           env:
           - name: "DS_API_HOST"
-            value: "datasheet-backend:5000"
+            value: "http://datasheet-backend:5000"
           - name: "AQ_DB_HOST"
             value: "postgres"
           - name: "AQ_DB_PORT"
