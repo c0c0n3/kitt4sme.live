@@ -212,6 +212,17 @@ spec:
         port:
           number: 5000
 
+  - match:
+    - authority:
+        contains: "profilers.kitt4sme.collab-cloud.eu"
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: profilers.default.svc.cluster.local
+        port:
+          number: 8080  
+
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
 # and `/x/p` get rewritten to `/`, `/` and `/p` respectively. Istio will
