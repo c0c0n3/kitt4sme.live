@@ -211,10 +211,9 @@ spec:
         host: optiplant.default.svc.cluster.local
         port:
           number: 5000
-
   - match:
     - authority:
-        contains: "profilers.kitt4sme.collab-cloud.eu"
+        exact: "profilers.kitt4sme.collab-cloud.eu"
     route:
     - destination:
         host: profilers.default.svc.cluster.local
