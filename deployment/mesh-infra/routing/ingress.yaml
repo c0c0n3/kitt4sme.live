@@ -215,8 +215,6 @@ spec:
   - match:
     - authority:
         contains: "profilers.kitt4sme.collab-cloud.eu"
-    rewrite:
-      uri: /
     route:
     - destination:
         host: profilers.default.svc.cluster.local
