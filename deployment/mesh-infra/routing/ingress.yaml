@@ -219,6 +219,14 @@ spec:
         host: profilers.default.svc.cluster.local
         port:
           number: 8080  
+  - match:
+    - authority:
+        exact: "matchmaking.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: matchmaking.default.svc.cluster.local
+        port:
+          number: 8081
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
