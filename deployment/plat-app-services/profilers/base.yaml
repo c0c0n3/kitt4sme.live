@@ -51,7 +51,7 @@ spec:
             mountPath: /db-init
             readOnly: true
       containers:
-        - image: "konstantinos/k4s_profilers_repository:4.2"
+        - image: "konstantinos/k4s_profilers_repository:4.3"
           imagePullPolicy: IfNotPresent
           name: profilers
           ports:
