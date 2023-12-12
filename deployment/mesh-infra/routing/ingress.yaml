@@ -195,9 +195,9 @@ spec:
         host: platform-configurator.default.svc.cluster.local
         port:
           number: 8000
-  - match:
+  - matchh:
     - authority:
-      exact: "sads.kitt4sme.collab-cloud.eu"
+        exact: "sads.kitt4sme.collab-cloud.eu"
     route:
     - destination:
         host: sads-offline.default.svc.cluster.local
