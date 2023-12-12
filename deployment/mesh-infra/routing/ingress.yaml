@@ -87,22 +87,6 @@ spec:
         host: dazzler.default.svc.cluster.local
         port:
           number: 8000
-  - match:  # NOTE (4)
-    - uri:
-        prefix: /sads
-    route:
-    - destination:
-        host: sads-offline.default.svc.cluster.local
-        port:
-          number: 8501
-  # - match:  # NOTE (5)
-  #   - uri:
-  #       prefix: /sads
-  #   route:
-  #   - destination:
-  #       host: sads.default.svc.cluster.local
-  #       port:
-  #         number: 8500
   - match:
     - uri:
         prefix: /viqe/
@@ -163,24 +147,6 @@ spec:
         host: datasheet-backend.default.svc.cluster.local
         port:
           number: 5000
-  - match:  # NOTE (6)
-    - uri:
-        prefix: /aq
-    route:
-    - destination:
-        host: aq.default.svc.cluster.local
-        port:
-          number: 8080
-  - match:
-    - uri:
-        prefix: /platform-configurator/
-    rewrite:
-      uri: /
-    route:
-    - destination:
-        host: platform-configurator.default.svc.cluster.local
-        port:
-          number: 8000
   - match:
     - uri:
         prefix: /intervention-manager
@@ -189,7 +155,6 @@ spec:
         host: intervention-manager.default.svc.cluster.local
         port:
           number: 8080
-
   - match:
     - uri:
         prefix: /home/
@@ -200,17 +165,6 @@ spec:
         host: static-page.default.svc.cluster.local
         port:
           number: 80
-
-  - match:
-    - uri:
-        prefix: /optiplant/
-    rewrite:
-      uri: /
-    route:
-    - destination:
-        host: optiplant.default.svc.cluster.local
-        port:
-          number: 5000
   - match:
     - authority:
         exact: "profilers.kitt4sme.collab-cloud.eu"
@@ -227,6 +181,40 @@ spec:
         host: matchmaking.default.svc.cluster.local
         port:
           number: 8081
+  - match:  # NOTE (6)
+    - authority:
+        exact: "aq.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: aq.default.svc.cluster.local
+        port:
+          number: 8080
+  - match:
+    - authority:
+        exact: "optiplant.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: optiplant.default.svc.cluster.local
+        port:
+          number: 5000
+  - match:
+    - authority:
+        exact: "platform-configurator.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: platform-configurator.default.svc.cluster.local
+        port:
+          number: 8000
+  - match:  # NOTE (4)
+    - authority:
+      exact: "sads.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: sads-offline.default.svc.cluster.local
+        port:
+          number: 8501
+  
+
 
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
