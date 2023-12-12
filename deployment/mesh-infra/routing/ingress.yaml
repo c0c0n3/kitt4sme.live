@@ -205,7 +205,7 @@ spec:
         host: platform-configurator.default.svc.cluster.local
         port:
           number: 8000
-  - match:  # NOTE (4)
+  - match: # NOTE (4)
     - authority:
       exact: "sads.kitt4sme.collab-cloud.eu"
     route:
@@ -213,9 +213,6 @@ spec:
         host: sads-offline.default.svc.cluster.local
         port:
           number: 8501
-  
-
-
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
 # and `/x/p` get rewritten to `/`, `/` and `/p` respectively. Istio will
