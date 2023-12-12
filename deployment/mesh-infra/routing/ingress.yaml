@@ -89,16 +89,6 @@ spec:
           number: 8000
   - match:
     - uri:
-        prefix: /viqe/
-    rewrite:
-      uri: /
-    route:
-    - destination:
-        host: viqe.default.svc.cluster.local
-        port:
-          number: 8000
-  - match:
-    - uri:
         prefix: /mqtt/
     rewrite:
       uri: /
@@ -213,6 +203,15 @@ spec:
         host: sads-offline.default.svc.cluster.local
         port:
           number: 8501
+  - match:
+    - authority:
+        exact: "viqe.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: viqe.default.svc.cluster.local
+        port:
+          number: 8000
+
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
 # and `/x/p` get rewritten to `/`, `/` and `/p` respectively. Istio will
