@@ -40,7 +40,7 @@ spec:
         - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.7.0"
           imagePullPolicy: IfNotPresent
           name: platform-configurator
-          args: ["--root-path", "/platform-configurator"]
+          # args: ["--root-path", "/platform-configurator"]  # only for path-based routing
           env:
           - name: "DS_API_HOST"
             value: "http://datasheet-backend:5000"
