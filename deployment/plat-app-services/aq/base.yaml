@@ -102,7 +102,7 @@ spec:
           - name: ADAPQUEST_PAGE_TITLE
             value: "KITT4SME Adaptive Questionnaire"
           - name: ADAPQUEST_EXIT_URL
-            value: "https://kitt4sme.collab-cloud.eu/platform-configurator/kits-ramp"
+            value: "https://platform-configurator.kitt4sme.collab-cloud.eu/kits-ramp"
           - name: ADAPQUEST_EXIT_TEXT
             value: "find a kit for your needs"
           - name: ADAPQUEST_KEYCLOAK_FIELD
