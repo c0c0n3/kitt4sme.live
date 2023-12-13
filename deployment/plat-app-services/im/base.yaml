@@ -43,7 +43,7 @@ spec:
           name: intervention-manager
           env:
           - name: "SERVER.SERVLET.CONTEXTPATH"
-            value: "/intervention-manager"
+            value: "/"
           - name: "IM_ORIONBROKERPATH"
             value: "http://orion:1026"
           - name: "IM_HIMBASEPATH"
