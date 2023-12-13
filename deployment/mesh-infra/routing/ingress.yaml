@@ -79,14 +79,6 @@ spec:
         host: argocd-server.argocd.svc.cluster.local
         port:
           number: 80
-  - match:  # NOTE (3)
-    - uri:
-        prefix: /dazzler
-    route:
-    - destination:
-        host: dazzler.default.svc.cluster.local
-        port:
-          number: 8000
   - match:
     - uri:
         prefix: /mqtt/
@@ -119,16 +111,6 @@ spec:
           number: 7896
   - match:
     - uri:
-        prefix: /datasheets/
-    rewrite:
-      uri: /
-    route:
-    - destination:
-        host: datasheet-frontend.default.svc.cluster.local
-        port:
-          number: 3000
-  - match:
-    - uri:
         prefix: /datasheets-backend-rest/
     rewrite:
       uri: /
@@ -139,17 +121,17 @@ spec:
           number: 5000
   - match:
     - uri:
-        prefix: /intervention-manager
-    route:
-    - destination:
-        host: intervention-manager.default.svc.cluster.local
-        port:
-          number: 8080
-  - match:
-    - uri:
         prefix: /home/
     rewrite:
       uri: /
+    route:
+    - destination:
+        host: static-page.default.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - authority:
+        exact: "www.kitt4sme.collab-cloud.eu"
     route:
     - destination:
         host: static-page.default.svc.cluster.local
@@ -171,6 +153,14 @@ spec:
         host: matchmaking.default.svc.cluster.local
         port:
           number: 8081
+  - match:
+    - authority:
+        exact: "datasheets.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: datasheet-frontend.default.svc.cluster.local
+        port:
+          number: 3000
   - match:  # NOTE (6)
     - authority:
         exact: "aq.kitt4sme.collab-cloud.eu"
@@ -179,6 +169,22 @@ spec:
         host: aq.default.svc.cluster.local
         port:
           number: 8080
+  - match:
+    - authority:
+        exact: "intervention-manager.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: intervention-manager.default.svc.cluster.local
+        port:
+          number: 8080
+  - match:  # NOTE (3)
+    - authority:
+        exact: "dazzler.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: dazzler.default.svc.cluster.local
+        port:
+          number: 8000
   - match:
     - authority:
         exact: "optiplant.kitt4sme.collab-cloud.eu"
