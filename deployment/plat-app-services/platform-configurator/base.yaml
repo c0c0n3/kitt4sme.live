@@ -37,7 +37,7 @@ spec:
       imagePullSecrets:
         - name: platform-configurator-image
       containers:
-        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.7.0"
+        - image: "gitlab-core.supsi.ch:5050/dti-isteps/spslab/human-robot-interaction/kitt4sme/platform-configurator:0.8.0"
           imagePullPolicy: IfNotPresent
           name: platform-configurator
           # args: ["--root-path", "/platform-configurator"]  # only for path-based routing
