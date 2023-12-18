@@ -111,6 +111,16 @@ spec:
           number: 7896
   - match:
     - uri:
+        prefix: /datasheets
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: datasheet-frontend.default.svc.cluster.local
+        port:
+          number: 3000
+  - match:
+    - uri:
         prefix: /datasheets-backend-rest/
     rewrite:
       uri: /
@@ -153,14 +163,6 @@ spec:
         host: matchmaking.default.svc.cluster.local
         port:
           number: 8081
-  - match:
-    - authority:
-        exact: "datasheets.kitt4sme.collab-cloud.eu"
-    route:
-    - destination:
-        host: datasheet-frontend.default.svc.cluster.local
-        port:
-          number: 3000
   - match:  # NOTE (6)
     - authority:
         exact: "aq.kitt4sme.collab-cloud.eu"
