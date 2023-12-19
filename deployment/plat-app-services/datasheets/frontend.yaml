@@ -37,7 +37,7 @@ spec:
         name: datasheet-frontend
         env:
         - name: PUBLIC_URL
-          value: "/"  # "/datasheets/" change root path
+          value: "/datasheets/"
         ports:
         - containerPort: 3000
           name: http
