@@ -111,7 +111,7 @@ spec:
           number: 7896
   - match:
     - uri:
-        prefix: /datasheets
+        prefix: /datasheets/
     rewrite:
       uri: /
     route:
