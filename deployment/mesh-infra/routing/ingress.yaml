@@ -141,7 +141,7 @@ spec:
           number: 5000
   - match:
     - authority:
-        exact: "datasheets-backend.kitt4sme.collab-cloud.eu "
+        exact: "datasheets-backend.kitt4sme.collab-cloud.eu"
     route:
     - destination:
         host: datasheet-backend.default.svc.cluster.local
