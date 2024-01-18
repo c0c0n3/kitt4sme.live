@@ -109,6 +109,7 @@ spec:
         host: jsonagent.default.svc.cluster.local
         port:
           number: 7896
+  # TODO: Remove this route once the new datasheets frontend is ready
   - match:
     - uri:
         prefix: /datasheets/
@@ -120,10 +121,27 @@ spec:
         port:
           number: 3000
   - match:
+    - authority:
+        exact: "datasheets.kitt4sme.collab-cloud.eu"
+    route:
+    - destination:
+        host: datasheet-frontend.default.svc.cluster.local
+        port:
+          number: 3000
+  # TODO: Remove this route once the new datasheets backend is ready
+  - match:
     - uri:
         prefix: /datasheets-backend-rest/
     rewrite:
       uri: /
+    route:
+    - destination:
+        host: datasheet-backend.default.svc.cluster.local
+        port:
+          number: 5000
+  - match:
+    - authority:
+        exact: "datasheets-backend.kitt4sme.collab-cloud.eu"
     route:
     - destination:
         host: datasheet-backend.default.svc.cluster.local
