@@ -89,6 +89,14 @@ spec:
         host: mosquitto.default.svc.cluster.local
         port:
           number: 8080
+  - match:  # NOTE (3)
+    - uri:
+        prefix: /dazzler
+    route:
+    - destination:
+        host: dazzler.default.svc.cluster.local
+        port:
+          number: 8000
   - match:
     - uri:
         prefix: /ulagent/
