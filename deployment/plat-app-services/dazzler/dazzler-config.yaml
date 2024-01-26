@@ -14,3 +14,8 @@ boards:
   demo:
   - builder: dazzler.dash.board.fams.dash_builder
     board_path: fams
+  optiplant:
+  - builder: dazzler.dash.board.insight.dash_builder
+    board_path: optiplant-insight
+  - builder: dazzler.dash.board.roughnator.dash_builder
+    board_path: optiplant-roughnator
