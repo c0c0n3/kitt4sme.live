@@ -40,4 +40,4 @@ spec:
             name: http
           env:
           - name: "STREAMLIT_SERVER_BASE_URL_PATH"
-            value: "/"
+            value: "/sads"
