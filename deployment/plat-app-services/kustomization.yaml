@@ -11,6 +11,7 @@ resources:
 - matchmaking
 - platform-configurator
 - profilers
+- gnosis
 - roughnator
 - sads
 - sads-offline
