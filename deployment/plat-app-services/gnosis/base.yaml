@@ -10,7 +10,7 @@ spec:
   - name: http
     protocol: TCP
     port: 8080
-    nodePort: 8080
+    nodePort: 8089
     targetPort: 80
   selector:
     app: gnosis
