@@ -37,7 +37,7 @@ spec:
         - image: "timescale/timescaledb-postgis:2.3.0-pg13"
           imagePullPolicy: IfNotPresent
           name: gnosis-init
-          command: ['sh', '/db-init/create_dbs.sh']
+          command: ['sh', '/db-init/create_db.sh']
           env:
           - name: POSTGRES_PASSWORD
             valueFrom:
