@@ -19,11 +19,8 @@ do
     # (if the db is there, then psql returns an error but the cmd does
     # nothing to the existing db.)
 
-    echo 'creating database: WorkerProfiler'
-    psql "${CONN_URI}" -c 'create database "WorkerProfiler"'
-
-    echo 'creating database: ProductionSystemProfiler'
-    psql "${CONN_URI}" -c 'create database "ProductionSystemProfiler"'
+    echo 'creating database: Knowledge'
+    psql "${CONN_URI}" -c 'create database "Knowledge"'
 
     sleep 5
 done
