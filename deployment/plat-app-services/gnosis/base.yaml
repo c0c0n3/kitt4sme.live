@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gnosis
+  name: gnosis
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 8080
+    nodePort: 8080
+    targetPort: 80
+  selector:
+    app: gnosis
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gnosis
+  name: gnosis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gnosis
+  template:
+    metadata:
+      labels:
+        app: gnosis
+    spec:
+      initContainers:
+        - image: "timescale/timescaledb-postgis:2.3.0-pg13"
+          imagePullPolicy: IfNotPresent
+          name: gnosis-init
+          command: ['sh', '/db-init/create_dbs.sh']
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: "CONN_URI"
+            value: "postgresql://postgres:$(POSTGRES_PASSWORD)@postgres"
+          volumeMounts:
+          - name: db-init
+            mountPath: /db-init
+            readOnly: true
+      containers:
+        - image: "konstantinos/gnonis:1.4"
+          imagePullPolicy: IfNotPresent
+          name: gnosis
+          ports:
+          - containerPort: 80
+            name: http
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-users
+                key: postgres.password
+          - name: "CONNECTION_STRING"
+            value: "Host=postgres:5432;Username=postgres;Password=$(POSTGRES_PASSWORD);Database=Knowledge"
+      volumes:
+      - name: db-init
+        configMap:
+          name: db-init
