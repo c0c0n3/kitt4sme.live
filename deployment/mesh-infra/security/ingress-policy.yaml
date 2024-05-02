@@ -37,3 +37,4 @@ spec:
         - "/aq"
         - "/aq/*"
         - "/static-page/*"
+        - "/gnosis/*"
