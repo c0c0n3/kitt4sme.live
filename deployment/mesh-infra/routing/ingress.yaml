@@ -252,7 +252,7 @@ spec:
     - destination:
         host: gnosis.default.svc.cluster.local
         port:
-          number: 8000
+          number: 8080
 # NOTE
 # 1. URL rewriting. We use overlapping prefixes to make sure `/x`, `/x/`
 # and `/x/p` get rewritten to `/`, `/` and `/p` respectively. Istio will
