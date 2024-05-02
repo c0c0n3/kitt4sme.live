@@ -5,16 +5,13 @@ metadata:
     app: gnosis
   name: gnosis
 spec:
-  type: NodePort
   ports:
   - name: http
-    protocol: TCP
     port: 8082
-    nodePort: 8082
+    protocol: TCP
     targetPort: 8080
   selector:
     app: gnosis
-
 ---
 
 apiVersion: apps/v1
